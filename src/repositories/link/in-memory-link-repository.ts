@@ -1,0 +1,77 @@
+import { Link } from '../../entities/link'
+import {
+  CreateLinkRequest,
+  LinkRepository,
+  UpdateLinkRequest,
+} from './link-repository'
+
+export class InMemoryLinkRepository implements LinkRepository {
+  private links: Link[] = []
+
+  create({
+    longUrl,
+    shortUrl,
+    userId,
+  }: CreateLinkRequest): Promise<{ linkId: string }> {
+    const link = new Link({ longUrl, shortUrl, userId })
+
+    this.links.push(link)
+
+    return Promise.resolve({
+      linkId: link.id,
+    })
+  }
+
+  findById(id: string): Promise<Link | null> {
+    const link = this.links.find(item => item.id === id) || null
+
+    return Promise.resolve(link)
+  }
+
+  findByShortUrl(shortUrl: string): Promise<Link | null> {
+    const link = this.links.find(item => item.shortUrl === shortUrl) || null
+
+    return Promise.resolve(link)
+  }
+
+  fetchByUser(userId: string): Promise<Link[]> {
+    const link = this.links.filter(item => item.userId === userId)
+
+    return Promise.resolve(link)
+  }
+
+  update({
+    id,
+    shortUrl,
+    longUrl,
+    clicksCount,
+  }: UpdateLinkRequest): Promise<void> {
+    const linkIndex = this.links.findIndex(item => item.id === id)
+
+    if (shortUrl) {
+      this.links[linkIndex].shortUrl = shortUrl
+    }
+
+    if (longUrl) {
+      this.links[linkIndex].longUrl = longUrl
+    }
+
+    if (clicksCount) {
+      this.links[linkIndex].clicksCount = clicksCount
+    }
+
+    return Promise.resolve()
+  }
+
+  delete(id: string): Promise<void> {
+    const linkIndex = this.links.findIndex(item => item.id === id)
+
+    if (linkIndex === -1) {
+      throw new Error('Link not found.')
+    }
+
+    this.links.splice(linkIndex, 1)
+
+    return Promise.resolve()
+  }
+}
