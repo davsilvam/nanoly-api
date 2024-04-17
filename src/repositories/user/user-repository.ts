@@ -14,7 +14,7 @@ export type UpdateUserRequest = {
 }
 
 export interface UserRepository {
-  create(request: CreateUserRequest): Promise<{ userId: string }>
+  create(request: CreateUserRequest): Promise<string>
   findByEmail(email: string): Promise<User | null>
   findById(id: string): Promise<User | null>
   update(request: UpdateUserRequest): Promise<void>

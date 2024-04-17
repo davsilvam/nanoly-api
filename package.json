@@ -12,9 +12,13 @@
   "license": "ISC",
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.2.2",
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.12.7",
     "eslint": "^9.0.0",
     "prettier": "^3.2.5",
     "vitest": "^1.4.0"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1"
   }
 }

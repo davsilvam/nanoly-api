@@ -15,12 +15,12 @@ export class FindLinkByIdUseCase {
   async execute({
     id,
   }: FindLinkByIdUseCaseRequest): Promise<FindLinkByIdUseCaseResponse> {
-    const result = await this.linkRepository.findById(id)
+    const link = await this.linkRepository.findById(id)
 
-    if (!result) {
+    if (!link) {
       return left(new LinkNotFoundError())
     }
 
-    return right(result)
+    return right(link)
   }
 }

@@ -1,4 +1,3 @@
-import { Link } from '../../entities/link'
 import { Either, left, right } from '../../errors/either'
 import { LinkNotFoundError } from '../../errors/link/link-not-found.error'
 import { LinkRepository } from '../../repositories/link/link-repository'
@@ -27,13 +26,13 @@ export class UpdateLinkUseCase {
       return left(new LinkNotFoundError())
     }
 
-    const result = await this.linkRepository.update({
-      id,
-      shortUrl,
-      longUrl,
-      clicksCount,
-    })
-
-    return right(result)
+    return right(
+      await this.linkRepository.update({
+        id,
+        shortUrl,
+        longUrl,
+        clicksCount,
+      }),
+    )
   }
 }

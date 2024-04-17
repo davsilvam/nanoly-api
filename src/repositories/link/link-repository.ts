@@ -14,7 +14,7 @@ export type UpdateLinkRequest = {
 }
 
 export interface LinkRepository {
-  create(request: CreateLinkRequest): Promise<{ linkId: string }>
+  create(request: CreateLinkRequest): Promise<string>
   findById(id: string): Promise<Link | null>
   findByShortUrl(shortUrl: string): Promise<Link | null>
   fetchByUser(userId: string): Promise<Link[]>

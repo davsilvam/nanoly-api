@@ -8,18 +8,12 @@ import {
 export class InMemoryUserRepository implements UserRepository {
   private users: User[] = []
 
-  create({
-    name,
-    email,
-    passwordHash,
-  }: CreateUserRequest): Promise<{ userId: string }> {
+  create({ name, email, passwordHash }: CreateUserRequest): Promise<string> {
     const user = new User({ name, email, passwordHash })
 
     this.users.push(user)
 
-    return Promise.resolve({
-      userId: user.id,
-    })
+    return Promise.resolve(user.id)
   }
 
   findByEmail(email: string): Promise<User | null> {

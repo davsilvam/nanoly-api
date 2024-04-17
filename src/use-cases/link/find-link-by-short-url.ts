@@ -15,12 +15,12 @@ export class FindLinkByShortUrlUseCase {
   public async execute({
     shortUrl,
   }: FindLinkByShortUrlUseCaseRequest): Promise<FindLinkByShortUrlUseCaseResponse> {
-    const result = await this.linkRepository.findByShortUrl(shortUrl)
+    const link = await this.linkRepository.findByShortUrl(shortUrl)
 
-    if (!result) {
+    if (!link) {
       return left(new LinkNotFoundError())
     }
 
-    return right(result)
+    return right(link)
   }
 }

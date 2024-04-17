@@ -2,41 +2,52 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { InMemoryLinkRepository } from '../../repositories/link/in-memory-link-repository'
 import { Link } from '../../entities/link'
 import { FetchLinksByUserUseCase } from './fetch-links-by-user'
+import { InMemoryUserRepository } from '../../repositories/user/in-memory-user-repository'
+import { UserNotFoundError } from '../../errors/user/user-not-found.error'
 
-let linksRepository: InMemoryLinkRepository
+let linkRepository: InMemoryLinkRepository
+let userRepository: InMemoryUserRepository
 let sut: FetchLinksByUserUseCase
 
+let userId: string
+
 describe('Fetch Links By User Id Use Case', () => {
-  beforeEach(() => {
-    linksRepository = new InMemoryLinkRepository()
-    sut = new FetchLinksByUserUseCase(linksRepository)
+  beforeEach(async () => {
+    linkRepository = new InMemoryLinkRepository()
+    userRepository = new InMemoryUserRepository()
+    sut = new FetchLinksByUserUseCase(linkRepository, userRepository)
+
+    userId = await userRepository.create({
+      email: 'email',
+      name: 'name',
+      passwordHash: 'hash',
+    })
   })
 
   it('should be able to fetch links by user id', async () => {
-    const { linkId } = await linksRepository.create({
+    const linkId = await linkRepository.create({
       longUrl: 'https://www.google.com',
       shortUrl: 'google',
-      userId: 'user-id',
+      userId,
     })
 
-    const link = await linksRepository.findById(linkId)
+    const link = await linkRepository.findById(linkId)
 
     if (!link) {
       throw new Error('Link not found.')
     }
 
-    const response = await sut.execute({ userId: link.userId })
+    const result = await sut.execute({ userId: link.userId })
 
-    expect(response.isRight()).toBe(true)
-    expect(response.value).toBeInstanceOf(Array)
-    expect(response.value[0]).toBeInstanceOf(Link)
+    expect(result.isRight()).toBe(true)
+    expect(result.value).toBeInstanceOf(Array)
+    expect(result.value[0]).toBeInstanceOf(Link)
   })
 
   it('should not be able to fetch links by a non-existent user id', async () => {
-    const response = await sut.execute({ userId: 'non-existent-user-id' })
+    const result = await sut.execute({ userId: 'non-existent-user-id' })
 
-    expect(response.isRight()).toBe(true)
-    expect(response.value).toBeInstanceOf(Array)
-    expect(response.isRight() && response.value.length).toBe(0)
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(UserNotFoundError)
   })
 })

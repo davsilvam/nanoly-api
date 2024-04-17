@@ -8,18 +8,12 @@ import {
 export class InMemoryLinkRepository implements LinkRepository {
   private links: Link[] = []
 
-  create({
-    longUrl,
-    shortUrl,
-    userId,
-  }: CreateLinkRequest): Promise<{ linkId: string }> {
+  create({ longUrl, shortUrl, userId }: CreateLinkRequest): Promise<string> {
     const link = new Link({ longUrl, shortUrl, userId })
 
     this.links.push(link)
 
-    return Promise.resolve({
-      linkId: link.id,
-    })
+    return Promise.resolve(link.id)
   }
 
   findById(id: string): Promise<Link | null> {
@@ -35,9 +29,9 @@ export class InMemoryLinkRepository implements LinkRepository {
   }
 
   fetchByUser(userId: string): Promise<Link[]> {
-    const link = this.links.filter(item => item.userId === userId)
+    const links = this.links.filter(item => item.userId === userId)
 
-    return Promise.resolve(link)
+    return Promise.resolve(links)
   }
 
   update({
