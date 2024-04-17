@@ -1,9 +1,10 @@
 import { hash } from 'bcrypt'
+
 import type { Either } from '../../errors/either'
 import { left, right } from '../../errors/either'
+import { InvalidCredentialsError } from '../../errors/user/invalid-credentials.error'
 import { UserAlreadyExistsError } from '../../errors/user/user-already-exists.error'
 import type { UsersRepository } from '../../repositories/user/users-repository'
-import { InvalidCredentialsError } from '../../errors/user/invalid-credentials.error'
 
 interface RegisterUseCaseRequest {
   name: string

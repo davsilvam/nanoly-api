@@ -1,9 +1,9 @@
-import { User } from '../../entities/user'
 import type {
   CreateUserRequest,
   UpdateUserRequest,
   UsersRepository,
 } from './users-repository'
+import { User } from '../../entities/user'
 
 export class InMemoryUsersRepository implements UsersRepository {
   private users: User[] = []

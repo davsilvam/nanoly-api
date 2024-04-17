@@ -1,8 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { InMemoryLinksRepository } from '../../repositories/link/in-memory-links-repository'
+
+import { FindLinkByIdUseCase } from './find-link-by-id'
 import { Link } from '../../entities/link'
 import { LinkNotFoundError } from '../../errors/link/link-not-found.error'
-import { FindLinkByIdUseCase } from './find-link-by-id'
+import { InMemoryLinksRepository } from '../../repositories/link/in-memory-links-repository'
 
 let linksRepository: InMemoryLinksRepository
 let sut: FindLinkByIdUseCase

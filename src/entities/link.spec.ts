@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import { Link } from './link'
 
 describe('link Entity', () => {

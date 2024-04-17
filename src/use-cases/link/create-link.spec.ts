@@ -1,8 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { InMemoryLinksRepository } from '../../repositories/link/in-memory-links-repository'
-import { ShortUrlAlreadyExistsError } from '../../errors/link/short-url-already-exists.error'
-import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
+
 import { CreateLinkUseCase } from './create-link'
+import { ShortUrlAlreadyExistsError } from '../../errors/link/short-url-already-exists.error'
+import { InMemoryLinksRepository } from '../../repositories/link/in-memory-links-repository'
+import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
 
 let linksRepository: InMemoryLinksRepository
 let usersRepository: InMemoryUsersRepository

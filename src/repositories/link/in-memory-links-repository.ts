@@ -1,9 +1,9 @@
-import { Link } from '../../entities/link'
 import type {
   CreateLinkRequest,
   LinksRepository,
   UpdateLinkRequest,
 } from './links-repository'
+import { Link } from '../../entities/link'
 
 export class InMemoryLinksRepository implements LinksRepository {
   private links: Link[] = []

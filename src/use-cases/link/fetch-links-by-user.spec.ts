@@ -1,9 +1,10 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { InMemoryLinksRepository } from '../../repositories/link/in-memory-links-repository'
-import { Link } from '../../entities/link'
-import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
-import { UserNotFoundError } from '../../errors/user/user-not-found.error'
+
 import { FetchLinksByUserUseCase } from './fetch-links-by-user'
+import { Link } from '../../entities/link'
+import { UserNotFoundError } from '../../errors/user/user-not-found.error'
+import { InMemoryLinksRepository } from '../../repositories/link/in-memory-links-repository'
+import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
 
 let linksRepository: InMemoryLinksRepository
 let usersRepository: InMemoryUsersRepository

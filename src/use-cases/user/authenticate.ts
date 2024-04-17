@@ -1,9 +1,10 @@
 import { compare } from 'bcrypt'
+
+import type { User } from '../../entities/user'
 import type { Either } from '../../errors/either'
 import { left, right } from '../../errors/either'
-import type { UsersRepository } from '../../repositories/user/users-repository'
 import { InvalidCredentialsError } from '../../errors/user/invalid-credentials.error'
-import type { User } from '../../entities/user'
+import type { UsersRepository } from '../../repositories/user/users-repository'
 
 interface AuthenticateUseCaseRequest {
   email: string
