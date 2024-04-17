@@ -1,5 +1,5 @@
 import { User } from '../../entities/user'
-import {
+import type {
   CreateUserRequest,
   UpdateUserRequest,
   UsersRepository,
@@ -31,17 +31,14 @@ export class InMemoryUsersRepository implements UsersRepository {
   update({ id, email, name, passwordHash }: UpdateUserRequest): Promise<void> {
     const userIndex = this.users.findIndex(item => item.id === id)
 
-    if (name) {
+    if (name)
       this.users[userIndex].name = name
-    }
 
-    if (email) {
+    if (email)
       this.users[userIndex].email = email
-    }
 
-    if (passwordHash) {
+    if (passwordHash)
       this.users[userIndex].passwordHash = passwordHash
-    }
 
     return Promise.resolve()
   }

@@ -1,6 +1,7 @@
-import { Either, left, right } from '../../errors/either'
+import type { Either } from '../../errors/either'
+import { left, right } from '../../errors/either'
 import { LinkNotFoundError } from '../../errors/link/link-not-found.error'
-import { LinksRepository } from '../../repositories/link/links-repository'
+import type { LinksRepository } from '../../repositories/link/links-repository'
 
 interface UpdateLinkUseCaseRequest {
   id: string
@@ -22,9 +23,8 @@ export class UpdateLinkUseCase {
   }: UpdateLinkUseCaseRequest): Promise<UpdateLinkUseCaseResponse> {
     const link = await this.linksRepository.findById(id)
 
-    if (!link) {
+    if (!link)
       return left(new LinkNotFoundError())
-    }
 
     return right(
       await this.linksRepository.update({

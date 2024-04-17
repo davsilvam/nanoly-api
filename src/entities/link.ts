@@ -19,17 +19,14 @@ export class Link {
   private props: LinkProps
 
   constructor({ shortUrl, longUrl, userId }: LinkConstructorProps) {
-    if (!shortUrl) {
+    if (!shortUrl)
       throw new Error('Short URL is required.')
-    }
 
-    if (!longUrl) {
+    if (!longUrl)
       throw new Error('Long URL is required.')
-    }
 
-    if (!userId) {
+    if (!userId)
       throw new Error('User Id is required.')
-    }
 
     this.props = {
       id: randomUUID(),

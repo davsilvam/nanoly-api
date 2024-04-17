@@ -1,7 +1,8 @@
-import { Link } from '../../entities/link'
-import { Either, left, right } from '../../errors/either'
+import type { Link } from '../../entities/link'
+import type { Either } from '../../errors/either'
+import { left, right } from '../../errors/either'
 import { LinkNotFoundError } from '../../errors/link/link-not-found.error'
-import { LinksRepository } from '../../repositories/link/links-repository'
+import type { LinksRepository } from '../../repositories/link/links-repository'
 
 interface FindLinkByShortUrlUseCaseRequest {
   shortUrl: string
@@ -17,9 +18,8 @@ export class FindLinkByShortUrlUseCase {
   }: FindLinkByShortUrlUseCaseRequest): Promise<FindLinkByShortUrlUseCaseResponse> {
     const link = await this.linksRepository.findByShortUrl(shortUrl)
 
-    if (!link) {
+    if (!link)
       return left(new LinkNotFoundError())
-    }
 
     return right(link)
   }

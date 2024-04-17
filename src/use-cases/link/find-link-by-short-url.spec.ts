@@ -7,7 +7,7 @@ import { FindLinkByShortUrlUseCase } from './find-link-by-short-url'
 let linksRepository: InMemoryLinksRepository
 let sut: FindLinkByShortUrlUseCase
 
-describe('Find Link By Short Url Case', () => {
+describe('find Link By Short Url Case', () => {
   beforeEach(() => {
     linksRepository = new InMemoryLinksRepository()
     sut = new FindLinkByShortUrlUseCase(linksRepository)
@@ -22,9 +22,8 @@ describe('Find Link By Short Url Case', () => {
 
     const link = await linksRepository.findById(linkId)
 
-    if (!link) {
+    if (!link)
       throw new Error('Link not found.')
-    }
 
     const result = await sut.execute({ shortUrl: link.shortUrl })
 

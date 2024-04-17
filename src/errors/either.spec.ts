@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-describe('Either Handler', () => {
+describe('either Handler', () => {
   it('should be able to handle left and right values', () => {
     const leftValue = 'Left Value'
     const rightValue = 'Right Value'

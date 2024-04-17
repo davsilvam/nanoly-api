@@ -1,5 +1,5 @@
 import { Link } from '../../entities/link'
-import {
+import type {
   CreateLinkRequest,
   LinksRepository,
   UpdateLinkRequest,
@@ -42,17 +42,14 @@ export class InMemoryLinksRepository implements LinksRepository {
   }: UpdateLinkRequest): Promise<void> {
     const linkIndex = this.links.findIndex(item => item.id === id)
 
-    if (shortUrl) {
+    if (shortUrl)
       this.links[linkIndex].shortUrl = shortUrl
-    }
 
-    if (longUrl) {
+    if (longUrl)
       this.links[linkIndex].longUrl = longUrl
-    }
 
-    if (clicksCount) {
+    if (clicksCount)
       this.links[linkIndex].clicksCount = clicksCount
-    }
 
     return Promise.resolve()
   }
@@ -60,9 +57,8 @@ export class InMemoryLinksRepository implements LinksRepository {
   delete(id: string): Promise<void> {
     const linkIndex = this.links.findIndex(item => item.id === id)
 
-    if (linkIndex === -1) {
+    if (linkIndex === -1)
       throw new Error('Link not found.')
-    }
 
     this.links.splice(linkIndex, 1)
 

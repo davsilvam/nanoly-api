@@ -1,12 +1,12 @@
-import { Link } from '../../entities/link'
+import type { Link } from '../../entities/link'
 
-export type CreateLinkRequest = {
+export interface CreateLinkRequest {
   shortUrl: string
   longUrl: string
   userId: string
 }
 
-export type UpdateLinkRequest = {
+export interface UpdateLinkRequest {
   id: string
   shortUrl?: string
   longUrl?: string
@@ -14,10 +14,10 @@ export type UpdateLinkRequest = {
 }
 
 export interface LinksRepository {
-  create(request: CreateLinkRequest): Promise<string>
-  findById(id: string): Promise<Link | null>
-  findByShortUrl(shortUrl: string): Promise<Link | null>
-  fetchByUser(userId: string): Promise<Link[]>
-  update(request: UpdateLinkRequest): Promise<void>
-  delete(id: string): Promise<void>
+  create: (request: CreateLinkRequest) => Promise<string>
+  findById: (id: string) => Promise<Link | null>
+  findByShortUrl: (shortUrl: string) => Promise<Link | null>
+  fetchByUser: (userId: string) => Promise<Link[]>
+  update: (request: UpdateLinkRequest) => Promise<void>
+  delete: (id: string) => Promise<void>
 }

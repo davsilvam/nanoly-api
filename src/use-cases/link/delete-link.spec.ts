@@ -6,7 +6,7 @@ import { DeleteLinkUseCase } from './delete-link'
 let linksRepository: InMemoryLinksRepository
 let sut: DeleteLinkUseCase
 
-describe('Delete Link Use Case', () => {
+describe('delete Link Use Case', () => {
   beforeEach(() => {
     linksRepository = new InMemoryLinksRepository()
     sut = new DeleteLinkUseCase(linksRepository)

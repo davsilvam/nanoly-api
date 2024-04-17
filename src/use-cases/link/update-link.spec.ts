@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { InMemoryLinksRepository } from '../../repositories/link/in-memory-links-repository'
 import { LinkNotFoundError } from '../../errors/link/link-not-found.error'
-import { UpdateLinkUseCase } from './update-link'
 import { Link } from '../../entities/link'
+import { UpdateLinkUseCase } from './update-link'
 
 let linksRepository: InMemoryLinksRepository
 let sut: UpdateLinkUseCase
 
-describe('Update Link Use Case', () => {
+describe('update Link Use Case', () => {
   beforeEach(() => {
     linksRepository = new InMemoryLinksRepository()
     sut = new UpdateLinkUseCase(linksRepository)
@@ -22,9 +22,8 @@ describe('Update Link Use Case', () => {
 
     const link = await linksRepository.findById(linkId)
 
-    if (!link) {
+    if (!link)
       throw new Error('Link not found.')
-    }
 
     const result = await sut.execute({
       id: link.id,

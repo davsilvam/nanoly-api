@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { User } from './user'
 
-describe('User Entity', () => {
+describe('user Entity', () => {
   it('should be able to create a user entity', () => {
     const user = new User({
       name: 'name',

@@ -15,17 +15,14 @@ export class User {
   private props: UserProps
 
   constructor({ name, email, passwordHash }: UserConstructorProps) {
-    if (!name) {
+    if (!name)
       throw new Error('Name is required.')
-    }
 
-    if (!email) {
+    if (!email)
       throw new Error('Email is required.')
-    }
 
-    if (!passwordHash) {
+    if (!passwordHash)
       throw new Error('Password hash is required.')
-    }
 
     this.props = {
       id: randomUUID(),

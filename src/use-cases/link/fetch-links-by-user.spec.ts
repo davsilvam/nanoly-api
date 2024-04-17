@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { InMemoryLinksRepository } from '../../repositories/link/in-memory-links-repository'
 import { Link } from '../../entities/link'
-import { FetchLinksByUserUseCase } from './fetch-links-by-user'
 import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
 import { UserNotFoundError } from '../../errors/user/user-not-found.error'
+import { FetchLinksByUserUseCase } from './fetch-links-by-user'
 
 let linksRepository: InMemoryLinksRepository
 let usersRepository: InMemoryUsersRepository
@@ -11,7 +11,7 @@ let sut: FetchLinksByUserUseCase
 
 let userId: string
 
-describe('Fetch Links By User Id Use Case', () => {
+describe('fetch Links By User Id Use Case', () => {
   beforeEach(async () => {
     linksRepository = new InMemoryLinksRepository()
     usersRepository = new InMemoryUsersRepository()
@@ -33,9 +33,8 @@ describe('Fetch Links By User Id Use Case', () => {
 
     const link = await linksRepository.findById(linkId)
 
-    if (!link) {
+    if (!link)
       throw new Error('Link not found.')
-    }
 
     const result = await sut.execute({ userId: link.userId })
 

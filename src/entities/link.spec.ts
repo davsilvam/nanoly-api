@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { Link } from './link'
 
-describe('Link Entity', () => {
+describe('link Entity', () => {
   it('should be able to create a link entity', () => {
     const link = new Link({
       shortUrl: 'short-url',

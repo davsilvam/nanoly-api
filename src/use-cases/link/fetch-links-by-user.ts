@@ -1,8 +1,9 @@
-import { Link } from '../../entities/link'
-import { Either, left, right } from '../../errors/either'
+import type { Link } from '../../entities/link'
+import type { Either } from '../../errors/either'
+import { left, right } from '../../errors/either'
 import { UserNotFoundError } from '../../errors/user/user-not-found.error'
-import { LinksRepository } from '../../repositories/link/links-repository'
-import { UsersRepository } from '../../repositories/user/users-repository'
+import type { LinksRepository } from '../../repositories/link/links-repository'
+import type { UsersRepository } from '../../repositories/user/users-repository'
 
 interface FetchLinksByUserUseCaseRequest {
   userId: string
@@ -21,9 +22,8 @@ export class FetchLinksByUserUseCase {
   }: FetchLinksByUserUseCaseRequest): Promise<FetchLinksByUserUseCaseResponse> {
     const user = await this.usersRepository.findById(userId)
 
-    if (!user) {
+    if (!user)
       return left(new UserNotFoundError())
-    }
 
     const links = await this.linksRepository.fetchByUser(userId)
 

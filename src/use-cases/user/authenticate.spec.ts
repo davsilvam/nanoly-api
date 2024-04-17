@@ -1,15 +1,15 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
-import { AuthenticateUseCase } from './authenticate'
 import { User } from '../../entities/user'
 import { InvalidCredentialsError } from '../../errors/user/invalid-credentials.error'
+import { AuthenticateUseCase } from './authenticate'
 
 let usersRepository: InMemoryUsersRepository
 let sut: AuthenticateUseCase
-const PASSWORD_HASH =
-  '$2b$06$FuP7kzrmq7DyRTGqvhXGsutYdy1U0t.6hceAkvREgImL5UMUnEZju'
+const PASSWORD_HASH
+  = '$2b$06$FuP7kzrmq7DyRTGqvhXGsutYdy1U0t.6hceAkvREgImL5UMUnEZju'
 
-describe('Authenticate Use Case', () => {
+describe('authenticate Use Case', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     sut = new AuthenticateUseCase(usersRepository)
