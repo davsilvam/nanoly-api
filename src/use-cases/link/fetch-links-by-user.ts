@@ -1,8 +1,8 @@
 import { Link } from '../../entities/link'
 import { Either, left, right } from '../../errors/either'
 import { UserNotFoundError } from '../../errors/user/user-not-found.error'
-import { LinkRepository } from '../../repositories/link/link-repository'
-import { UserRepository } from '../../repositories/user/user-repository'
+import { LinksRepository } from '../../repositories/link/links-repository'
+import { UsersRepository } from '../../repositories/user/users-repository'
 
 interface FetchLinksByUserUseCaseRequest {
   userId: string
@@ -12,20 +12,20 @@ type FetchLinksByUserUseCaseResponse = Either<UserNotFoundError, Link[]>
 
 export class FetchLinksByUserUseCase {
   constructor(
-    private linkRepository: LinkRepository,
-    private userRepository: UserRepository,
+    private linksRepository: LinksRepository,
+    private usersRepository: UsersRepository,
   ) {}
 
   public async execute({
     userId,
   }: FetchLinksByUserUseCaseRequest): Promise<FetchLinksByUserUseCaseResponse> {
-    const user = await this.userRepository.findById(userId)
+    const user = await this.usersRepository.findById(userId)
 
     if (!user) {
       return left(new UserNotFoundError())
     }
 
-    const links = await this.linkRepository.fetchByUser(userId)
+    const links = await this.linksRepository.fetchByUser(userId)
 
     return right(links)
   }

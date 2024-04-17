@@ -1,6 +1,6 @@
 import { Either, left, right } from '../../errors/either'
 import { LinkNotFoundError } from '../../errors/link/link-not-found.error'
-import { LinkRepository } from '../../repositories/link/link-repository'
+import { LinksRepository } from '../../repositories/link/links-repository'
 
 interface UpdateLinkUseCaseRequest {
   id: string
@@ -12,7 +12,7 @@ interface UpdateLinkUseCaseRequest {
 type UpdateLinkUseCaseResponse = Either<LinkNotFoundError, void>
 
 export class UpdateLinkUseCase {
-  constructor(private linkRepository: LinkRepository) {}
+  constructor(private linksRepository: LinksRepository) {}
 
   public async execute({
     id,
@@ -20,14 +20,14 @@ export class UpdateLinkUseCase {
     longUrl,
     clicksCount,
   }: UpdateLinkUseCaseRequest): Promise<UpdateLinkUseCaseResponse> {
-    const link = await this.linkRepository.findById(id)
+    const link = await this.linksRepository.findById(id)
 
     if (!link) {
       return left(new LinkNotFoundError())
     }
 
     return right(
-      await this.linkRepository.update({
+      await this.linksRepository.update({
         id,
         shortUrl,
         longUrl,

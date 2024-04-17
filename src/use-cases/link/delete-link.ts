@@ -1,6 +1,6 @@
 import { Either, left, right } from '../../errors/either'
 import { LinkNotFoundError } from '../../errors/link/link-not-found.error'
-import { LinkRepository } from '../../repositories/link/link-repository'
+import { LinksRepository } from '../../repositories/link/links-repository'
 
 interface DeleteLinkUseCaseRequest {
   id: string
@@ -9,17 +9,17 @@ interface DeleteLinkUseCaseRequest {
 type DeleteLinkUseCaseResponse = Either<LinkNotFoundError, void>
 
 export class DeleteLinkUseCase {
-  constructor(private linkRepository: LinkRepository) {}
+  constructor(private linksRepository: LinksRepository) {}
 
   public async execute({
     id,
   }: DeleteLinkUseCaseRequest): Promise<DeleteLinkUseCaseResponse> {
-    const link = await this.linkRepository.findById(id)
+    const link = await this.linksRepository.findById(id)
 
     if (!link) {
       return left(new LinkNotFoundError())
     }
 
-    return right(await this.linkRepository.delete(id))
+    return right(await this.linksRepository.delete(id))
   }
 }

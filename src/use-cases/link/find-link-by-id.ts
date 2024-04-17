@@ -1,7 +1,7 @@
 import { Link } from '../../entities/link'
 import { Either, left, right } from '../../errors/either'
 import { LinkNotFoundError } from '../../errors/link/link-not-found.error'
-import { LinkRepository } from '../../repositories/link/link-repository'
+import { LinksRepository } from '../../repositories/link/links-repository'
 
 interface FindLinkByIdUseCaseRequest {
   id: string
@@ -10,12 +10,12 @@ interface FindLinkByIdUseCaseRequest {
 type FindLinkByIdUseCaseResponse = Either<LinkNotFoundError, Link | null>
 
 export class FindLinkByIdUseCase {
-  constructor(private linkRepository: LinkRepository) {}
+  constructor(private linksRepository: LinksRepository) {}
 
   async execute({
     id,
   }: FindLinkByIdUseCaseRequest): Promise<FindLinkByIdUseCaseResponse> {
-    const link = await this.linkRepository.findById(id)
+    const link = await this.linksRepository.findById(id)
 
     if (!link) {
       return left(new LinkNotFoundError())

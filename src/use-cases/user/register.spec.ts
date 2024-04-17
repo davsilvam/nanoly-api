@@ -1,16 +1,16 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { InMemoryUserRepository } from '../../repositories/user/in-memory-user-repository'
+import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
 import { RegisterUseCase } from './register'
 import { UserAlreadyExistsError } from '../../errors/user/user-already-exists.error'
 import { InvalidCredentialsError } from '../../errors/user/invalid-credentials.error'
 
-let userRepository: InMemoryUserRepository
+let usersRepository: InMemoryUsersRepository
 let sut: RegisterUseCase
 
 describe('Register Use Case', () => {
   beforeEach(() => {
-    userRepository = new InMemoryUserRepository()
-    sut = new RegisterUseCase(userRepository)
+    usersRepository = new InMemoryUsersRepository()
+    sut = new RegisterUseCase(usersRepository)
   })
 
   it('should be able to register a user', async () => {
@@ -67,7 +67,7 @@ describe('Register Use Case', () => {
     const PASSWORD_HASH =
       '$2b$06$FuP7kzrmq7DyRTGqvhXGsutYdy1U0t.6hceAkvREgImL5UMUnEZju'
 
-    await userRepository.create({
+    await usersRepository.create({
       name: 'name',
       email: 'email',
       passwordHash: PASSWORD_HASH,

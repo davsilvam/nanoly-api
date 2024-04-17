@@ -1,22 +1,22 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { CreateLinkUseCase } from './create-link'
-import { InMemoryLinkRepository } from '../../repositories/link/in-memory-link-repository'
+import { InMemoryLinksRepository } from '../../repositories/link/in-memory-links-repository'
 import { ShortUrlAlreadyExistsError } from '../../errors/link/short-url-already-exists.error'
-import { InMemoryUserRepository } from '../../repositories/user/in-memory-user-repository'
+import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
 
-let linkRepository: InMemoryLinkRepository
-let userRepository: InMemoryUserRepository
+let linksRepository: InMemoryLinksRepository
+let usersRepository: InMemoryUsersRepository
 let sut: CreateLinkUseCase
 
 let userId: string
 
 describe('Create Link Use Case', () => {
   beforeEach(async () => {
-    linkRepository = new InMemoryLinkRepository()
-    userRepository = new InMemoryUserRepository()
-    sut = new CreateLinkUseCase(linkRepository, userRepository)
+    linksRepository = new InMemoryLinksRepository()
+    usersRepository = new InMemoryUsersRepository()
+    sut = new CreateLinkUseCase(linksRepository, usersRepository)
 
-    userId = await userRepository.create({
+    userId = await usersRepository.create({
       email: 'email',
       name: 'name',
       passwordHash: 'hash',

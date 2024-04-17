@@ -1,6 +1,6 @@
 import { compare } from 'bcrypt'
 import { Either, left, right } from '../../errors/either'
-import { UserRepository } from '../../repositories/user/user-repository'
+import { UsersRepository } from '../../repositories/user/users-repository'
 import { InvalidCredentialsError } from '../../errors/user/invalid-credentials.error'
 import { User } from '../../entities/user'
 
@@ -12,13 +12,13 @@ interface AuthenticateUseCaseRequest {
 type AuthenticateUseCaseResponse = Either<InvalidCredentialsError, User>
 
 export class AuthenticateUseCase {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private usersRepository: UsersRepository) {}
 
   public async execute({
     email,
     password,
   }: AuthenticateUseCaseRequest): Promise<AuthenticateUseCaseResponse> {
-    const user = await this.userRepository.findByEmail(email)
+    const user = await this.usersRepository.findByEmail(email)
 
     if (!user) {
       return left(new InvalidCredentialsError())

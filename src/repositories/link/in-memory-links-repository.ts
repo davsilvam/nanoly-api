@@ -1,11 +1,11 @@
 import { Link } from '../../entities/link'
 import {
   CreateLinkRequest,
-  LinkRepository,
+  LinksRepository,
   UpdateLinkRequest,
-} from './link-repository'
+} from './links-repository'
 
-export class InMemoryLinkRepository implements LinkRepository {
+export class InMemoryLinksRepository implements LinksRepository {
   private links: Link[] = []
 
   create({ longUrl, shortUrl, userId }: CreateLinkRequest): Promise<string> {

@@ -1,7 +1,7 @@
 import { hash } from 'bcrypt'
 import { Either, left, right } from '../../errors/either'
 import { UserAlreadyExistsError } from '../../errors/user/user-already-exists.error'
-import { UserRepository } from '../../repositories/user/user-repository'
+import { UsersRepository } from '../../repositories/user/users-repository'
 import { InvalidCredentialsError } from '../../errors/user/invalid-credentials.error'
 
 interface RegisterUseCaseRequest {
@@ -16,7 +16,7 @@ type RegisterUseCaseResponse = Either<
 >
 
 export class RegisterUseCase {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private usersRepository: UsersRepository) {}
 
   public async execute({
     name,
@@ -27,7 +27,7 @@ export class RegisterUseCase {
       return left(new InvalidCredentialsError())
     }
 
-    const user = await this.userRepository.findByEmail(email)
+    const user = await this.usersRepository.findByEmail(email)
 
     if (user) {
       return left(new UserAlreadyExistsError())
@@ -35,7 +35,7 @@ export class RegisterUseCase {
 
     const passwordHash = await hash(password, 6)
 
-    const result = await this.userRepository.create({
+    const result = await this.usersRepository.create({
       name,
       email,
       passwordHash,

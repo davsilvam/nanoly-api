@@ -2,10 +2,10 @@ import { User } from '../../entities/user'
 import {
   CreateUserRequest,
   UpdateUserRequest,
-  UserRepository,
-} from './user-repository'
+  UsersRepository,
+} from './users-repository'
 
-export class InMemoryUserRepository implements UserRepository {
+export class InMemoryUsersRepository implements UsersRepository {
   private users: User[] = []
 
   create({ name, email, passwordHash }: CreateUserRequest): Promise<string> {

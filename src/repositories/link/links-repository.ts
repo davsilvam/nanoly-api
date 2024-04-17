@@ -13,7 +13,7 @@ export type UpdateLinkRequest = {
   clicksCount?: number
 }
 
-export interface LinkRepository {
+export interface LinksRepository {
   create(request: CreateLinkRequest): Promise<string>
   findById(id: string): Promise<Link | null>
   findByShortUrl(shortUrl: string): Promise<Link | null>

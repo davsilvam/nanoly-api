@@ -13,7 +13,7 @@ export type UpdateUserRequest = {
   passwordHash?: string
 }
 
-export interface UserRepository {
+export interface UsersRepository {
   create(request: CreateUserRequest): Promise<string>
   findByEmail(email: string): Promise<User | null>
   findById(id: string): Promise<User | null>

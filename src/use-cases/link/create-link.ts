@@ -1,8 +1,8 @@
 import { Either, left, right } from '../../errors/either'
 import { ShortUrlAlreadyExistsError } from '../../errors/link/short-url-already-exists.error'
 import { UserNotFoundError } from '../../errors/user/user-not-found.error'
-import { LinkRepository } from '../../repositories/link/link-repository'
-import { UserRepository } from '../../repositories/user/user-repository'
+import { LinksRepository } from '../../repositories/link/links-repository'
+import { UsersRepository } from '../../repositories/user/users-repository'
 
 interface CreateLinkUseCaseRequest {
   shortUrl: string
@@ -17,8 +17,8 @@ type CreateLinkUseCaseResponse = Either<
 
 export class CreateLinkUseCase {
   constructor(
-    private linkRepository: LinkRepository,
-    private userRepository: UserRepository,
+    private linksRepository: LinksRepository,
+    private usersRepository: UsersRepository,
   ) {}
 
   async execute({
@@ -27,19 +27,19 @@ export class CreateLinkUseCase {
     userId,
   }: CreateLinkUseCaseRequest): Promise<CreateLinkUseCaseResponse> {
     const shortUrlAlreadyExists =
-      await this.linkRepository.findByShortUrl(shortUrl)
+      await this.linksRepository.findByShortUrl(shortUrl)
 
     if (shortUrlAlreadyExists) {
       return left(new ShortUrlAlreadyExistsError())
     }
 
-    const user = await this.userRepository.findById(userId)
+    const user = await this.usersRepository.findById(userId)
 
     if (!user) {
       return left(new UserNotFoundError())
     }
 
-    const linkId = await this.linkRepository.create({
+    const linkId = await this.linksRepository.create({
       longUrl,
       shortUrl,
       userId,

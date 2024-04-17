@@ -1,22 +1,22 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { InMemoryUserRepository } from '../../repositories/user/in-memory-user-repository'
+import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
 import { AuthenticateUseCase } from './authenticate'
 import { User } from '../../entities/user'
 import { InvalidCredentialsError } from '../../errors/user/invalid-credentials.error'
 
-let userRepository: InMemoryUserRepository
+let usersRepository: InMemoryUsersRepository
 let sut: AuthenticateUseCase
 const PASSWORD_HASH =
   '$2b$06$FuP7kzrmq7DyRTGqvhXGsutYdy1U0t.6hceAkvREgImL5UMUnEZju'
 
 describe('Authenticate Use Case', () => {
   beforeEach(() => {
-    userRepository = new InMemoryUserRepository()
-    sut = new AuthenticateUseCase(userRepository)
+    usersRepository = new InMemoryUsersRepository()
+    sut = new AuthenticateUseCase(usersRepository)
   })
 
   it('should be able to authenticate a user', async () => {
-    await userRepository.create({
+    await usersRepository.create({
       name: 'name',
       email: 'email',
       passwordHash: PASSWORD_HASH,
@@ -32,7 +32,7 @@ describe('Authenticate Use Case', () => {
   })
 
   it('should not be able to authenticate a user with invalid credentials', async () => {
-    await userRepository.create({
+    await usersRepository.create({
       name: 'name',
       email: 'email',
       passwordHash: PASSWORD_HASH,
