@@ -1,49 +1,49 @@
 import type { Either } from '../../errors/either'
 import { left, right } from '../../errors/either'
-import { ShortUrlAlreadyExistsError } from '../../errors/link/short-url-already-exists.error'
+import { ShortURLAlreadyExistsError } from '../../errors/url/short-url-already-exists.error'
 import { UserNotFoundError } from '../../errors/user/user-not-found.error'
-import type { LinksRepository } from '../../repositories/link/links-repository'
+import type { URLsRepository } from '../../repositories/url/url-repository'
 import type { UsersRepository } from '../../repositories/user/users-repository'
 
-interface CreateLinkUseCaseRequest {
+interface ShortenURLUseCaseRequest {
   shortUrl: string
   longUrl: string
   userId: string
 }
 
-type CreateLinkUseCaseResponse = Either<
-  ShortUrlAlreadyExistsError | UserNotFoundError,
+type ShortenURLUseCaseResponse = Either<
+  ShortURLAlreadyExistsError | UserNotFoundError,
   string
 >
 
-export class CreateLinkUseCase {
+export class ShortenURLUseCase {
   constructor(
-    private linksRepository: LinksRepository,
+    private urlsRepository: URLsRepository,
     private usersRepository: UsersRepository,
-  ) {}
+  ) { }
 
   async execute({
     longUrl,
     shortUrl,
     userId,
-  }: CreateLinkUseCaseRequest): Promise<CreateLinkUseCaseResponse> {
+  }: ShortenURLUseCaseRequest): Promise<ShortenURLUseCaseResponse> {
     const shortUrlAlreadyExists
-      = await this.linksRepository.findByShortUrl(shortUrl)
+      = await this.urlsRepository.findByShortUrl(shortUrl)
 
     if (shortUrlAlreadyExists)
-      return left(new ShortUrlAlreadyExistsError())
+      return left(new ShortURLAlreadyExistsError())
 
     const user = await this.usersRepository.findById(userId)
 
     if (!user)
       return left(new UserNotFoundError())
 
-    const linkId = await this.linksRepository.create({
+    const urlId = await this.urlsRepository.create({
       longUrl,
       shortUrl,
       userId,
     })
 
-    return right(linkId)
+    return right(urlId)
   }
 }

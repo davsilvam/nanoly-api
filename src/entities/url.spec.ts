@@ -1,21 +1,21 @@
 import { describe, expect, it } from 'vitest'
 
-import { Link } from './link'
+import { URL } from './url'
 
-describe('link Entity', () => {
-  it('should be able to create a link entity', () => {
-    const link = new Link({
+describe('url entity', () => {
+  it('should be able to create a url entity', () => {
+    const url = new URL({
       shortUrl: 'short-url',
       longUrl: 'long-url',
       userId: 'user-id',
     })
 
-    expect(link).toBeInstanceOf(Link)
+    expect(url).toBeInstanceOf(URL)
   })
 
-  it('should be not able to create a link entity with no short url', () => {
+  it('should be not able to create a url entity with no short url', () => {
     expect(() => {
-      return new Link({
+      return new URL({
         longUrl: 'long-url',
         shortUrl: '',
         userId: 'user-id',
@@ -23,9 +23,9 @@ describe('link Entity', () => {
     }).toThrow()
   })
 
-  it('should be not able to create a link entity with no long url', () => {
+  it('should be not able to create a url entity with no long url', () => {
     expect(() => {
-      return new Link({
+      return new URL({
         longUrl: '',
         shortUrl: 'short-url',
         userId: 'user-id',
@@ -33,9 +33,9 @@ describe('link Entity', () => {
     }).toThrow()
   })
 
-  it('should be not able to create a link entity with no user', () => {
+  it('should be not able to create a url entity with no user', () => {
     expect(() => {
-      return new Link({
+      return new URL({
         longUrl: 'long-url',
         shortUrl: 'short-url',
         userId: '',

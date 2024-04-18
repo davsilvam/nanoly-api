@@ -1,14 +1,14 @@
-interface LinkNotFoundErrorProps {
+interface ShortURLAlreadyExistsErrorProps {
   message: string
   statusCode: number
 }
 
-export class LinkNotFoundError extends Error {
-  private props: LinkNotFoundErrorProps
+export class ShortURLAlreadyExistsError extends Error {
+  private props: ShortURLAlreadyExistsErrorProps
 
   constructor(
-    message: string = 'Link not found.',
-    statusCode: number = 404,
+    message: string = 'Short URL already exists.',
+    statusCode: number = 400,
   ) {
     super(message)
 

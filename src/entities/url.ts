@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 
-interface LinkProps {
+interface URLProps {
   id: string
   shortUrl: string
   longUrl: string
@@ -10,15 +10,15 @@ interface LinkProps {
   userId: string
 }
 
-type LinkConstructorProps = Omit<
-  LinkProps,
+type URLConstructorProps = Omit<
+  URLProps,
   'id' | 'clicksCount' | 'createdAt' | 'updatedAt'
 >
 
-export class Link {
-  private props: LinkProps
+export class URL {
+  private props: URLProps
 
-  constructor({ shortUrl, longUrl, userId }: LinkConstructorProps) {
+  constructor({ shortUrl, longUrl, userId }: URLConstructorProps) {
     if (!shortUrl)
       throw new Error('Short URL is required.')
 

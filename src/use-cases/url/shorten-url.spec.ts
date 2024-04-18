@@ -1,21 +1,21 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { CreateLinkUseCase } from './create-link'
-import { ShortUrlAlreadyExistsError } from '../../errors/link/short-url-already-exists.error'
-import { InMemoryLinksRepository } from '../../repositories/link/in-memory-links-repository'
+import { ShortenURLUseCase } from './shorten-url'
+import { ShortURLAlreadyExistsError } from '../../errors/url/short-url-already-exists.error'
+import { InMemoryURLsRepository } from '../../repositories/url/in-memory-urls-repository'
 import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
 
-let linksRepository: InMemoryLinksRepository
+let urlsRepository: InMemoryURLsRepository
 let usersRepository: InMemoryUsersRepository
-let sut: CreateLinkUseCase
+let sut: ShortenURLUseCase
 
 let userId: string
 
-describe('create Link Use Case', () => {
+describe('shorten url use case', () => {
   beforeEach(async () => {
-    linksRepository = new InMemoryLinksRepository()
+    urlsRepository = new InMemoryURLsRepository()
     usersRepository = new InMemoryUsersRepository()
-    sut = new CreateLinkUseCase(linksRepository, usersRepository)
+    sut = new ShortenURLUseCase(urlsRepository, usersRepository)
 
     userId = await usersRepository.create({
       email: 'email',
@@ -24,7 +24,7 @@ describe('create Link Use Case', () => {
     })
   })
 
-  it('should be able to create a link', async () => {
+  it('should be able to shorten an url', async () => {
     const result = await sut.execute({
       longUrl: 'https://www.google.com',
       shortUrl: 'google',
@@ -35,7 +35,7 @@ describe('create Link Use Case', () => {
     expect(result.isRight() && result.value).toStrictEqual(expect.any(String))
   })
 
-  it('should not be able to create a link with an existing short url', async () => {
+  it('should not be able to shorten an url with an existing short url', async () => {
     await sut.execute({
       longUrl: 'https://www.google.com',
       shortUrl: 'existing-short-url',
@@ -49,6 +49,6 @@ describe('create Link Use Case', () => {
     })
 
     expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(ShortUrlAlreadyExistsError)
+    expect(result.value).toBeInstanceOf(ShortURLAlreadyExistsError)
   })
 })

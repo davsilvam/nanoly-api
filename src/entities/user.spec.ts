@@ -23,7 +23,7 @@ describe('user Entity', () => {
     }).toThrow()
   })
 
-  it('should be not able to create a link entity with no email', () => {
+  it('should be not able to create a user entity with no email', () => {
     expect(() => {
       return new User({
         name: 'name',
@@ -33,7 +33,7 @@ describe('user Entity', () => {
     }).toThrow()
   })
 
-  it('should be not able to create a link entity with no passwordHash', () => {
+  it('should be not able to create a user entity with no passwordHash', () => {
     expect(() => {
       return new User({
         name: 'name',
