@@ -24,7 +24,7 @@ app.register(fastifySwagger, {
     info: {
       title: 'nanoly-api',
       description:
-        'Especificações da API para o back-end da aplicação nanoly, um encurtador de URLs.',
+        'Especificações da API para o back-end da aplicação nanoly, um encurtador de url\'s.',
       version: '1.0.0',
     },
   },

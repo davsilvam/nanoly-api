@@ -1,51 +1,36 @@
 import type {
   CreateUserRequest,
-  UpdateUserRequest,
   UsersRepository,
 } from './users-repository'
-import { User } from '../../entities/user'
+import type { User, UserProps } from '../../entities/user/user'
+import { UserMapper } from '../../entities/user/user-mapper'
 
 export class InMemoryUsersRepository implements UsersRepository {
   private users: User[] = []
 
-  create({ name, email, passwordHash }: CreateUserRequest): Promise<string> {
-    const user = new User({ name, email, passwordHash })
+  async create({ name, email, passwordHash }: CreateUserRequest): Promise<string> {
+    const user = UserMapper.toEntity({ name, email, passwordHash })
 
     this.users.push(user)
 
     return Promise.resolve(user.id)
   }
 
-  findByEmail(email: string): Promise<User | null> {
-    const user = this.users.find(item => item.email === email) || null
+  async findByEmail(email: string): Promise<UserProps | null> {
+    const user = this.users.find(item => item.email === email)
 
-    return Promise.resolve(user)
+    if (!user)
+      return Promise.resolve(null)
+
+    return Promise.resolve(user.toObject())
   }
 
-  findById(id: string): Promise<User | null> {
-    const user = this.users.find(item => item.id === id) || null
+  async findById(id: string): Promise<UserProps | null> {
+    const user = this.users.find(item => item.id === id)
 
-    return Promise.resolve(user)
-  }
+    if (!user)
+      return Promise.resolve(null)
 
-  update({ id, email, name, passwordHash }: UpdateUserRequest): Promise<void> {
-    const userIndex = this.users.findIndex(item => item.id === id)
-
-    if (name)
-      this.users[userIndex].name = name
-
-    if (email)
-      this.users[userIndex].email = email
-
-    if (passwordHash)
-      this.users[userIndex].passwordHash = passwordHash
-
-    return Promise.resolve()
-  }
-
-  delete(id: string): Promise<void> {
-    this.users = this.users.filter(item => item.id !== id)
-
-    return Promise.resolve()
+    return Promise.resolve(user.toObject())
   }
 }

@@ -1,22 +1,22 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { FetchUserURLsUseCase } from './fetch-user-urls'
-import { URL } from '../../entities/url'
+import { FetchUserUrlsUseCase } from './fetch-user-urls'
+import type { UrlProps } from '../../entities/url/url'
 import { UserNotFoundError } from '../../errors/user/user-not-found.error'
-import { InMemoryURLsRepository } from '../../repositories/url/in-memory-urls-repository'
+import { InMemoryUrlsRepository } from '../../repositories/url/in-memory-urls-repository'
 import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
 
-let urlsRepository: InMemoryURLsRepository
+let urlsRepository: InMemoryUrlsRepository
 let usersRepository: InMemoryUsersRepository
-let sut: FetchUserURLsUseCase
+let sut: FetchUserUrlsUseCase
 
 let userId: string
 
 describe('fetch user urls use case', () => {
   beforeEach(async () => {
-    urlsRepository = new InMemoryURLsRepository()
+    urlsRepository = new InMemoryUrlsRepository()
     usersRepository = new InMemoryUsersRepository()
-    sut = new FetchUserURLsUseCase(urlsRepository, usersRepository)
+    sut = new FetchUserUrlsUseCase(urlsRepository, usersRepository)
 
     userId = await usersRepository.create({
       email: 'email',
@@ -35,13 +35,15 @@ describe('fetch user urls use case', () => {
     const url = await urlsRepository.findById(urlId)
 
     if (!url)
-      throw new Error('URL not found.')
+      throw new Error('Url not found.')
 
     const result = await sut.execute({ userId: url.userId })
 
     expect(result.isRight()).toBe(true)
-    expect(result.value).toBeInstanceOf(Array<URL>)
-    expect(result.value[0]).toBeInstanceOf(URL)
+    expect(result.isRight() && result.value).toBeInstanceOf(Array<UrlProps>)
+    expect(result.isRight() && result.value[0].shortUrl).toBe('google')
+    expect(result.isRight() && result.value[0].longUrl).toBe('https://www.google.com')
+    expect(result.isRight() && result.value[0].userId).toBe(userId)
   })
 
   it('should not be able to fetch urls by a non-existent user id', async () => {

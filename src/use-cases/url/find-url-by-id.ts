@@ -1,25 +1,25 @@
-import type { URL } from '../../entities/url'
+import type { UrlProps } from '../../entities/url/url'
 import type { Either } from '../../errors/either'
 import { left, right } from '../../errors/either'
-import { URLNotFoundError } from '../../errors/url/url-not-found.error'
-import type { URLsRepository } from '../../repositories/url/url-repository'
+import { UrlNotFoundError } from '../../errors/url/url-not-found.error'
+import type { UrlsRepository } from '../../repositories/url/url-repository'
 
-interface FindURLByIdUseCaseRequest {
+interface FindUrlByIdUseCaseRequest {
   id: string
 }
 
-type FindURLByIdUseCaseResponse = Either<URLNotFoundError, URL | null>
+type FindUrlByIdUseCaseResponse = Either<UrlNotFoundError, UrlProps | null>
 
-export class FindURLByIdUseCase {
-  constructor(private urlsRepository: URLsRepository) { }
+export class FindUrlByIdUseCase {
+  constructor(private urlsRepository: UrlsRepository) { }
 
   async execute({
     id,
-  }: FindURLByIdUseCaseRequest): Promise<FindURLByIdUseCaseResponse> {
+  }: FindUrlByIdUseCaseRequest): Promise<FindUrlByIdUseCaseResponse> {
     const url = await this.urlsRepository.findById(id)
 
     if (!url)
-      return left(new URLNotFoundError())
+      return left(new UrlNotFoundError())
 
     return right(url)
   }

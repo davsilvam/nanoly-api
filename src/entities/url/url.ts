@@ -1,50 +1,25 @@
 import { randomUUID } from 'node:crypto'
 
-interface URLProps {
+export interface UrlProps {
   id: string
-  shortUrl: string
   longUrl: string
+  shortUrl: string
   clicksCount: number
   createdAt: Date
   updatedAt: Date
   userId: string
 }
 
-type URLConstructorProps = Omit<
-  URLProps,
+type UrlConstructorProps = Omit<
+  UrlProps,
   'id' | 'clicksCount' | 'createdAt' | 'updatedAt'
 >
 
-export class URL {
-  private props: URLProps
-
-  constructor({ shortUrl, longUrl, userId }: URLConstructorProps) {
-    if (!shortUrl)
-      throw new Error('Short URL is required.')
-
-    if (!longUrl)
-      throw new Error('Long URL is required.')
-
-    if (!userId)
-      throw new Error('User Id is required.')
-
-    this.props = {
-      id: randomUUID(),
-      shortUrl,
-      longUrl,
-      clicksCount: 0,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      userId,
-    }
-  }
+export class Url {
+  private props: UrlProps
 
   get id() {
     return this.props.id
-  }
-
-  set id(id: string) {
-    this.props.id = id
   }
 
   get shortUrl() {
@@ -75,10 +50,6 @@ export class URL {
     return this.props.createdAt
   }
 
-  set createdAt(createdAt: Date) {
-    this.props.createdAt = createdAt
-  }
-
   get updatedAt() {
     return this.props.updatedAt
   }
@@ -91,7 +62,28 @@ export class URL {
     return this.props.userId
   }
 
-  set userId(user: string) {
-    this.props.userId = user
+  constructor({ shortUrl, longUrl, userId }: UrlConstructorProps) {
+    if (!shortUrl)
+      throw new Error('Short Url is required.')
+
+    if (!longUrl)
+      throw new Error('Long Url is required.')
+
+    if (!userId)
+      throw new Error('User Id is required.')
+
+    this.props = {
+      id: randomUUID(),
+      shortUrl,
+      longUrl,
+      clicksCount: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      userId,
+    }
+  }
+
+  public toObject(): UrlProps {
+    return this.props
   }
 }

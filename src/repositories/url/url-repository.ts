@@ -1,24 +1,24 @@
-import type { URL } from '../../entities/url'
+import type { UrlProps } from '../../entities/url/url'
 
-export interface CreateURLRequest {
+export interface CreateUrlRequest {
   shortUrl: string
   longUrl: string
   userId: string
 }
 
-export interface UpdateURLRequest {
+export interface UpdateUrlRequest {
   id: string
   shortUrl?: string
   longUrl?: string
   clicksCount?: number
 }
 
-export interface URLsRepository {
-  create: (request: CreateURLRequest) => Promise<string>
-  findById: (id: string) => Promise<URL | null>
-  findByShortUrl: (shortUrl: string) => Promise<URL | null>
-  fetchByUser: (userId: string) => Promise<URL[]>
-  update: (request: UpdateURLRequest) => Promise<void>
+export interface UrlsRepository {
+  create: (request: CreateUrlRequest) => Promise<string>
+  findById: (id: string) => Promise<UrlProps | null>
+  findByShortUrl: (shortUrl: string) => Promise<UrlProps | null>
+  fetchByUser: (userId: string) => Promise<UrlProps[]>
+  update: (request: UpdateUrlRequest) => Promise<void>
   updateClicksCount: (id: string, clicksCount: number) => Promise<void>
   delete: (id: string) => Promise<void>
 }

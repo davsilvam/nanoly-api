@@ -18,7 +18,7 @@ type RegisterUseCaseResponse = Either<
 >
 
 export class RegisterUseCase {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(private usersRepository: UsersRepository) { }
 
   public async execute({
     name,
@@ -35,12 +35,10 @@ export class RegisterUseCase {
 
     const passwordHash = await hash(password, 6)
 
-    const result = await this.usersRepository.create({
+    return right(await this.usersRepository.create({
       name,
       email,
       passwordHash,
-    })
-
-    return right(result)
+    }))
   }
 }

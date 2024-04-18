@@ -1,13 +1,13 @@
-interface URLNotFoundErrorProps {
+interface UrlNotFoundErrorProps {
   message: string
   statusCode: number
 }
 
-export class URLNotFoundError extends Error {
-  private props: URLNotFoundErrorProps
+export class UrlNotFoundError extends Error {
+  private props: UrlNotFoundErrorProps
 
   constructor(
-    message: string = 'URL not found.',
+    message: string = 'Url not found.',
     statusCode: number = 404,
   ) {
     super(message)

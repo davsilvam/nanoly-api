@@ -1,17 +1,17 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { UpdateURLUseCase } from './update-url'
-import { URL } from '../../entities/url'
-import { URLNotFoundError } from '../../errors/url/url-not-found.error'
-import { InMemoryURLsRepository } from '../../repositories/url/in-memory-urls-repository'
+import { UpdateUrlUseCase } from './update-url'
+import { Url } from '../../entities/url/url'
+import { UrlNotFoundError } from '../../errors/url/url-not-found.error'
+import { InMemoryUrlsRepository } from '../../repositories/url/in-memory-urls-repository'
 
-let urlsRepository: InMemoryURLsRepository
-let sut: UpdateURLUseCase
+let urlsRepository: InMemoryUrlsRepository
+let sut: UpdateUrlUseCase
 
 describe('update url use case', () => {
   beforeEach(() => {
-    urlsRepository = new InMemoryURLsRepository()
-    sut = new UpdateURLUseCase(urlsRepository)
+    urlsRepository = new InMemoryUrlsRepository()
+    sut = new UpdateUrlUseCase(urlsRepository)
   })
 
   it('should be able to update a url by id', async () => {
@@ -24,7 +24,7 @@ describe('update url use case', () => {
     const url = await urlsRepository.findById(urlId)
 
     if (!url)
-      throw new Error('URL not found.')
+      throw new Error('Url not found.')
 
     const result = await sut.execute({
       id: url.id,
@@ -34,10 +34,10 @@ describe('update url use case', () => {
     expect(result.isRight()).toBe(true)
     expect(result.value).toBeUndefined()
 
-    const updatedURL = await urlsRepository.findById(urlId)
+    const updatedUrl = await urlsRepository.findById(urlId)
 
-    expect(updatedURL).toBeInstanceOf(URL)
-    expect(updatedURL?.longUrl).toBe('https://www.google.com.br')
+    expect(updatedUrl).toBeInstanceOf(Url)
+    expect(updatedUrl?.longUrl).toBe('https://www.google.com.br')
   })
 
   it('should not be able to update a url by a non-existent id', async () => {
@@ -47,6 +47,6 @@ describe('update url use case', () => {
     })
 
     expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(URLNotFoundError)
+    expect(result.value).toBeInstanceOf(UrlNotFoundError)
   })
 })

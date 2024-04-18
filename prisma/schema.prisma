@@ -16,12 +16,12 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  urls URL[]
+  urls Url[]
 
   @@map("users")
 }
 
-model URL {
+model Url {
   id          String @id @default(uuid())
   longUrl     String @map("long_url")
   shortUrl    String @unique @map("short_url")

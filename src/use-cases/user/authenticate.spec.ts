@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import { AuthenticateUseCase } from './authenticate'
-import { User } from '../../entities/user'
+import type { UserProps } from '../../entities/user/user'
 import { InvalidCredentialsError } from '../../errors/user/invalid-credentials.error'
 import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
 
@@ -10,7 +10,7 @@ let sut: AuthenticateUseCase
 const PASSWORD_HASH
   = '$2b$06$FuP7kzrmq7DyRTGqvhXGsutYdy1U0t.6hceAkvREgImL5UMUnEZju'
 
-describe('authenticate Use Case', () => {
+describe('authenticate use case', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     sut = new AuthenticateUseCase(usersRepository)
@@ -29,7 +29,7 @@ describe('authenticate Use Case', () => {
     })
 
     expect(result.isRight()).toBe(true)
-    expect(result.isRight() && result.value).toBeInstanceOf(User)
+    expect(result.isRight() && result.value.email).toEqual('email')
   })
 
   it('should not be able to authenticate a user with invalid credentials', async () => {

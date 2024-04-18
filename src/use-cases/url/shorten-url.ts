@@ -1,24 +1,24 @@
 import type { Either } from '../../errors/either'
 import { left, right } from '../../errors/either'
-import { ShortURLAlreadyExistsError } from '../../errors/url/short-url-already-exists.error'
+import { ShortUrlAlreadyExistsError } from '../../errors/url/short-url-already-exists.error'
 import { UserNotFoundError } from '../../errors/user/user-not-found.error'
-import type { URLsRepository } from '../../repositories/url/url-repository'
+import type { UrlsRepository } from '../../repositories/url/url-repository'
 import type { UsersRepository } from '../../repositories/user/users-repository'
 
-interface ShortenURLUseCaseRequest {
+interface ShortenUrlUseCaseRequest {
   shortUrl: string
   longUrl: string
   userId: string
 }
 
-type ShortenURLUseCaseResponse = Either<
-  ShortURLAlreadyExistsError | UserNotFoundError,
+type ShortenUrlUseCaseResponse = Either<
+  ShortUrlAlreadyExistsError | UserNotFoundError,
   string
 >
 
-export class ShortenURLUseCase {
+export class ShortenUrlUseCase {
   constructor(
-    private urlsRepository: URLsRepository,
+    private urlsRepository: UrlsRepository,
     private usersRepository: UsersRepository,
   ) { }
 
@@ -26,12 +26,12 @@ export class ShortenURLUseCase {
     longUrl,
     shortUrl,
     userId,
-  }: ShortenURLUseCaseRequest): Promise<ShortenURLUseCaseResponse> {
+  }: ShortenUrlUseCaseRequest): Promise<ShortenUrlUseCaseResponse> {
     const shortUrlAlreadyExists
       = await this.urlsRepository.findByShortUrl(shortUrl)
 
     if (shortUrlAlreadyExists)
-      return left(new ShortURLAlreadyExistsError())
+      return left(new ShortUrlAlreadyExistsError())
 
     const user = await this.usersRepository.findById(userId)
 

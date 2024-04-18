@@ -1,21 +1,21 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { ShortenURLUseCase } from './shorten-url'
-import { ShortURLAlreadyExistsError } from '../../errors/url/short-url-already-exists.error'
-import { InMemoryURLsRepository } from '../../repositories/url/in-memory-urls-repository'
+import { ShortenUrlUseCase } from './shorten-url'
+import { ShortUrlAlreadyExistsError } from '../../errors/url/short-url-already-exists.error'
+import { InMemoryUrlsRepository } from '../../repositories/url/in-memory-urls-repository'
 import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
 
-let urlsRepository: InMemoryURLsRepository
+let urlsRepository: InMemoryUrlsRepository
 let usersRepository: InMemoryUsersRepository
-let sut: ShortenURLUseCase
+let sut: ShortenUrlUseCase
 
 let userId: string
 
 describe('shorten url use case', () => {
   beforeEach(async () => {
-    urlsRepository = new InMemoryURLsRepository()
+    urlsRepository = new InMemoryUrlsRepository()
     usersRepository = new InMemoryUsersRepository()
-    sut = new ShortenURLUseCase(urlsRepository, usersRepository)
+    sut = new ShortenUrlUseCase(urlsRepository, usersRepository)
 
     userId = await usersRepository.create({
       email: 'email',
@@ -49,6 +49,6 @@ describe('shorten url use case', () => {
     })
 
     expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(ShortURLAlreadyExistsError)
+    expect(result.value).toBeInstanceOf(ShortUrlAlreadyExistsError)
   })
 })

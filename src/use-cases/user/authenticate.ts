@@ -1,6 +1,8 @@
 import { compare } from 'bcrypt'
 
-import type { User } from '../../entities/user'
+import type { UserProps } from '../../entities/user/user'
+import type { UserDTO } from '../../entities/user/user-dto'
+import { UserMapper } from '../../entities/user/user-mapper'
 import type { Either } from '../../errors/either'
 import { left, right } from '../../errors/either'
 import { InvalidCredentialsError } from '../../errors/user/invalid-credentials.error'
@@ -11,10 +13,10 @@ interface AuthenticateUseCaseRequest {
   password: string
 }
 
-type AuthenticateUseCaseResponse = Either<InvalidCredentialsError, User>
+type AuthenticateUseCaseResponse = Either<InvalidCredentialsError, UserProps>
 
 export class AuthenticateUseCase {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(private usersRepository: UsersRepository) { }
 
   public async execute({
     email,

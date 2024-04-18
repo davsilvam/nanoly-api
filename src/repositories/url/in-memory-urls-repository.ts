@@ -1,37 +1,41 @@
 import type {
-  CreateURLRequest,
-  URLsRepository,
-  UpdateURLRequest,
+  CreateUrlRequest,
+  UpdateUrlRequest,
+  UrlsRepository,
 } from './url-repository'
-import { URL } from '../../entities/url'
+import type { Url, UrlProps } from '../../entities/url/url'
+import { UrlMapper } from '../../entities/url/url-mapper'
 
-export class InMemoryURLsRepository implements URLsRepository {
-  private urls: URL[] = []
+export class InMemoryUrlsRepository implements UrlsRepository {
+  private urls: Url[] = []
 
-  create({ longUrl, shortUrl, userId }: CreateURLRequest): Promise<string> {
-    const url = new URL({ longUrl, shortUrl, userId })
+  create({ longUrl, shortUrl, userId }: CreateUrlRequest): Promise<string> {
+    const url = UrlMapper.toEntity({ longUrl, shortUrl, userId })
 
     this.urls.push(url)
 
     return Promise.resolve(url.id)
   }
 
-  findById(id: string): Promise<URL | null> {
+  findById(id: string): Promise<UrlProps | null> {
     const url = this.urls.find(item => item.id === id) || null
 
     return Promise.resolve(url)
   }
 
-  findByShortUrl(shortUrl: string): Promise<URL | null> {
-    const url = this.urls.find(item => item.shortUrl === shortUrl) || null
+  findByShortUrl(shortUrl: string): Promise<UrlProps | null> {
+    const url = this.urls.find(item => item.shortUrl === shortUrl)
 
-    return Promise.resolve(url)
+    if (!url)
+      return Promise.resolve(null)
+
+    return Promise.resolve(url.toObject())
   }
 
-  fetchByUser(userId: string): Promise<URL[]> {
-    const urls = this.urls.filter(item => item.userId === userId)
+  fetchByUser(userId: string): Promise<UrlProps[]> {
+    const urls = this.urls.filter(url => url.userId === userId)
 
-    return Promise.resolve(urls)
+    return Promise.resolve(urls.map(url => url.toObject()))
   }
 
   update({
@@ -39,8 +43,11 @@ export class InMemoryURLsRepository implements URLsRepository {
     shortUrl,
     longUrl,
     clicksCount,
-  }: UpdateURLRequest): Promise<void> {
-    const urlIndex = this.urls.findIndex(item => item.id === id)
+  }: UpdateUrlRequest): Promise<void> {
+    const urlIndex = this.urls.findIndex(url => url.id === id)
+
+    if (urlIndex === -1)
+      throw new Error('Url not found.')
 
     if (shortUrl)
       this.urls[urlIndex].shortUrl = shortUrl
@@ -55,7 +62,10 @@ export class InMemoryURLsRepository implements URLsRepository {
   }
 
   updateClicksCount(id: string, clicksCount: number): Promise<void> {
-    const urlIndex = this.urls.findIndex(item => item.id === id)
+    const urlIndex = this.urls.findIndex(url => url.id === id)
+
+    if (urlIndex === -1)
+      throw new Error('Url not found.')
 
     this.urls[urlIndex].clicksCount = clicksCount
 
@@ -63,10 +73,10 @@ export class InMemoryURLsRepository implements URLsRepository {
   }
 
   delete(id: string): Promise<void> {
-    const urlIndex = this.urls.findIndex(item => item.id === id)
+    const urlIndex = this.urls.findIndex(url => url.id === id)
 
     if (urlIndex === -1)
-      throw new Error('URL not found.')
+      throw new Error('Url not found.')
 
     this.urls.splice(urlIndex, 1)
 

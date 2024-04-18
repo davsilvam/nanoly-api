@@ -1,16 +1,16 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { DeleteURLUseCase } from './delete-url'
-import { URLNotFoundError } from '../../errors/url/url-not-found.error'
-import { InMemoryURLsRepository } from '../../repositories/url/in-memory-urls-repository'
+import { DeleteUrlUseCase } from './delete-url'
+import { UrlNotFoundError } from '../../errors/url/url-not-found.error'
+import { InMemoryUrlsRepository } from '../../repositories/url/in-memory-urls-repository'
 
-let urlsRepository: InMemoryURLsRepository
-let sut: DeleteURLUseCase
+let urlsRepository: InMemoryUrlsRepository
+let sut: DeleteUrlUseCase
 
 describe('delete url use case', () => {
   beforeEach(() => {
-    urlsRepository = new InMemoryURLsRepository()
-    sut = new DeleteURLUseCase(urlsRepository)
+    urlsRepository = new InMemoryUrlsRepository()
+    sut = new DeleteUrlUseCase(urlsRepository)
   })
 
   it('should be able to delete a url by id', async () => {
@@ -29,6 +29,6 @@ describe('delete url use case', () => {
     const result = await sut.execute({ id: 'non-existent-id' })
 
     expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(URLNotFoundError)
+    expect(result.value).toBeInstanceOf(UrlNotFoundError)
   })
 })

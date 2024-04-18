@@ -1,25 +1,25 @@
-import type { URL } from '../../entities/url'
+import type { UrlProps } from '../../entities/url/url'
 import type { Either } from '../../errors/either'
 import { left, right } from '../../errors/either'
-import { URLNotFoundError } from '../../errors/url/url-not-found.error'
-import type { URLsRepository } from '../../repositories/url/url-repository'
+import { UrlNotFoundError } from '../../errors/url/url-not-found.error'
+import type { UrlsRepository } from '../../repositories/url/url-repository'
 
-interface FindURLByShortURLUseCaseRequest {
+interface FindUrlByShortUrlUseCaseRequest {
   shortUrl: string
 }
 
-type FindURLByShortURLUseCaseResponse = Either<URLNotFoundError, URL>
+type FindUrlByShortUrlUseCaseResponse = Either<UrlNotFoundError, UrlProps>
 
-export class FindURLByShortURLUseCase {
-  constructor(private urlsRepository: URLsRepository) { }
+export class FindUrlByShortUrlUseCase {
+  constructor(private urlsRepository: UrlsRepository) { }
 
   public async execute({
     shortUrl,
-  }: FindURLByShortURLUseCaseRequest): Promise<FindURLByShortURLUseCaseResponse> {
+  }: FindUrlByShortUrlUseCaseRequest): Promise<FindUrlByShortUrlUseCaseResponse> {
     const url = await this.urlsRepository.findByShortUrl(shortUrl)
 
     if (!url)
-      return left(new URLNotFoundError())
+      return left(new UrlNotFoundError())
 
     this.urlsRepository.updateClicksCount(url.id, url.clicksCount + 1)
 

@@ -1,30 +1,30 @@
 import type { Either } from '../../errors/either'
 import { left, right } from '../../errors/either'
-import { URLNotFoundError } from '../../errors/url/url-not-found.error'
-import type { URLsRepository } from '../../repositories/url/url-repository'
+import { UrlNotFoundError } from '../../errors/url/url-not-found.error'
+import type { UrlsRepository } from '../../repositories/url/url-repository'
 
-interface UpdateURLUseCaseRequest {
+interface UpdateUrlUseCaseRequest {
   id: string
   shortUrl?: string
   longUrl?: string
   clicksCount?: number
 }
 
-type UpdateURLUseCaseResponse = Either<URLNotFoundError, void>
+type UpdateUrlUseCaseResponse = Either<UrlNotFoundError, void>
 
-export class UpdateURLUseCase {
-  constructor(private urlsRepository: URLsRepository) { }
+export class UpdateUrlUseCase {
+  constructor(private urlsRepository: UrlsRepository) { }
 
   public async execute({
     id,
     shortUrl,
     longUrl,
     clicksCount,
-  }: UpdateURLUseCaseRequest): Promise<UpdateURLUseCaseResponse> {
+  }: UpdateUrlUseCaseRequest): Promise<UpdateUrlUseCaseResponse> {
     const url = await this.urlsRepository.findById(id)
 
     if (!url)
-      return left(new URLNotFoundError())
+      return left(new UrlNotFoundError())
 
     return right(
       await this.urlsRepository.update({

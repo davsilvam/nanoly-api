@@ -1,25 +1,25 @@
-import type { URL } from '../../entities/url'
+import type { UrlProps } from '../../entities/url/url'
 import type { Either } from '../../errors/either'
 import { left, right } from '../../errors/either'
 import { UserNotFoundError } from '../../errors/user/user-not-found.error'
-import type { URLsRepository } from '../../repositories/url/url-repository'
+import type { UrlsRepository } from '../../repositories/url/url-repository'
 import type { UsersRepository } from '../../repositories/user/users-repository'
 
-interface FetchUserURLsUseCaseRequest {
+interface FetchUserUrlsUseCaseRequest {
   userId: string
 }
 
-type FetchUserURLsUseCaseResponse = Either<UserNotFoundError, URL[]>
+type FetchUserUrlsUseCaseResponse = Either<UserNotFoundError, UrlProps[]>
 
-export class FetchUserURLsUseCase {
+export class FetchUserUrlsUseCase {
   constructor(
-    private urlsRepository: URLsRepository,
+    private urlsRepository: UrlsRepository,
     private usersRepository: UsersRepository,
   ) { }
 
   public async execute({
     userId,
-  }: FetchUserURLsUseCaseRequest): Promise<FetchUserURLsUseCaseResponse> {
+  }: FetchUserUrlsUseCaseRequest): Promise<FetchUserUrlsUseCaseResponse> {
     const user = await this.usersRepository.findById(userId)
 
     if (!user)
