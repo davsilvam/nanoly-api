@@ -19,5 +19,6 @@ export interface URLsRepository {
   findByShortUrl: (shortUrl: string) => Promise<URL | null>
   fetchByUser: (userId: string) => Promise<URL[]>
   update: (request: UpdateURLRequest) => Promise<void>
+  updateClicksCount: (id: string, clicksCount: number) => Promise<void>
   delete: (id: string) => Promise<void>
 }

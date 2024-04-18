@@ -21,6 +21,8 @@ export class FindURLByShortURLUseCase {
     if (!url)
       return left(new URLNotFoundError())
 
+    this.urlsRepository.updateClicksCount(url.id, url.clicksCount + 1)
+
     return right(url)
   }
 }

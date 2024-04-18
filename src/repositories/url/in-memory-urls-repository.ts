@@ -54,6 +54,14 @@ export class InMemoryURLsRepository implements URLsRepository {
     return Promise.resolve()
   }
 
+  updateClicksCount(id: string, clicksCount: number): Promise<void> {
+    const urlIndex = this.urls.findIndex(item => item.id === id)
+
+    this.urls[urlIndex].clicksCount = clicksCount
+
+    return Promise.resolve()
+  }
+
   delete(id: string): Promise<void> {
     const urlIndex = this.urls.findIndex(item => item.id === id)
 
