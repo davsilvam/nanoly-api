@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { makeAuthenticateUseCase } from '../../use-cases/user/factories/make-authenticate-use-case'
+import { makeAuthenticateUseCase } from '../../../use-cases/user/factories'
 
 const authenticateOptionsSwaggerInfo = {
   summary: 'Authenticate a user',
@@ -18,11 +18,7 @@ const authenticateOptionsRequest = {
 
 const authenticateOptionsResponse = {
   200: z.object({
-    id: z.string().uuid(),
-    name: z.string(),
-    email: z.string(),
-    created_at: z.date(),
-    updated_at: z.date(),
+    token: z.string(),
   }),
   400: z.object({
     message: z.string(),
@@ -53,12 +49,26 @@ export async function authenticate(app: FastifyInstance) {
         return reply.status(error.statusCode).send({ message: error.message })
       }
 
-      return reply.status(200).send({
-        id: result.value.id,
-        name: result.value.name,
-        email: result.value.email,
-        created_at: result.value.createdAt,
-        updated_at: result.value.updatedAt,
+      const token = await reply.jwtSign({
+        sign: {
+          sub: result.value.id,
+        },
+      })
+
+      const refreshToken = await reply.jwtSign({
+        sign: {
+          sub: result.value.id,
+          expiresIn: '7d',
+        },
+      })
+
+      return reply.setCookie('refreshToken', refreshToken, {
+        path: '/',
+        secure: true,
+        sameSite: true,
+        httpOnly: true,
+      }).status(200).send({
+        token,
       })
     },
   )

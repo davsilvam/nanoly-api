@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { makeRegisterUseCase } from '../../use-cases/user/factories/make-register-use-case'
+import { makeRegisterUseCase } from '../../../use-cases/user/factories'
 
 const registerOptionsSwaggerInfo = {
   summary: 'Register a new user',

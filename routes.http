@@ -20,3 +20,9 @@ Content-Type: application/json
     "email": "johndoe@email.com",
     "password": "123456"
 }
+
+###
+
+# @name profile
+GET {{baseUrl}}/me
+Authorization: Bearer {{authenticate.response.body.token}}

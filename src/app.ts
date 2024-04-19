@@ -1,4 +1,6 @@
+import fastifyCookie from '@fastify/cookie'
 import fastifyCors from '@fastify/cors'
+import fastifyJWT from '@fastify/jwt'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUI from '@fastify/swagger-ui'
 import fastify from 'fastify'
@@ -9,7 +11,7 @@ import {
 } from 'fastify-type-provider-zod'
 
 import { errorHandler } from './errors/error-handler'
-import { userController } from './http/user/user.controller'
+import { userController } from './http/controllers/user/user.controller'
 
 export const app = fastify()
 
@@ -19,6 +21,19 @@ app.setSerializerCompiler(serializerCompiler)
 app.register(fastifyCors, {
   origin: '*',
 })
+
+app.register(fastifyJWT, {
+  secret: 'sdmfdsakfhdasfsaklfhjnasdkmlfvdaslkfhdksl',
+  cookie: {
+    cookieName: 'refreshToken',
+    signed: false,
+  },
+  sign: {
+    expiresIn: '10m',
+  },
+})
+
+app.register(fastifyCookie)
 
 app.register(fastifySwagger, {
   swagger: {
