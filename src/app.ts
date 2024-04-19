@@ -8,6 +8,9 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 
+import { errorHandler } from './errors/error-handler'
+import { userController } from './http/user/user.controller'
+
 export const app = fastify()
 
 app.setValidatorCompiler(validatorCompiler)
@@ -34,3 +37,7 @@ app.register(fastifySwagger, {
 app.register(fastifySwaggerUI, {
   routePrefix: '/docs',
 })
+
+app.setErrorHandler(errorHandler)
+
+app.register(userController)

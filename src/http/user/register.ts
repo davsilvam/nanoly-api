@@ -1,43 +1,60 @@
-// import type { FastifyInstance } from 'fastify'
-// import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-// import { z } from 'zod'
+import type { FastifyInstance } from 'fastify'
+import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { z } from 'zod'
 
-// const registerOptionsSwaggerInfo = {
-//   summary: 'Register a new user',
-//   tags: ['user'],
-// }
+import { makeRegisterUseCase } from '../../use-cases/user/factories/make-register-use-case'
 
-// const registerOptionsRequest = {
-//   body: z.object({
-//     name: z.string().min(3, 'Name must have at least 3 characters.'),
-//     email: z.string().email('Invalid email.').min(5, 'Email must have at least 5 characters.'),
-//     password: z.string().min(6, 'Password must have at least 6 characters.'),
-//   }),
-// }
+const registerOptionsSwaggerInfo = {
+  summary: 'Register a new user',
+  tags: ['user'],
+}
 
-// const registerOptionsResponse = {
-//   201: z.object({
-//     id: z.number(),
-//   }),
-//   409: z.object({
-//     message: z.string(),
-//   }),
-// }
+const registerOptionsRequest = {
+  body: z.object({
+    name: z.string().min(3),
+    email: z.string().email().min(5),
+    password: z.string().min(6),
+  }),
+}
 
-// const registerOptions = {
-//   schema: {
-//     ...registerOptionsSwaggerInfo,
-//     ...registerOptionsRequest,
-//     response: registerOptionsResponse,
-//   },
-// }
+const registerOptionsResponse = {
+  201: z.object({
+    user_id: z.string(),
+  }),
+  400: z.object({
+    message: z.string(),
+    errors: z.record(z.array(z.string())).optional(),
+  }),
+  409: z.object({
+    message: z.string(),
+  }),
+}
 
-// export async function register(app: FastifyInstance) {
-//   app.withTypeProvider<ZodTypeProvider>().post(
-//     '/user/register',
-//     registerOptions,
-//     async (request, reply) => {
+const registerOptions = {
+  schema: {
+    ...registerOptionsSwaggerInfo,
+    ...registerOptionsRequest,
+    response: registerOptionsResponse,
+  },
+}
 
-//     },
-//   )
-// }
+export async function register(app: FastifyInstance) {
+  return app.withTypeProvider<ZodTypeProvider>().post(
+    '/users',
+    registerOptions,
+    async (request, reply) => {
+      const { name, email, password } = request.body
+
+      const registerUseCase = makeRegisterUseCase()
+
+      const result = await registerUseCase.execute({ name, email, password })
+
+      if (result.isLeft()) {
+        const error = result.value
+        return reply.status(error.statusCode).send({ message: error.message })
+      }
+
+      return reply.status(201).send({ user_id: result.value })
+    },
+  )
+}

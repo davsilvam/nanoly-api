@@ -8,7 +8,7 @@ export class UserAlreadyExistsError extends Error {
 
   constructor(
     message: string = 'User already exists.',
-    statusCode: number = 400,
+    statusCode: number = 409,
   ) {
     super(message)
 

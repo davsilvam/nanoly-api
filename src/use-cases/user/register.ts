@@ -13,7 +13,7 @@ interface RegisterUseCaseRequest {
 }
 
 type RegisterUseCaseResponse = Either<
-  UserAlreadyExistsError | InvalidCredentialsError,
+  InvalidCredentialsError | UserAlreadyExistsError,
   string
 >
 

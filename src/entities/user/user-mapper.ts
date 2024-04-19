@@ -1,6 +1,4 @@
-import type { UserProps } from './user'
 import { User } from './user'
-import { UserDTO } from './user-dto'
 import type { CreateUserRequest } from '../../repositories/user/users-repository'
 
 export class UserMapper {
@@ -10,9 +8,5 @@ export class UserMapper {
       email,
       passwordHash,
     })
-  }
-
-  static toDTO(props: UserProps): UserDTO {
-    return new UserDTO(props)
   }
 }
