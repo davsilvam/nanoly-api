@@ -4,44 +4,34 @@ import { z } from 'zod'
 
 import { makeRegisterUseCase } from '../../../use-cases/user/factories'
 
-const registerOptionsSwaggerInfo = {
-  summary: 'Register a new user',
-  tags: ['user'],
-}
-
-const registerOptionsRequest = {
-  body: z.object({
-    name: z.string().min(3),
-    email: z.string().email().min(5),
-    password: z.string().min(6),
-  }),
-}
-
-const registerOptionsResponse = {
-  201: z.object({
-    user_id: z.string(),
-  }),
-  400: z.object({
-    message: z.string(),
-    errors: z.record(z.array(z.string())).optional(),
-  }),
-  409: z.object({
-    message: z.string(),
-  }),
-}
-
-const registerOptions = {
+const options = {
   schema: {
-    ...registerOptionsSwaggerInfo,
-    ...registerOptionsRequest,
-    response: registerOptionsResponse,
+    summary: 'Register a new user',
+    tags: ['user'],
+    body: z.object({
+      name: z.string().min(3),
+      email: z.string().email().min(5),
+      password: z.string().min(6),
+    }),
+    response: {
+      201: z.object({
+        user_id: z.string(),
+      }),
+      400: z.object({
+        message: z.string(),
+        errors: z.record(z.array(z.string())).optional(),
+      }),
+      409: z.object({
+        message: z.string(),
+      }),
+    },
   },
 }
 
 export async function register(app: FastifyInstance) {
   return app.withTypeProvider<ZodTypeProvider>().post(
     '/users',
-    registerOptions,
+    options,
     async (request, reply) => {
       const { name, email, password } = request.body
 

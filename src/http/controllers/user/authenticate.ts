@@ -4,39 +4,33 @@ import { z } from 'zod'
 
 import { makeAuthenticateUseCase } from '../../../use-cases/user/factories'
 
-const authenticateOptionsSwaggerInfo = {
-  summary: 'Authenticate a user',
-  tags: ['user'],
-}
-
-const authenticateOptionsRequest = {
-  body: z.object({
-    email: z.string().email('Invalid email.').min(5, 'Email must have at least 5 characters.'),
-    password: z.string().min(6, 'Password must have at least 6 characters.'),
-  }),
-}
-
-const authenticateOptionsResponse = {
-  200: z.object({
-    token: z.string(),
-  }),
-  400: z.object({
-    message: z.string(),
-  }),
-}
-
-const authenticateOptions = {
+const options = {
   schema: {
-    ...authenticateOptionsSwaggerInfo,
-    ...authenticateOptionsRequest,
-    response: authenticateOptionsResponse,
+    summary: 'Authenticate a user',
+    tags: ['user'],
+    body: z.object({
+      email: z.string()
+        .email('Invalid email.')
+        .min(5, 'Email must have at least 5 characters.'),
+      password: z.string()
+        .min(6, 'Password must have at least 6 characters.'),
+    }),
+    response: {
+      200: z.object({
+        token: z.string(),
+      }),
+      400: z.object({
+        message: z.string(),
+        errors: z.record(z.array(z.string())).optional(),
+      }),
+    },
   },
 }
 
 export async function authenticate(app: FastifyInstance) {
   return app.withTypeProvider<ZodTypeProvider>().post(
     '/sessions',
-    authenticateOptions,
+    options,
     async (request, reply) => {
       const { email, password } = request.body
 
