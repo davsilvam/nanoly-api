@@ -3,8 +3,10 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 import { makeDeleteUrlUseCase } from '../../../use-cases/url/factories'
+import { verifyJWT } from '../../middlewares/verify-jwt'
 
 const options = {
+  onRequest: [verifyJWT],
   schema: {
     summary: 'Delete a url',
     tags: ['url'],
@@ -32,14 +34,13 @@ export async function deleteUrl(app: FastifyInstance) {
     '/urls/:id',
     options,
     async (request, reply) => {
-      const { id } = request.params
-      const user = request.user
+      const { id } = request.params as { id: string }
 
       const deleteUrlUseCase = makeDeleteUrlUseCase()
 
       const result = await deleteUrlUseCase.execute({
         id,
-        userId: user.sign.sub,
+        userId: request.user.sign.sub,
       })
 
       if (result.isLeft()) {

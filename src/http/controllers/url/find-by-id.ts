@@ -3,6 +3,7 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 import { makeFindUrlByIdUseCase } from '../../../use-cases/url/factories'
+import { verifyJWT } from '../../middlewares/verify-jwt'
 
 const options = {
   schema: {
@@ -33,6 +34,7 @@ const options = {
       }),
     },
   },
+  onRequest: [verifyJWT],
 }
 
 export async function findById(app: FastifyInstance) {
@@ -40,14 +42,13 @@ export async function findById(app: FastifyInstance) {
     '/urls/:id',
     options,
     async (request, reply) => {
-      const { id } = request.params
-      const user = request.user
+      const { id } = request.params as { id: string }
 
       const findUrlByIdUseCase = makeFindUrlByIdUseCase()
 
       const result = await findUrlByIdUseCase.execute({
         id,
-        userId: user.sign.sub,
+        userId: request.user.sign.sub,
       })
 
       if (result.isLeft()) {

@@ -3,6 +3,7 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 import { makeFetchUserUrlsUseCase } from '../../../use-cases/url/factories'
+import { verifyJWT } from '../../middlewares/verify-jwt'
 
 const options = {
   schema: {
@@ -27,6 +28,7 @@ const options = {
       }),
     },
   },
+  onRequest: [verifyJWT],
 }
 
 export async function fetch(app: FastifyInstance) {
@@ -34,12 +36,10 @@ export async function fetch(app: FastifyInstance) {
     '/me/urls',
     options,
     async (request, reply) => {
-      const user = request.user
-
       const fetchUserUrlsUseCase = makeFetchUserUrlsUseCase()
 
       const result = await fetchUserUrlsUseCase.execute({
-        userId: user.sign.sub,
+        userId: request.user.sign.sub,
       })
 
       if (result.isLeft()) {
