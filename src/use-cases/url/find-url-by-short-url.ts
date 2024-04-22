@@ -8,7 +8,7 @@ interface FindUrlByShortUrlUseCaseRequest {
   shortUrl: string
 }
 
-type FindUrlByShortUrlUseCaseResponse = Either<UrlNotFoundError, UrlProps>
+type FindUrlByShortUrlUseCaseResponse = Either<UrlNotFoundError, string>
 
 export class FindUrlByShortUrlUseCase {
   constructor(private urlsRepository: UrlsRepository) { }
@@ -23,6 +23,6 @@ export class FindUrlByShortUrlUseCase {
 
     this.urlsRepository.updateClicksCount(url.id, url.clicksCount + 1)
 
-    return right(url)
+    return right(url.longUrl)
   }
 }

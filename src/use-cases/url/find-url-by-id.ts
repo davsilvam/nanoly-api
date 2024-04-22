@@ -12,7 +12,7 @@ interface FindUrlByIdUseCaseRequest {
   userId: string
 }
 
-type FindUrlByIdUseCaseResponse = Either<UrlNotFoundError | UserNotFoundError | UnauthorizedUserError, UrlProps | null>
+type FindUrlByIdUseCaseResponse = Either<UrlNotFoundError | UserNotFoundError | UnauthorizedUserError, UrlProps>
 
 export class FindUrlByIdUseCase {
   constructor(private urlsRepository: UrlsRepository, private usersRepository: UsersRepository) { }

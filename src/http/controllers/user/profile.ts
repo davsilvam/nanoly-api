@@ -39,7 +39,7 @@ export async function profile(app: FastifyInstance) {
       if (result.isLeft())
         return reply.status(404).send({ message: result.value.message })
 
-      reply.status(200).send({
+      return reply.status(200).send({
         id: result.value.id,
         name: result.value.name,
         email: result.value.email,

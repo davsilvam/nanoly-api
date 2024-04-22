@@ -11,6 +11,7 @@ import {
 } from 'fastify-type-provider-zod'
 
 import { errorHandler } from './errors/error-handler'
+import { urlController } from './http/controllers/url/url.controller'
 import { userController } from './http/controllers/user/user.controller'
 
 export const app = fastify()
@@ -56,3 +57,4 @@ app.register(fastifySwaggerUI, {
 app.setErrorHandler(errorHandler)
 
 app.register(userController)
+app.register(urlController)
