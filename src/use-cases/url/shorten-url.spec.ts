@@ -49,6 +49,6 @@ describe('shorten url use case', () => {
     })
 
     expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(ShortUrlAlreadyExistsError)
+    expect(result.isLeft() && result.value).toBeInstanceOf(ShortUrlAlreadyExistsError)
   })
 })

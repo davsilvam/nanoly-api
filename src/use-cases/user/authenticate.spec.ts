@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import { AuthenticateUseCase } from './authenticate'
-import type { UserProps } from '../../entities/user/user'
 import { InvalidCredentialsError } from '../../errors/user/invalid-credentials.error'
 import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
 
@@ -50,7 +49,7 @@ describe('authenticate use case', () => {
 
   it('should not be able to authenticate a user that does not exist', async () => {
     const result = await sut.execute({
-      email: 'email',
+      email: 'inexistent-email',
       password: 'password',
     })
 

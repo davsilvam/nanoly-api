@@ -50,6 +50,6 @@ describe('fetch user urls use case', () => {
     const result = await sut.execute({ userId: 'non-existent-user-id' })
 
     expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(UserNotFoundError)
+    expect(result.isLeft() && result.value).toBeInstanceOf(UserNotFoundError)
   })
 })

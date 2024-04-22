@@ -32,7 +32,7 @@ describe('update url use case', () => {
     })
 
     expect(result.isRight()).toBe(true)
-    expect(result.value).toBeUndefined()
+    expect(result.isRight() && result.value).toBeUndefined()
 
     const updatedUrl = await urlsRepository.findById(urlId)
 
@@ -47,6 +47,6 @@ describe('update url use case', () => {
     })
 
     expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(UrlNotFoundError)
+    expect(result.isLeft() && result.value).toBeInstanceOf(UrlNotFoundError)
   })
 })
