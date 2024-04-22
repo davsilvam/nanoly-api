@@ -9,7 +9,7 @@ const options = {
   schema: {
     summary: 'Get user profile',
     tags: ['user'],
-    request: {
+    response: {
       200: z.object({
         id: z.string(),
         name: z.string(),
