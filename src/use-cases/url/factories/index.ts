@@ -1,5 +1,5 @@
 export * from './make-delete-url-use-case'
 export * from './make-fetch-user-urls-use-case'
 export * from './make-find-url-by-id-use-case'
-export * from './make-find-url-by-short-url-use-case'
+export * from './make-get-redirect-url-use-case'
 export * from './make-shorten-url'

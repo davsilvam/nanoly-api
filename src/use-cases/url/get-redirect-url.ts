@@ -1,21 +1,20 @@
-import type { UrlProps } from '../../entities/url/url'
 import type { Either } from '../../errors/either'
 import { left, right } from '../../errors/either'
 import { UrlNotFoundError } from '../../errors/url/url-not-found.error'
 import type { UrlsRepository } from '../../repositories/url/url-repository'
 
-interface FindUrlByShortUrlUseCaseRequest {
+interface GetRedirectUrlUseCaseRequest {
   shortUrl: string
 }
 
-type FindUrlByShortUrlUseCaseResponse = Either<UrlNotFoundError, string>
+type GetRedirectUrlUseCaseResponse = Either<UrlNotFoundError, string>
 
-export class FindUrlByShortUrlUseCase {
+export class GetRedirectUrlUseCase {
   constructor(private urlsRepository: UrlsRepository) { }
 
   public async execute({
     shortUrl,
-  }: FindUrlByShortUrlUseCaseRequest): Promise<FindUrlByShortUrlUseCaseResponse> {
+  }: GetRedirectUrlUseCaseRequest): Promise<GetRedirectUrlUseCaseResponse> {
     const url = await this.urlsRepository.findByShortUrl(shortUrl)
 
     if (!url)

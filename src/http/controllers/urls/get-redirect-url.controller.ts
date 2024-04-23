@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { makeFindUrlByShortUrlUseCase } from '../../../use-cases/url/factories'
+import { makeGetRedirectUrlUseCase } from '../../../use-cases/url/factories'
 
 const options = {
   schema: {
@@ -26,16 +26,16 @@ const options = {
   },
 }
 
-export async function redirect(app: FastifyInstance) {
+export async function getRedirectUrl(app: FastifyInstance, path: string) {
   return app.withTypeProvider<ZodTypeProvider>().get(
-    '/urls/redirect/:shortUrl',
+    path,
     options,
     async (request, reply) => {
       const { shortUrl } = request.params
 
-      const findUrlByShortUrlUseCase = makeFindUrlByShortUrlUseCase()
+      const getRedirectUrlUseCase = makeGetRedirectUrlUseCase()
 
-      const result = await findUrlByShortUrlUseCase.execute({
+      const result = await getRedirectUrlUseCase.execute({
         shortUrl,
       })
 

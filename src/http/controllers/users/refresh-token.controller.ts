@@ -14,9 +14,9 @@ const options = {
   },
 }
 
-export async function refresh(app: FastifyInstance) {
+export async function refreshToken(app: FastifyInstance, path: string) {
   app.withTypeProvider<ZodTypeProvider>().patch(
-    '/token/refresh',
+    path,
     options,
     async (request, reply) => {
       await request.jwtVerify({ onlyCookie: true })

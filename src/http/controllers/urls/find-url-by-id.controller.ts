@@ -37,9 +37,9 @@ const options = {
   onRequest: [verifyJWT],
 }
 
-export async function findById(app: FastifyInstance) {
+export async function findUrlById(app: FastifyInstance, path: string) {
   return app.withTypeProvider<ZodTypeProvider>().get(
-    '/urls/:id',
+    path,
     options,
     async (request, reply) => {
       const { id } = request.params as { id: string }

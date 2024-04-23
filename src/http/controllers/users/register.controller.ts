@@ -28,9 +28,9 @@ const options = {
   },
 }
 
-export async function register(app: FastifyInstance) {
+export async function register(app: FastifyInstance, path: string) {
   return app.withTypeProvider<ZodTypeProvider>().post(
-    '/users',
+    path,
     options,
     async (request, reply) => {
       const { name, email, password } = request.body

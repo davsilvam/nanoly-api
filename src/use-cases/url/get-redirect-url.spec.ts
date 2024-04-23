@@ -1,16 +1,16 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { FindUrlByShortUrlUseCase } from './find-url-by-short-url'
+import { GetRedirectUrlUseCase } from './get-redirect-url'
 import { UrlNotFoundError } from '../../errors/url/url-not-found.error'
 import { InMemoryUrlsRepository } from '../../repositories/url/in-memory-urls-repository'
 
 let urlsRepository: InMemoryUrlsRepository
-let sut: FindUrlByShortUrlUseCase
+let sut: GetRedirectUrlUseCase
 
-describe('find url by short url case', () => {
+describe('get redirect url url case', () => {
   beforeEach(async () => {
     urlsRepository = new InMemoryUrlsRepository()
-    sut = new FindUrlByShortUrlUseCase(urlsRepository)
+    sut = new GetRedirectUrlUseCase(urlsRepository)
   })
 
   it('should be able to get a url by short url', async () => {

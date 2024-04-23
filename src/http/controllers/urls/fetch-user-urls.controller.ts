@@ -31,9 +31,9 @@ const options = {
   onRequest: [verifyJWT],
 }
 
-export async function fetch(app: FastifyInstance) {
+export async function fetchUserUrls(app: FastifyInstance, path: string) {
   return app.withTypeProvider<ZodTypeProvider>().get(
-    '/me/urls',
+    path,
     options,
     async (request, reply) => {
       const fetchUserUrlsUseCase = makeFetchUserUrlsUseCase()

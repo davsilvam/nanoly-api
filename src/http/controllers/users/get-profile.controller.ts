@@ -25,9 +25,9 @@ const options = {
   onRequest: [verifyJWT],
 }
 
-export async function profile(app: FastifyInstance) {
+export async function getProfile(app: FastifyInstance, path: string) {
   return app.withTypeProvider<ZodTypeProvider>().get(
-    '/me',
+    path,
     options,
     async (request, reply) => {
       const getUserProfileUseCase = makeGetUserProfileUseCase()

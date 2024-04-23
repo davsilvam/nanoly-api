@@ -6,7 +6,6 @@ import { makeDeleteUrlUseCase } from '../../../use-cases/url/factories'
 import { verifyJWT } from '../../middlewares/verify-jwt'
 
 const options = {
-  onRequest: [verifyJWT],
   schema: {
     summary: 'Delete a url',
     tags: ['url'],
@@ -27,11 +26,12 @@ const options = {
       }),
     },
   },
+  onRequest: [verifyJWT],
 }
 
-export async function deleteUrl(app: FastifyInstance) {
+export async function deleteUrl(app: FastifyInstance, path: string) {
   return app.withTypeProvider<ZodTypeProvider>().delete(
-    '/urls/:id',
+    path,
     options,
     async (request, reply) => {
       const { id } = request.params as { id: string }

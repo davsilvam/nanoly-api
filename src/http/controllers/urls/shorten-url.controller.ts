@@ -28,9 +28,9 @@ const options = {
   },
 }
 
-export async function shorten(app: FastifyInstance) {
+export async function shortenUrl(app: FastifyInstance, path: string) {
   return app.withTypeProvider<ZodTypeProvider>().post(
-    '/urls',
+    path,
     options,
     async (request, reply) => {
       const { longUrl, shortUrl, userId } = request.body

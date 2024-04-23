@@ -27,9 +27,9 @@ const options = {
   },
 }
 
-export async function authenticate(app: FastifyInstance) {
+export async function authenticate(app: FastifyInstance, path: string) {
   return app.withTypeProvider<ZodTypeProvider>().post(
-    '/sessions',
+    path,
     options,
     async (request, reply) => {
       const { email, password } = request.body
