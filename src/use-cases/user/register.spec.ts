@@ -4,6 +4,7 @@ import { RegisterUseCase } from './register'
 import { InvalidCredentialsError } from '../../errors/user/invalid-credentials.error'
 import { UserAlreadyExistsError } from '../../errors/user/user-already-exists.error'
 import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
+import { BcryptEncrypter } from '../../utils/bcrypt-encrypter'
 
 let usersRepository: InMemoryUsersRepository
 let sut: RegisterUseCase
@@ -11,7 +12,8 @@ let sut: RegisterUseCase
 describe('register use case', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
-    sut = new RegisterUseCase(usersRepository)
+    const bcryptEncrypter = new BcryptEncrypter()
+    sut = new RegisterUseCase(usersRepository, bcryptEncrypter)
   })
 
   it('should be able to register a user', async () => {

@@ -12,7 +12,8 @@ type GetUserProfileUseCaseResponse = Either<UserNotFoundError, UserProps>
 export class GetUserProfileUseCase {
   constructor(private usersRepository: UsersRepository) { }
 
-  public async execute({ id }: GetUserProfileUseCaseRequest): Promise<GetUserProfileUseCaseResponse> {
+  public async execute({ id }: GetUserProfileUseCaseRequest):
+  Promise<GetUserProfileUseCaseResponse> {
     const user = await this.usersRepository.findById(id)
 
     if (!user)

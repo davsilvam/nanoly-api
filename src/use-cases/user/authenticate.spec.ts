@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { AuthenticateUseCase } from './authenticate'
 import { InvalidCredentialsError } from '../../errors/user/invalid-credentials.error'
 import { InMemoryUsersRepository } from '../../repositories/user/in-memory-users-repository'
+import { BcryptEncrypter } from '../../utils/bcrypt-encrypter'
 
 let usersRepository: InMemoryUsersRepository
 let sut: AuthenticateUseCase
@@ -12,7 +13,8 @@ const PASSWORD_HASH
 describe('authenticate use case', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
-    sut = new AuthenticateUseCase(usersRepository)
+    const bcryptEncrypter = new BcryptEncrypter()
+    sut = new AuthenticateUseCase(usersRepository, bcryptEncrypter)
   })
 
   it('should be able to authenticate a user', async () => {
