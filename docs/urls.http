@@ -1,3 +1,40 @@
 @baseUrl = http://localhost:3333
+@authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWduIjp7InN1YiI6ImEyNWYxOGJkLTkxODYtNDkxYy05ZWQyLTlhNjQ2M2M1ZTI3ZiJ9LCJpYXQiOjE3MTM4OTY2MDIsImV4cCI6MTcxMzg5NzIwMn0.14H-Jb28GrPMwVXTpxGdYXCGO5Ey-_eg-FvU2fey9yk
 
-# @name  
+# @name shortenUrl
+
+POST {{baseUrl}}/urls
+Content-Type: application/json
+
+{
+  "long_url": "https://www.google.com",
+  "short_url": "google",
+  "user_id": "a25f18bd-9186-491c-9ed2-9a6463c5e27f"
+}
+
+###
+
+# @name getUrlById
+
+GET {{baseUrl}}/urls/{{shortenUrl.response.body.url_id}}
+Authorization: {{authorization}}
+
+###
+
+# @name getRedirectUrl
+
+GET {{baseUrl}}/urls/google/redirect
+Authorization: {{authorization}}
+
+###
+
+# @name getUserUrls
+GET {{baseUrl}}/users/profile/urls
+Authorization: {{authorization}}
+
+###
+
+# @name deleteUrl
+
+DELETE {{baseUrl}}/urls/{{shortenUrl.response.body.url_id}}
+Authorization: {{authorization}}

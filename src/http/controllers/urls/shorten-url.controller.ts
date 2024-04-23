@@ -9,9 +9,9 @@ const options = {
     summary: 'Shorten a url',
     tags: ['url'],
     body: z.object({
-      longUrl: z.string(),
-      shortUrl: z.string(),
-      userId: z.string().uuid(),
+      long_url: z.string(),
+      short_url: z.string(),
+      user_id: z.string().uuid(),
     }),
     response: {
       201: z.object({
@@ -33,7 +33,7 @@ export async function shortenUrl(app: FastifyInstance, path: string) {
     path,
     options,
     async (request, reply) => {
-      const { longUrl, shortUrl, userId } = request.body
+      const { long_url: longUrl, short_url: shortUrl, user_id: userId } = request.body
 
       const shortenUrlUseCase = makeShortenUrlUseCase()
 

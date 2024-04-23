@@ -23,13 +23,13 @@ Content-Type: application/json
 
 ###
 
-# @name refresh-token
+# @name refreshToken
 
 PATCH {{baseUrl}}/token/refresh
 Authorization: Bearer {{authenticate.response.body.token}}
 
 ###
 
-# @name get-profile
+# @name getProfile
 GET {{baseUrl}}/users/profile
 Authorization: Bearer {{authenticate.response.body.token}}

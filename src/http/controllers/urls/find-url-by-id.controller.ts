@@ -16,7 +16,7 @@ const options = {
       200: z.object({
         id: z.string().uuid(),
         long_url: z.string().url(),
-        short_url: z.string().url(),
+        short_url: z.string(),
         clicks_count: z.number(),
         created_at: z.date(),
         updated_at: z.date(),
