@@ -19,7 +19,7 @@ export async function refreshToken(app: FastifyInstance, path: string) {
     path,
     options,
     async (request, reply) => {
-      await request.jwtVerify({ onlyCookie: true })
+      await request.jwtVerify()
 
       const token = await reply.jwtSign(
         {

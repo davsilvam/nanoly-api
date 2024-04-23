@@ -11,7 +11,7 @@ export async function urlsRoutes(app: FastifyInstance) {
 
   await getRedirectUrl(app, '/urls/:shortUrl/redirect')
   await findUrlById(app, '/urls/:id')
-  await fetchUserUrls(app, '/urls')
+  await fetchUserUrls(app, '/users/profile/urls')
 
   await deleteUrl(app, '/urls/:id')
 }
