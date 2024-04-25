@@ -38,6 +38,7 @@
     "@antfu/eslint-config": "^2.14.0",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.12.7",
+    "dotenv": "^16.4.5",
     "eslint-plugin-format": "^0.1.1",
     "prisma": "^5.12.1",
     "tsup": "^8.0.2",

@@ -10,6 +10,7 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 
+import { env } from './infra/config/env'
 import { errorHandler } from './interface/error-handler'
 import { urlsRoutes } from './interface/http/routes/urls.routes'
 import { usersRoutes } from './interface/http/routes/users.routes'
@@ -24,7 +25,7 @@ app.register(fastifyCors, {
 })
 
 app.register(fastifyJWT, {
-  secret: 'sdmfdsakfhdasfsaklfhjnasdkmlfvdaslkfhdksl',
+  secret: env.JWT_SECRET,
   cookie: {
     cookieName: 'refreshToken',
     signed: false,
