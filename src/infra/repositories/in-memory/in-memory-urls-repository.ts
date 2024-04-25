@@ -18,9 +18,9 @@ export class InMemoryUrlsRepository implements UrlsRepository {
   }
 
   findById(id: string): Promise<UrlProps | null> {
-    const url = this.urls.find(item => item.id === id) || null
+    const url = this.urls.find(item => item.id === id)
 
-    return Promise.resolve(url)
+    return Promise.resolve(url?.toObject() || null)
   }
 
   findByShortUrl(shortUrl: string): Promise<UrlProps | null> {

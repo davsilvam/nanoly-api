@@ -36,8 +36,10 @@ describe('update url use case', () => {
 
     const updatedUrl = await urlsRepository.findById(urlId)
 
-    expect(updatedUrl).toBeInstanceOf(Url)
-    expect(updatedUrl?.longUrl).toBe('https://www.google.com.br')
+    expect(updatedUrl).toStrictEqual({
+      ...url,
+      longUrl: 'https://www.google.com.br',
+    })
   })
 
   it('should not be able to update a url by a non-existent id', async () => {

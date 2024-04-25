@@ -29,8 +29,13 @@ describe('authenticate use case', () => {
       password: 'password',
     })
 
+    const user = await usersRepository.findByEmail('email')
+
+    if (!user)
+      throw new Error('User not found.')
+
     expect(result.isRight()).toBe(true)
-    expect(result.isRight() && result.value.email).toEqual('email')
+    expect(result.isRight() && result.value).toStrictEqual(user)
   })
 
   it('should not be able to authenticate a user with invalid credentials', async () => {

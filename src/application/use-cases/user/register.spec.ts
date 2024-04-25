@@ -23,8 +23,13 @@ describe('register use case', () => {
       password: 'password',
     })
 
+    const user = await usersRepository.findByEmail('email')
+
+    if (!user)
+      throw new Error('User not found.')
+
     expect(result.isRight()).toBe(true)
-    expect(result.isRight() && result.value).toStrictEqual(expect.any(String))
+    expect(result.isRight() && result.value).toEqual(user.id)
   })
 
   it('should be not able to register a user with no name', async () => {

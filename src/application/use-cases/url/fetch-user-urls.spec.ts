@@ -41,9 +41,7 @@ describe('fetch user urls use case', () => {
 
     expect(result.isRight()).toBe(true)
     expect(result.isRight() && result.value).toBeInstanceOf(Array<UrlProps>)
-    expect(result.isRight() && result.value[0].shortUrl).toBe('google')
-    expect(result.isRight() && result.value[0].longUrl).toBe('https://www.google.com')
-    expect(result.isRight() && result.value[0].userId).toBe(userId)
+    expect(result.isRight() && result.value[0]).toStrictEqual(url)
   })
 
   it('should not be able to fetch urls by a non-existent user id', async () => {

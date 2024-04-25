@@ -41,7 +41,7 @@ describe('find url by id use case', () => {
     const result = await sut.execute({ id: url.id, userId })
 
     expect(result.isRight()).toBe(true)
-    expect(result.isRight() && result.value?.shortUrl).toBe('google')
+    expect(result.isRight() && result.value).toStrictEqual(url)
   })
 
   it('should not be able to get a url by a non-existent id', async () => {

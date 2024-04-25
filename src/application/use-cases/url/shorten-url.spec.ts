@@ -31,8 +31,13 @@ describe('shorten url use case', () => {
       userId,
     })
 
+    const url = await urlsRepository.findByShortUrl('google')
+
+    if (!url)
+      throw new Error('Url not found.')
+
     expect(result.isRight()).toBe(true)
-    expect(result.isRight() && result.value).toStrictEqual(expect.any(String))
+    expect(result.isRight() && result.value).toEqual(url.id)
   })
 
   it('should not be able to shorten an url with an existing short url', async () => {
