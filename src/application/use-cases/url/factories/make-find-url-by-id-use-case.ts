@@ -1,0 +1,11 @@
+import { PrismaUrlsRepository } from '../../../../infra/repositories/prisma/prisma-urls-repository'
+import { PrismaUsersRepository } from '../../../../infra/repositories/prisma/prisma-users-repository'
+import { FindUrlByIdUseCase } from '../find-url-by-id'
+
+export function makeFindUrlByIdUseCase() {
+  const urlsRepository = new PrismaUrlsRepository()
+  const usersRepository = new PrismaUsersRepository()
+  const findUrlByIdUseCase = new FindUrlByIdUseCase(urlsRepository, usersRepository)
+
+  return findUrlByIdUseCase
+}

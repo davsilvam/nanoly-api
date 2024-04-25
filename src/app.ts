@@ -10,9 +10,9 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 
-import { errorHandler } from './errors/error-handler'
-import { urlsRoutes } from './http/controllers/urls/routes'
-import { usersRoutes } from './http/controllers/users/routes'
+import { errorHandler } from './interface/error-handler'
+import { urlsRoutes } from './interface/http/routes/urls.routes'
+import { usersRoutes } from './interface/http/routes/users.routes'
 
 export const app = fastify()
 
