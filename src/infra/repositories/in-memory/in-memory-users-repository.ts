@@ -1,15 +1,16 @@
-import type { User, UserProps } from '../../../domain/entities/user/user'
-import { UserMapper } from '../../../domain/entities/user/user-mapper'
-import type {
-  CreateUserRequest,
-  UsersRepository,
-} from '../../../domain/repositories/users-repository'
+import type { CreateUserRequest, UsersRepository } from '../../../application/repositories/users-repository'
+import type { UserProps } from '../../../domain/entities/user'
+import { User } from '../../../domain/entities/user'
 
 export class InMemoryUsersRepository implements UsersRepository {
   private users: User[] = []
 
   async create({ name, email, passwordHash }: CreateUserRequest): Promise<string> {
-    const user = UserMapper.toEntity({ name, email, passwordHash })
+    const user = new User({
+      name,
+      email,
+      passwordHash,
+    })
 
     this.users.push(user)
 

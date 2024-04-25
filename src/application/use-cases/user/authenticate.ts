@@ -1,9 +1,9 @@
+import type { Encrypter } from './cryptography/encrypter'
 import { InvalidCredentialsError } from './errors/invalid-credentials.error'
-import type { UserProps } from '../../../domain/entities/user/user'
-import type { Either } from '../../../domain/errors/either'
-import { left, right } from '../../../domain/errors/either'
-import type { UsersRepository } from '../../../domain/repositories/users-repository'
-import type { Encrypter } from '../../../infra/cryptography/encrypter'
+import type { UserProps } from '../../../domain/entities/user'
+import type { Either } from '../../errors/either'
+import { left, right } from '../../errors/either'
+import type { UsersRepository } from '../../repositories/users-repository'
 
 interface AuthenticateUseCaseRequest {
   email: string

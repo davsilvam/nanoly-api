@@ -1,4 +1,4 @@
-import type { UserProps } from '../entities/user/user'
+import type { UserProps } from '../../domain/entities/user'
 
 export interface CreateUserRequest {
   name: string

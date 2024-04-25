@@ -1,8 +1,8 @@
 import { ShortUrlAlreadyExistsError } from './errors/short-url-already-exists.error'
-import type { Either } from '../../../domain/errors/either'
-import { left, right } from '../../../domain/errors/either'
-import type { UrlsRepository } from '../../../domain/repositories/url-repository'
-import type { UsersRepository } from '../../../domain/repositories/users-repository'
+import type { Either } from '../../errors/either'
+import { left, right } from '../../errors/either'
+import type { UrlsRepository } from '../../repositories/urls-repository'
+import type { UsersRepository } from '../../repositories/users-repository'
 import { UserNotFoundError } from '../user/errors/user-not-found.error'
 
 interface ShortenUrlUseCaseRequest {

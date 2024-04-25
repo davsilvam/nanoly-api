@@ -1,8 +1,8 @@
-import type { UrlProps } from '../../../domain/entities/url/url'
-import type { Either } from '../../../domain/errors/either'
-import { left, right } from '../../../domain/errors/either'
-import type { UrlsRepository } from '../../../domain/repositories/url-repository'
-import type { UsersRepository } from '../../../domain/repositories/users-repository'
+import type { UrlProps } from '../../../domain/entities/url'
+import type { Either } from '../../errors/either'
+import { left, right } from '../../errors/either'
+import type { UrlsRepository } from '../../repositories/urls-repository'
+import type { UsersRepository } from '../../repositories/users-repository'
 import { UserNotFoundError } from '../user/errors/user-not-found.error'
 
 interface FetchUserUrlsUseCaseRequest {

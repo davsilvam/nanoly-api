@@ -1,4 +1,4 @@
-import type { UrlProps } from '../../../domain/entities/url/url'
+import type { UrlProps } from '../../../domain/entities/url'
 import type { CreateUrlRequest, UpdateUrlRequest, UrlsRepository } from '../../../domain/repositories/url-repository'
 import { prisma } from '../../lib/prisma'
 

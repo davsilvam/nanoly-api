@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { makeShortenUrlUseCase } from '../../../../application/use-cases/url/factories'
+import { makeShortenUrlUseCase } from '../../../factories/urls'
 
 const options = {
   schema: {

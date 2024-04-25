@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { makeRegisterUseCase } from '../../../../application/use-cases/user/factories'
+import { makeRegisterUseCase } from '../../../factories/users'
 
 const options = {
   schema: {

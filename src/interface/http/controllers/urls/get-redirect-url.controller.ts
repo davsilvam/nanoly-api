@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { makeGetRedirectUrlUseCase } from '../../../../application/use-cases/url/factories'
+import { makeGetRedirectUrlUseCase } from '../../../factories/urls'
 
 const options = {
   schema: {

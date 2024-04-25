@@ -1,4 +1,4 @@
-import type { UserProps } from '../../../domain/entities/user/user'
+import type { UserProps } from '../../../domain/entities/user'
 import type { CreateUserRequest, UsersRepository } from '../../../domain/repositories/users-repository'
 import { prisma } from '../../lib/prisma'
 

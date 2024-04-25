@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { makeGetUserProfileUseCase } from '../../../../application/use-cases/user/factories'
+import { makeGetUserProfileUseCase } from '../../../factories/users'
 import { verifyJWT } from '../../middlewares/verify-jwt'
 
 const options = {

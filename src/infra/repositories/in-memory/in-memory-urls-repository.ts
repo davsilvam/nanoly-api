@@ -1,16 +1,16 @@
-import type { Url, UrlProps } from '../../../domain/entities/url/url'
-import { UrlMapper } from '../../../domain/entities/url/url-mapper'
-import type {
-  CreateUrlRequest,
-  UpdateUrlRequest,
-  UrlsRepository,
-} from '../../../domain/repositories/url-repository'
+import type { CreateUrlRequest, UpdateUrlRequest, UrlsRepository } from '../../../application/repositories/urls-repository'
+import type { UrlProps } from '../../../domain/entities/url'
+import { Url } from '../../../domain/entities/url'
 
 export class InMemoryUrlsRepository implements UrlsRepository {
   private urls: Url[] = []
 
   create({ longUrl, shortUrl, userId }: CreateUrlRequest): Promise<string> {
-    const url = UrlMapper.toEntity({ longUrl, shortUrl, userId })
+    const url = new Url({
+      longUrl,
+      shortUrl,
+      userId,
+    })
 
     this.urls.push(url)
 

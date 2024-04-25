@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { makeFindUrlByIdUseCase } from '../../../../application/use-cases/url/factories'
+import { makeFindUrlByIdUseCase } from '../../../factories/urls'
 import { verifyJWT } from '../../middlewares/verify-jwt'
 
 const options = {
