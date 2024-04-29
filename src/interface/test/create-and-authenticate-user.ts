@@ -3,7 +3,7 @@ import request from 'supertest'
 import { app } from '@/app'
 
 export async function createAndAuthenticateUser() {
-  await request(app.server)
+  const registerResponse = await request(app.server)
     .post('/users')
     .send({
       name: 'John Doe',
@@ -11,7 +11,7 @@ export async function createAndAuthenticateUser() {
       password: '123456',
     })
 
-  const response = await request(app.server)
+  const authenticationResponse = await request(app.server)
     .post('/sessions')
     .send({
       email: 'johndoe@email.com',
@@ -19,6 +19,7 @@ export async function createAndAuthenticateUser() {
     })
 
   return {
-    token: response.body.token,
+    userId: registerResponse.body.user_id,
+    token: authenticationResponse.body.token,
   }
 }
