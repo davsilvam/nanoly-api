@@ -7,7 +7,7 @@ import { env } from '../../src/infra/config/env'
 import { prisma } from '../../src/infra/lib/prisma'
 
 function generateDatabaseURL(schema: string) {
-  if (env.DATABASE_URL)
+  if (!env.DATABASE_URL)
     throw new Error('Please provide a DATABASE_URL environment variable.')
 
   const url = new URL(env.DATABASE_URL)
