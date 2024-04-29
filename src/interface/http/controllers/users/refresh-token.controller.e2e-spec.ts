@@ -2,6 +2,7 @@ import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 
 import { app } from '@/app'
+import { createAndAuthenticateUser } from '@/interface/test/create-and-authenticate-user'
 
 describe('refresh token controller (e2e)', () => {
   beforeAll(async () => {
@@ -13,22 +14,7 @@ describe('refresh token controller (e2e)', () => {
   })
 
   it('should be able to refresh a user token', async () => {
-    await request(app.server)
-      .post('/users')
-      .send({
-        name: 'John Doe',
-        email: 'johndoe@email.com',
-        password: '123456',
-      })
-
-    const authenticationResponse = await request(app.server)
-      .post('/sessions')
-      .send({
-        email: 'johndoe@email.com',
-        password: '123456',
-      })
-
-    const { token } = authenticationResponse.body
+    const { token } = await createAndAuthenticateUser()
 
     const response = await request(app.server)
       .patch('/token/refresh')
