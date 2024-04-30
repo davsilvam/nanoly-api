@@ -21,6 +21,6 @@ O Nanoly é um projeto de um sistema de encurtar Url's, onde o usuário pode enc
 ## Requisitos Não Funcionais (RNF's)
 
 - [x] A senha do usuário deve ser criptografada;
-- [ ] Os dados da aplicação precisam ser armazenados em um banco de dados PostgreSQL;
+- [x] Os dados da aplicação precisam ser armazenados em um banco de dados PostgreSQL;
 - [ ] Todas as listas precisam estar paginadas com 20 items por página;
-- [ ] O usuário deve ser identificado por um token JWT.
+- [x] O usuário deve ser identificado por um token JWT.
