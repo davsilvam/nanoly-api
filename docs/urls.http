@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3333
-@authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWduIjp7InN1YiI6ImEyNWYxOGJkLTkxODYtNDkxYy05ZWQyLTlhNjQ2M2M1ZTI3ZiJ9LCJpYXQiOjE3MTQwNDc5ODEsImV4cCI6MTcxNDA0ODU4MX0.M_AWEt_L393LmTS5NxT7qJNngClQOmVLZhGZzUVXBp0
+@authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWduIjp7InN1YiI6IjY5ZDk1MDE5LTk2NDgtNDAxNi1iMGE4LTA1MWJhMGU1ZWI2NSJ9LCJpYXQiOjE3MTQ1MTEzMTIsImV4cCI6MTcxNDUxMTkxMn0.1mIcNQjV82w7ZWFIyfjUj5TVT8sQlDAG8yFtoCS7emY
 
 # @name shortenUrl
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "long_url": "https://www.google.com",
   "short_url": "google",
-  "user_id": "a25f18bd-9186-491c-9ed2-9a6463c5e27f"
+  "user_id": "69d95019-9648-4016-b0a8-051ba0e5eb65"
 }
 
 ###
