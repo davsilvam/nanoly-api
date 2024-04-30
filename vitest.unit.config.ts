@@ -6,6 +6,7 @@ export default mergeConfig(
   vitestConfig,
   defineConfig({
     test: {
+      include: ['src/application/use-cases/**/*.spec.ts'],
       exclude: [
         ...configDefaults.exclude,
         '**/*.e2e-{test,spec}.ts',

@@ -6,7 +6,7 @@ export default mergeConfig(
   vitestConfig,
   defineConfig({
     test: {
-      include: ['**/*.e2e-{test,spec}.ts'],
+      include: ['src/interface/http/controllers/**/*.e2e-spec.ts'],
       environmentMatchGlobs: [['src/**', 'prisma/vitest-environment-prisma']],
     },
   }),
