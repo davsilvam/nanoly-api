@@ -51,4 +51,4 @@ jobs:
         run: pnpm run test:e2e
         env:
           JWT_SECRET: testing
-          DATABASE_URL: "postgresql://docker:docker@localhost:5432/nanoly-api?schema=public"
+          DATABASE_URL: 'postgresql://docker:docker@localhost:5432/nanoly-api?schema=public'

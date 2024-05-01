@@ -1,5 +1,5 @@
+import type { CreateUrlRequest, UpdateUrlRequest, UrlsRepository } from '../../../application/repositories/urls-repository'
 import type { UrlProps } from '../../../domain/entities/url'
-import type { CreateUrlRequest, UpdateUrlRequest, UrlsRepository } from '../../../domain/repositories/url-repository'
 import { prisma } from '../../lib/prisma'
 
 export class PrismaUrlsRepository implements UrlsRepository {

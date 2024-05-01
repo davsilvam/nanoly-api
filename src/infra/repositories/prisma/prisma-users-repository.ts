@@ -1,5 +1,5 @@
+import type { CreateUserRequest, UsersRepository } from '../../../application/repositories/users-repository'
 import type { UserProps } from '../../../domain/entities/user'
-import type { CreateUserRequest, UsersRepository } from '../../../domain/repositories/users-repository'
 import { prisma } from '../../lib/prisma'
 
 export class PrismaUsersRepository implements UsersRepository {

@@ -4,7 +4,7 @@ export default antfu({
   formatters: true,
   rules: {
     'import/order': [
-      'error',
+      'warn',
       {
         'newlines-between': 'always',
         'groups': [

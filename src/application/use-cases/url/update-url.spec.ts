@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it } from 'vitest'
 
 import { UrlNotFoundError } from './errors/url-not-found.error'
 import { UpdateUrlUseCase } from './update-url'
-import { Url } from '../../../domain/entities/url'
 import { InMemoryUrlsRepository } from '../../../infra/repositories/in-memory/in-memory-urls-repository'
 
 let urlsRepository: InMemoryUrlsRepository
