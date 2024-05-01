@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
+import { InvalidShortUrlError } from './errors/invalid-short-url.error'
 import { ShortUrlAlreadyExistsError } from './errors/short-url-already-exists.error'
 import { ShortenUrlUseCase } from './shorten-url'
 import { InMemoryUrlsRepository } from '../../../infra/repositories/in-memory/in-memory-urls-repository'
@@ -40,16 +41,38 @@ describe('shorten url use case', () => {
     expect(result.isRight() && result.value).toEqual(url.id)
   })
 
+  it('should not be able to shorten an url with less than 4 characters', async () => {
+    const result = await sut.execute({
+      longUrl: 'https://www.google.com',
+      shortUrl: 'goo',
+      userId,
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.isLeft() && result.value).toBeInstanceOf(InvalidShortUrlError)
+  })
+
+  it('should not be able to shorten an url with more than 16 characters', async () => {
+    const result = await sut.execute({
+      longUrl: 'https://www.google.com',
+      shortUrl: 'google-is-the-best',
+      userId,
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.isLeft() && result.value).toBeInstanceOf(InvalidShortUrlError)
+  })
+
   it('should not be able to shorten an url with an existing short url', async () => {
     await sut.execute({
       longUrl: 'https://www.google.com',
-      shortUrl: 'existing-short-url',
+      shortUrl: 'existing-url',
       userId,
     })
 
     const result = await sut.execute({
       longUrl: 'https://www.yahoo.com',
-      shortUrl: 'existing-short-url',
+      shortUrl: 'existing-url',
       userId,
     })
 

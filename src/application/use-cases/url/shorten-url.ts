@@ -1,3 +1,4 @@
+import { InvalidShortUrlError } from './errors/invalid-short-url.error'
 import { ShortUrlAlreadyExistsError } from './errors/short-url-already-exists.error'
 import type { Either } from '../../errors/either'
 import { left, right } from '../../errors/either'
@@ -12,7 +13,7 @@ interface ShortenUrlUseCaseRequest {
 }
 
 type ShortenUrlUseCaseResponse = Either<
-  ShortUrlAlreadyExistsError | UserNotFoundError,
+  InvalidShortUrlError | ShortUrlAlreadyExistsError | UserNotFoundError,
   string
 >
 
@@ -27,6 +28,9 @@ export class ShortenUrlUseCase {
     shortUrl,
     userId,
   }: ShortenUrlUseCaseRequest): Promise<ShortenUrlUseCaseResponse> {
+    if (shortUrl.length < 4 || shortUrl.length > 16)
+      return left(new InvalidShortUrlError())
+
     const shortUrlAlreadyExists
       = await this.urlsRepository.findByShortUrl(shortUrl)
 
