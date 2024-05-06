@@ -14,10 +14,11 @@ describe('get redirect url controller (e2e)', () => {
   })
 
   it('should be able to get a redirect url', async () => {
-    const { userId } = await createAndAuthenticateUser()
+    const { userId, token } = await createAndAuthenticateUser()
 
     await request(app.server)
       .post('/urls')
+      .set('Authorization', `Bearer ${token}`)
       .send({
         long_url: 'https://google.com',
         short_url: 'google',
@@ -28,7 +29,7 @@ describe('get redirect url controller (e2e)', () => {
       .get('/urls/google/redirect')
       .send()
 
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(302)
     expect(response.body).toMatchObject({
       redirect_url: 'https://google.com',
     })

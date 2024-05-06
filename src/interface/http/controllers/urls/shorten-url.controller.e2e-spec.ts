@@ -14,10 +14,11 @@ describe('shorten url controller (e2e)', () => {
   })
 
   it('should be able to shorten a url', async () => {
-    const { userId } = await createAndAuthenticateUser()
+    const { userId, token } = await createAndAuthenticateUser()
 
     const response = await request(app.server)
       .post('/urls')
+      .set('Authorization', `Bearer ${token}`)
       .send({
         long_url: 'https://google.com',
         short_url: 'google',

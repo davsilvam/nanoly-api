@@ -18,6 +18,7 @@ describe('delete url controller (e2e)', () => {
 
     const shortenUrlResponse = await request(app.server)
       .post('/urls')
+      .set('Authorization', `Bearer ${token}`)
       .send({
         long_url: 'https://google.com',
         short_url: 'google',

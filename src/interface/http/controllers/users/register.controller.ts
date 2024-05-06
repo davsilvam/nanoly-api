@@ -1,50 +1,21 @@
-import type { FastifyInstance } from 'fastify'
-import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { z } from 'zod'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 
 import { makeRegisterUseCase } from '../../../factories/users'
+import type { RegisterRequestSchema } from '../../schemas/users.schema'
 
-const options = {
-  schema: {
-    summary: 'Register a new user',
-    tags: ['user'],
-    body: z.object({
-      name: z.string().min(3),
-      email: z.string().email().min(5),
-      password: z.string().min(6),
-    }),
-    response: {
-      201: z.object({
-        user_id: z.string(),
-      }),
-      400: z.object({
-        message: z.string(),
-        errors: z.record(z.array(z.string())).optional(),
-      }),
-      409: z.object({
-        message: z.string(),
-      }),
-    },
-  },
-}
+export async function register(request: FastifyRequest<{
+  Body: RegisterRequestSchema
+}>, reply: FastifyReply) {
+  const { name, email, password } = request.body
 
-export async function register(app: FastifyInstance, path: string) {
-  return app.withTypeProvider<ZodTypeProvider>().post(
-    path,
-    options,
-    async (request, reply) => {
-      const { name, email, password } = request.body
+  const registerUseCase = makeRegisterUseCase()
 
-      const registerUseCase = makeRegisterUseCase()
+  const result = await registerUseCase.execute({ name, email, password })
 
-      const result = await registerUseCase.execute({ name, email, password })
+  if (result.isLeft()) {
+    const error = result.value
+    return reply.status(error.statusCode).send({ message: error.message })
+  }
 
-      if (result.isLeft()) {
-        const error = result.value
-        return reply.status(error.statusCode).send({ message: error.message })
-      }
-
-      return reply.status(201).send({ user_id: result.value })
-    },
-  )
+  return reply.status(201).send({ user_id: result.value })
 }

@@ -18,6 +18,7 @@ describe('fetch user urls controller (e2e)', () => {
 
     await request(app.server)
       .post('/urls')
+      .set('Authorization', `Bearer ${token}`)
       .send({
         long_url: 'https://google.com',
         short_url: 'google',

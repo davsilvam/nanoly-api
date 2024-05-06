@@ -1,54 +1,25 @@
-import type { FastifyInstance } from 'fastify'
-import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { z } from 'zod'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 
 import { makeGetRedirectUrlUseCase } from '../../../factories/urls'
+import type { GetRedirectUrlRequestSchema } from '../../schemas/urls.schema'
 
-const options = {
-  schema: {
-    summary: 'Redirect to a url by short url',
-    tags: ['url'],
-    params: z.object({
-      shortUrl: z.string(),
-    }),
-    response: {
-      200: z.object({
-        redirect_url: z.string().url(),
-      }),
-      400: z.object({
-        message: z.string(),
-        errors: z.record(z.array(z.string())).optional(),
-      }),
-      404: z.object({
-        message: z.string(),
-      }),
-    },
-  },
-}
+export async function getRedirectUrl(request: FastifyRequest, reply: FastifyReply) {
+  const { shortUrl } = request.params as GetRedirectUrlRequestSchema
 
-export async function getRedirectUrl(app: FastifyInstance, path: string) {
-  return app.withTypeProvider<ZodTypeProvider>().get(
-    path,
-    options,
-    async (request, reply) => {
-      const { shortUrl } = request.params
+  const getRedirectUrlUseCase = makeGetRedirectUrlUseCase()
 
-      const getRedirectUrlUseCase = makeGetRedirectUrlUseCase()
+  const result = await getRedirectUrlUseCase.execute({
+    shortUrl,
+  })
 
-      const result = await getRedirectUrlUseCase.execute({
-        shortUrl,
-      })
+  if (result.isLeft()) {
+    const error = result.value
+    return reply.status(error.statusCode).send({
+      message: error.message,
+    })
+  }
 
-      if (result.isLeft()) {
-        const error = result.value
-        return reply.status(error.statusCode).send({
-          message: error.message,
-        })
-      }
-
-      reply.status(200).send({
-        redirect_url: result.value,
-      })
-    },
-  )
+  reply.status(302).send({
+    redirect_url: result.value,
+  })
 }
