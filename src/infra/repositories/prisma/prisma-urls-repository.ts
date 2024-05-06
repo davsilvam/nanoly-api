@@ -62,7 +62,7 @@ export class PrismaUrlsRepository implements UrlsRepository {
     return url
   }
 
-  async fetchByUser(userId: string): Promise<UrlProps[]> {
+  async fetchByUser(userId: string, page: number): Promise<UrlProps[]> {
     const urls = await prisma.url.findMany({
       where: {
         userId,
@@ -76,6 +76,8 @@ export class PrismaUrlsRepository implements UrlsRepository {
         createdAt: true,
         updatedAt: true,
       },
+      take: 10,
+      skip: (page - 1) * 10,
     })
 
     return urls

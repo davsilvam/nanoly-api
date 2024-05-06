@@ -32,10 +32,13 @@ export class InMemoryUrlsRepository implements UrlsRepository {
     return Promise.resolve(url.toObject())
   }
 
-  fetchByUser(userId: string): Promise<UrlProps[]> {
-    const urls = this.urls.filter(url => url.userId === userId)
+  fetchByUser(userId: string, page: number): Promise<UrlProps[]> {
+    const urls = this.urls.filter(url => url.userId === userId).map(url => url.toObject())
 
-    return Promise.resolve(urls.map(url => url.toObject()))
+    const startIndex = (page - 1) * 10
+    const endIndex = page * 10
+
+    return Promise.resolve(urls.slice(startIndex, endIndex))
   }
 
   update({

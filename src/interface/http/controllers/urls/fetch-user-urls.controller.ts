@@ -1,12 +1,22 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
 import { makeFetchUserUrlsUseCase } from '../../../factories/urls'
+import type { FetchUsersUrlsQueryParamsSchema } from '../../schemas/urls.schema'
 
 export async function fetchUserUrls(request: FastifyRequest, reply: FastifyReply) {
+  const { page } = request.query as FetchUsersUrlsQueryParamsSchema
+
+  if (page < 1) {
+    return reply.status(400).send({
+      message: 'Invalid page.',
+    })
+  }
+
   const fetchUserUrlsUseCase = makeFetchUserUrlsUseCase()
 
   const result = await fetchUserUrlsUseCase.execute({
     userId: request.user.sign.sub,
+    page,
   })
 
   if (result.isLeft()) {

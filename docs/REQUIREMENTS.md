@@ -15,12 +15,12 @@ O Nanoly é um projeto de um sistema de encurtar Url's, onde o usuário pode enc
 
 - [x] O usuário não deve poder se cadastrar com um e-mail já cadastrado;
 - [x] A Url encurtada deve ser único;
-- [ ] A Url encurtada deve conter no máximo 16 caracteres;
-- [ ] A Url encurtada deve conter pelo menos 4 caracteres.
+- [x] A Url encurtada deve conter no máximo 16 caracteres;
+- [x] A Url encurtada deve conter pelo menos 4 caracteres.
 
 ## Requisitos Não Funcionais (RNF's)
 
 - [x] A senha do usuário deve ser criptografada;
 - [x] Os dados da aplicação precisam ser armazenados em um banco de dados PostgreSQL;
-- [ ] Todas as listas precisam estar paginadas com 20 items por página;
+- [x] Todas as listas precisam estar paginadas com 20 items por página;
 - [x] O usuário deve ser identificado por um token JWT.

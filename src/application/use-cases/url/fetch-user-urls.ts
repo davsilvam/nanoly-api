@@ -7,6 +7,7 @@ import { UserNotFoundError } from '../user/errors/user-not-found.error'
 
 interface FetchUserUrlsUseCaseRequest {
   userId: string
+  page: number
 }
 
 type FetchUserUrlsUseCaseResponse = Either<UserNotFoundError, UrlProps[]>
@@ -19,13 +20,14 @@ export class FetchUserUrlsUseCase {
 
   public async execute({
     userId,
+    page,
   }: FetchUserUrlsUseCaseRequest): Promise<FetchUserUrlsUseCaseResponse> {
     const user = await this.usersRepository.findById(userId)
 
     if (!user)
       return left(new UserNotFoundError())
 
-    const urls = await this.urlsRepository.fetchByUser(userId)
+    const urls = await this.urlsRepository.fetchByUser(userId, page)
 
     return right(urls)
   }

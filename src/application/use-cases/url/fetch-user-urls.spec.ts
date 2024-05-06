@@ -37,7 +37,7 @@ describe('fetch user urls use case', () => {
     if (!url)
       throw new Error('Url not found.')
 
-    const result = await sut.execute({ userId: url.userId })
+    const result = await sut.execute({ userId: url.userId, page: 1 })
 
     expect(result.isRight()).toBe(true)
     expect(result.isRight() && result.value).toBeInstanceOf(Array<UrlProps>)
@@ -45,7 +45,7 @@ describe('fetch user urls use case', () => {
   })
 
   it('should not be able to fetch urls by a non-existent user id', async () => {
-    const result = await sut.execute({ userId: 'non-existent-user-id' })
+    const result = await sut.execute({ userId: 'non-existent-user-id', page: 1 })
 
     expect(result.isLeft()).toBe(true)
     expect(result.isLeft() && result.value).toBeInstanceOf(UserNotFoundError)

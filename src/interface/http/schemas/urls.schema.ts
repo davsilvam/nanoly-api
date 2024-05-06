@@ -24,7 +24,11 @@ const shortenUrlResponseSchema = z.object({
 export type ShortenUrlRequestSchema = z.infer<typeof shortenUrlRequestSchema>
 export type ShortenUrlResponseSchema = z.infer<typeof shortenUrlResponseSchema>
 
-const fetchUsersUrlsResponseSchema = z.object({
+const fetchUserUrlsQueryParamsSchema = z.object({
+  page: z.coerce.number().int().default(1),
+})
+
+const fetchUserUrlsResponseSchema = z.object({
   id: z.string().uuid(),
   long_url: z.string().url(),
   short_url: z.string(),
@@ -34,7 +38,8 @@ const fetchUsersUrlsResponseSchema = z.object({
   user_id: z.string().uuid(),
 }).array()
 
-export type FetchUsersUrlsResponseSchema = z.infer<typeof fetchUsersUrlsResponseSchema>
+export type FetchUsersUrlsQueryParamsSchema = z.infer<typeof fetchUserUrlsQueryParamsSchema>
+export type FetchUsersUrlsResponseSchema = z.infer<typeof fetchUserUrlsResponseSchema>
 
 const getRedirectUrlRequestSchema = z.object({
   shortUrl: z.string({
@@ -81,7 +86,8 @@ export type DeleteUrlRequestSchema = z.infer<typeof deleteUrlRequestSchema>
 export const { schemas: urlsSchemas, $ref } = buildJsonSchemas({
   shortenUrlRequestSchema,
   shortenUrlResponseSchema,
-  fetchUsersUrlsResponseSchema,
+  fetchUserUrlsQueryParamsSchema,
+  fetchUserUrlsResponseSchema,
   getRedirectUrlResponseSchema,
   getRedirectUrlRequestSchema,
   findUrlByIdRequestSchema,

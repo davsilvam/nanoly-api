@@ -56,8 +56,9 @@ export async function urlsRoutes(app: FastifyInstance) {
     schema: {
       summary: 'Fetch user url\'s',
       tags: ['url', 'user'],
+      querystring: $ref('fetchUserUrlsQueryParamsSchema'),
       response: {
-        200: $ref('fetchUsersUrlsResponseSchema'),
+        200: $ref('fetchUserUrlsResponseSchema'),
         400: $errorsRef('errorResponseSchema'),
         404: $errorsRef('errorResponseSchema'),
       },
