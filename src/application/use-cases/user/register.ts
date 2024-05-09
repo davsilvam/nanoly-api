@@ -5,6 +5,9 @@ import type { UsersRepository } from '../../repositories/users-repository'
 
 import type { Either } from '@/core/logic/either'
 import { left, right } from '@/core/logic/either'
+import { User } from '@/domain/entities/user.entity'
+import { Email } from '@/domain/value-objects/email'
+import { EmailBadFormattedError } from '@/domain/value-objects/errors/email-bad-formatted.error'
 
 interface RegisterUseCaseRequest {
   name: string
@@ -13,8 +16,8 @@ interface RegisterUseCaseRequest {
 }
 
 type RegisterUseCaseResponse = Either<
-  InvalidCredentialsError | UserAlreadyExistsError,
-  string
+  InvalidCredentialsError | EmailBadFormattedError | UserAlreadyExistsError,
+  User
 >
 
 export class RegisterUseCase {
@@ -31,17 +34,26 @@ export class RegisterUseCase {
     if (!name || !email || !password)
       return left(new InvalidCredentialsError())
 
-    const user = await this.usersRepository.findByEmail(email)
+    const isInvalidEmail = !Email.validate(email)
 
-    if (user)
+    if (isInvalidEmail)
+      return left(new EmailBadFormattedError())
+
+    const userAlreadyExists = await this.usersRepository.findByEmail(email)
+
+    if (userAlreadyExists)
       return left(new UserAlreadyExistsError())
 
     const passwordHash = await this.encrypter.hash(password)
 
-    return right(await this.usersRepository.create({
+    const user = User.create({
       name,
       email,
       passwordHash,
-    }))
+    })
+
+    await this.usersRepository.create(user)
+
+    return right(user)
   }
 }

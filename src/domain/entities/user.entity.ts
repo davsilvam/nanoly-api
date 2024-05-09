@@ -1,7 +1,7 @@
-import { randomUUID } from 'node:crypto'
+import { Entity } from '@/core/domain/entity'
+import type { Replace } from '@/core/logic/replace'
 
 export interface UserProps {
-  id: string
   name: string
   email: string
   passwordHash: string
@@ -9,15 +9,7 @@ export interface UserProps {
   updatedAt: Date
 }
 
-type UserConstructorProps = Omit<UserProps, 'id' | 'createdAt' | 'updatedAt'>
-
-export class User {
-  private props: UserProps
-
-  get id() {
-    return this.props.id
-  }
-
+export class User extends Entity<UserProps> {
   get name() {
     return this.props.name
   }
@@ -38,27 +30,25 @@ export class User {
     return this.props.updatedAt
   }
 
-  constructor({ name, email, passwordHash }: UserConstructorProps) {
-    if (!name)
-      throw new Error('Name is required.')
+  static create(
+    props: Replace<
+      UserProps,
+      {
+        createdAt?: Date
+        updatedAt?: Date
+      }
+    >,
+    id?: string,
+  ) {
+    const user = new User(
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+        updatedAt: props.updatedAt ?? new Date(),
+      },
+      id,
+    )
 
-    if (!email)
-      throw new Error('Email is required.')
-
-    if (!passwordHash)
-      throw new Error('Password hash is required.')
-
-    this.props = {
-      id: randomUUID(),
-      name,
-      email,
-      passwordHash,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }
-  }
-
-  public toObject(): UserProps {
-    return this.props
+    return user
   }
 }

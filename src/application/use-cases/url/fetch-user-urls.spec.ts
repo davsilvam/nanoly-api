@@ -4,6 +4,7 @@ import { FetchUserUrlsUseCase } from './fetch-user-urls'
 import type { UrlProps } from '../../../domain/entities/url.entity'
 import { UserNotFoundError } from '../user/errors/user-not-found.error'
 
+import { User } from '@/domain/entities/user.entity'
 import { InMemoryUrlsRepository } from '@/infra/database/in-memory/repositories/in-memory-urls-repository'
 import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/in-memory-users-repository'
 
@@ -19,11 +20,15 @@ describe('fetch user urls use case', () => {
     usersRepository = new InMemoryUsersRepository()
     sut = new FetchUserUrlsUseCase(urlsRepository, usersRepository)
 
-    userId = await usersRepository.create({
-      email: 'email',
-      name: 'name',
-      passwordHash: 'hash',
+    const user = User.create({
+      name: 'John Doe',
+      email: 'johndoe@email.com',
+      passwordHash: 'password',
     })
+
+    await usersRepository.create(user)
+
+    userId = user.id
   })
 
   it('should be able to fetch user urls', async () => {

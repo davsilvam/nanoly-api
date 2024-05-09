@@ -28,7 +28,7 @@ export class FetchUserUrlsUseCase {
     if (!user)
       return left(new UserNotFoundError())
 
-    const urls = await this.urlsRepository.fetchByUser(userId, page)
+    const urls = await this.urlsRepository.fetchByUser(user.id, page)
 
     return right(urls)
   }

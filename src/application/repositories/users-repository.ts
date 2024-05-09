@@ -1,4 +1,4 @@
-import type { UserProps } from '@/domain/entities/user.entity'
+import type { User } from '@/domain/entities/user.entity'
 
 export interface CreateUserRequest {
   name: string
@@ -7,7 +7,7 @@ export interface CreateUserRequest {
 }
 
 export interface UsersRepository {
-  create: (request: CreateUserRequest) => Promise<string>
-  findByEmail: (email: string) => Promise<UserProps | null>
-  findById: (id: string) => Promise<UserProps | null>
+  create: (user: User) => Promise<User>
+  findByEmail: (email: string) => Promise<User | null>
+  findById: (id: string) => Promise<User | null>
 }

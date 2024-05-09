@@ -32,7 +32,7 @@ export class FindUrlByIdUseCase {
     if (!user)
       return left(new UserNotFoundError())
 
-    if (url.userId !== userId)
+    if (url.userId !== user.id)
       return left(new UnauthorizedUserError())
 
     return right(url)

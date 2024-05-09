@@ -1,15 +1,17 @@
+import type { User } from '@prisma/client'
+
 import { UserNotFoundError } from './errors/user-not-found.error'
 import type { UsersRepository } from '../../repositories/users-repository'
 
 import type { Either } from '@/core/logic/either'
 import { left, right } from '@/core/logic/either'
-import type { UserProps } from '@/domain/entities/user.entity'
+import { prisma } from '@/infra/database/prisma/prisma-client'
 
 interface GetUserProfileUseCaseRequest {
   id: string
 }
 
-type GetUserProfileUseCaseResponse = Either<UserNotFoundError, UserProps>
+type GetUserProfileUseCaseResponse = Either<UserNotFoundError, User>
 
 export class GetUserProfileUseCase {
   constructor(private usersRepository: UsersRepository) { }

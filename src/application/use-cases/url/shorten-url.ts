@@ -46,7 +46,7 @@ export class ShortenUrlUseCase {
     const urlId = await this.urlsRepository.create({
       longUrl,
       shortUrl,
-      userId,
+      userId: user.id,
     })
 
     return right(urlId)

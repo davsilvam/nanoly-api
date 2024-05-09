@@ -4,6 +4,8 @@ import { InvalidCredentialsError } from './errors/invalid-credentials.error'
 import { UserAlreadyExistsError } from './errors/user-already-exists.error'
 import { RegisterUseCase } from './register'
 
+import { User } from '@/domain/entities/user.entity'
+import { EmailBadFormattedError } from '@/domain/value-objects/errors/email-bad-formatted.error'
 import { BcryptEncrypter } from '@/infra/cryptography/bcrypt-encrypter'
 import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/in-memory-users-repository'
 
@@ -19,24 +21,19 @@ describe('register use case', () => {
 
   it('should be able to register a user', async () => {
     const result = await sut.execute({
-      name: 'name',
-      email: 'email',
+      name: 'John Doe',
+      email: 'johndoe@email.com',
       password: 'password',
     })
 
-    const user = await usersRepository.findByEmail('email')
-
-    if (!user)
-      throw new Error('User not found.')
-
     expect(result.isRight()).toBe(true)
-    expect(result.isRight() && result.value).toEqual(user.id)
+    expect(result.isRight() && result.value).toBeInstanceOf(User)
   })
 
   it('should be not able to register a user with no name', async () => {
     const result = await sut.execute({
       name: '',
-      email: 'email',
+      email: 'johndoe@email.com',
       password: 'password',
     })
 
@@ -48,7 +45,7 @@ describe('register use case', () => {
 
   it('should be not able to register a user with no email', async () => {
     const result = await sut.execute({
-      name: 'name',
+      name: 'John Doe',
       email: '',
       password: 'password',
     })
@@ -61,8 +58,8 @@ describe('register use case', () => {
 
   it('should be not able to register a user with no password', async () => {
     const result = await sut.execute({
-      name: 'name',
-      email: 'email',
+      name: 'John Doe',
+      email: 'johndoe@email.com',
       password: '',
     })
 
@@ -72,19 +69,34 @@ describe('register use case', () => {
     )
   })
 
+  it('should be not able to register a user with an invalid email', async () => {
+    const result = await sut.execute({
+      name: 'John Doe',
+      email: 'invalid-email',
+      password: 'password',
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.isLeft() && result.value).toBeInstanceOf(
+      EmailBadFormattedError,
+    )
+  })
+
   it('should be not able to register a user with an existing email', async () => {
     const PASSWORD_HASH
       = '$2b$06$FuP7kzrmq7DyRTGqvhXGsutYdy1U0t.6hceAkvREgImL5UMUnEZju'
 
-    await usersRepository.create({
-      name: 'name',
-      email: 'email',
+    const user = User.create({
+      name: 'John Doe',
+      email: 'johndoe@email.com',
       passwordHash: PASSWORD_HASH,
     })
 
+    await usersRepository.create(user)
+
     const result = await sut.execute({
-      name: 'name',
-      email: 'email',
+      name: 'John Doe',
+      email: 'johndoe@email.com',
       password: 'password',
     })
 

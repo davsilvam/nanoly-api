@@ -17,5 +17,5 @@ export async function register(request: FastifyRequest<{
     return reply.status(error.statusCode).send({ message: error.message })
   }
 
-  return reply.status(201).send({ user_id: result.value })
+  return reply.status(201).send({ user_id: result.value.id })
 }

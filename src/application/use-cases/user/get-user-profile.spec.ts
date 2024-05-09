@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { UserNotFoundError } from './errors/user-not-found.error'
 import { GetUserProfileUseCase } from './get-user-profile'
 
+import { User } from '@/domain/entities/user.entity'
 import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/in-memory-users-repository'
 
 let usersRepository: InMemoryUsersRepository
@@ -15,16 +16,18 @@ describe('get user profile use case', () => {
   })
 
   it('should be able to get a user profile', async () => {
-    const userId = await usersRepository.create({
-      name: 'name',
-      email: 'email',
-      passwordHash: 'passwordHash',
+    const user = User.create({
+      name: 'John Doe',
+      email: 'johndoe@email.com',
+      passwordHash: 'password',
     })
 
-    const result = await sut.execute({ id: userId })
+    await usersRepository.create(user)
+
+    const result = await sut.execute({ id: user.id })
 
     expect(result.isRight()).toBe(true)
-    expect(result.isRight() && result.value.email).toEqual('email')
+    expect(result.isRight() && result.value).toEqual(user)
   })
 
   it('should not be able to get a user profile that does not exist', async () => {

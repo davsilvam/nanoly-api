@@ -1,22 +1,19 @@
+import { UserMapper } from '../mappers/user-mapper'
 import { prisma } from '../prisma-client'
 
-import type { CreateUserRequest, UsersRepository } from '@/application/repositories/users-repository'
-import type { UserProps } from '@/domain/entities/user.entity'
+import type { UsersRepository } from '@/application/repositories/users-repository'
+import type { User } from '@/domain/entities/user.entity'
 
 export class PrismaUsersRepository implements UsersRepository {
-  async create({ name, email, passwordHash }: CreateUserRequest): Promise<string> {
-    const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        passwordHash,
-      },
+  async create(user: User): Promise<User> {
+    const createdUser = await prisma.user.create({
+      data: UserMapper.toPersistence(user),
     })
 
-    return user.id
+    return UserMapper.toDomain(createdUser)
   }
 
-  async findByEmail(email: string): Promise<UserProps | null> {
+  async findByEmail(email: string): Promise<User | null> {
     const user = await prisma.user.findUnique({
       where: {
         email,
@@ -26,10 +23,10 @@ export class PrismaUsersRepository implements UsersRepository {
     if (!user)
       return null
 
-    return user
+    return UserMapper.toDomain(user)
   }
 
-  async findById(id: string): Promise<UserProps | null> {
+  async findById(id: string): Promise<User | null> {
     const user = await prisma.user.findUnique({
       where: {
         id,
@@ -39,6 +36,6 @@ export class PrismaUsersRepository implements UsersRepository {
     if (!user)
       return null
 
-    return user
+    return UserMapper.toDomain(user)
   }
 }

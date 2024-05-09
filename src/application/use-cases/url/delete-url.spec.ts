@@ -5,6 +5,7 @@ import { UrlNotFoundError } from './errors/url-not-found.error'
 import { UnauthorizedUserError } from '../user/errors/unauthorized-user.error'
 import { UserNotFoundError } from '../user/errors/user-not-found.error'
 
+import { User } from '@/domain/entities/user.entity'
 import { InMemoryUrlsRepository } from '@/infra/database/in-memory/repositories/in-memory-urls-repository'
 import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/in-memory-users-repository'
 
@@ -20,11 +21,15 @@ describe('delete url use case', () => {
     usersRepository = new InMemoryUsersRepository()
     sut = new DeleteUrlUseCase(urlsRepository, usersRepository)
 
-    userId = await usersRepository.create({
-      name: 'name',
-      email: 'email',
-      passwordHash: 'password-hash',
+    const user = User.create({
+      name: 'John Doe',
+      email: 'johndoe@email.com',
+      passwordHash: 'password',
     })
+
+    await usersRepository.create(user)
+
+    userId = user.id
   })
 
   it('should be able to delete a url by id', async () => {
