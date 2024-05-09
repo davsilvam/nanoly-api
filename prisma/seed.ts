@@ -1,5 +1,5 @@
 import { BcryptEncrypter } from '../src/infra/cryptography/bcrypt-encrypter'
-import { prisma } from '../src/infra/lib/prisma'
+import { prisma } from '../src/infra/database/prisma/prisma-client'
 
 async function seed() {
   const encrypter = new BcryptEncrypter()

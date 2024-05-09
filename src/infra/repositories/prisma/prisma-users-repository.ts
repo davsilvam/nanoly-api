@@ -1,6 +1,6 @@
 import type { CreateUserRequest, UsersRepository } from '../../../application/repositories/users-repository'
-import type { UserProps } from '../../../domain/entities/user'
-import { prisma } from '../../lib/prisma'
+import type { UserProps } from '../../../domain/entities/user.entity'
+import { prisma } from '../../database/prisma/prisma-client'
 
 export class PrismaUsersRepository implements UsersRepository {
   async create({ name, email, passwordHash }: CreateUserRequest): Promise<string> {

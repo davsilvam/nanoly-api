@@ -3,8 +3,8 @@ import { randomUUID } from 'node:crypto'
 
 import type { Environment } from 'vitest'
 
-import { env } from '../../src/infra/config/env'
-import { prisma } from '../../src/infra/lib/prisma'
+import { env } from '../../src/config/env'
+import { prisma } from '../../src/infra/database/prisma/prisma-client'
 
 function generateDatabaseURL(schema: string) {
   if (!env.DATABASE_URL)

@@ -8,7 +8,7 @@ import {
   withRefResolver,
 } from 'fastify-zod'
 
-import { env } from './infra/config/env'
+import { env } from './config/env'
 import { errorHandler } from './interface/error-handler'
 import { urlsRoutes } from './interface/http/routes/urls.routes'
 import { usersRoutes } from './interface/http/routes/users.routes'

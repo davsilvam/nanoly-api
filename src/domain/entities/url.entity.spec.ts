@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { Url } from './url'
+import { Url } from './url.entity'
 
 describe('url entity', () => {
   it('should be able to create a url entity', () => {

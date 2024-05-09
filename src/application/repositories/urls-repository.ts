@@ -1,4 +1,4 @@
-import type { UrlProps } from '../../domain/entities/url'
+import type { UrlProps } from '../../domain/entities/url.entity'
 
 export interface CreateUrlRequest {
   shortUrl: string
