@@ -2,9 +2,10 @@ import { beforeEach, describe, expect, it } from 'vitest'
 
 import { FetchUserUrlsUseCase } from './fetch-user-urls'
 import type { UrlProps } from '../../../domain/entities/url.entity'
-import { InMemoryUrlsRepository } from '../../../infra/repositories/in-memory/in-memory-urls-repository'
-import { InMemoryUsersRepository } from '../../../infra/repositories/in-memory/in-memory-users-repository'
 import { UserNotFoundError } from '../user/errors/user-not-found.error'
+
+import { InMemoryUrlsRepository } from '@/infra/database/in-memory/repositories/in-memory-urls-repository'
+import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/in-memory-users-repository'
 
 let urlsRepository: InMemoryUrlsRepository
 let usersRepository: InMemoryUsersRepository

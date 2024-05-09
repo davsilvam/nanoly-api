@@ -3,8 +3,9 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { InvalidCredentialsError } from './errors/invalid-credentials.error'
 import { UserAlreadyExistsError } from './errors/user-already-exists.error'
 import { RegisterUseCase } from './register'
-import { BcryptEncrypter } from '../../../infra/cryptography/bcrypt-encrypter'
-import { InMemoryUsersRepository } from '../../../infra/repositories/in-memory/in-memory-users-repository'
+
+import { BcryptEncrypter } from '@/infra/cryptography/bcrypt-encrypter'
+import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/in-memory-users-repository'
 
 let usersRepository: InMemoryUsersRepository
 let sut: RegisterUseCase

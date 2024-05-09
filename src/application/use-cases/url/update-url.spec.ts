@@ -4,7 +4,8 @@ import { InvalidShortUrlError } from './errors/invalid-short-url.error'
 import { ShortUrlAlreadyExistsError } from './errors/short-url-already-exists.error'
 import { UrlNotFoundError } from './errors/url-not-found.error'
 import { UpdateUrlUseCase } from './update-url'
-import { InMemoryUrlsRepository } from '../../../infra/repositories/in-memory/in-memory-urls-repository'
+
+import { InMemoryUrlsRepository } from '@/infra/database/in-memory/repositories/in-memory-urls-repository'
 
 let urlsRepository: InMemoryUrlsRepository
 let sut: UpdateUrlUseCase

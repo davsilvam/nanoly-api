@@ -2,7 +2,8 @@ import { beforeEach, describe, expect, it } from 'vitest'
 
 import { UserNotFoundError } from './errors/user-not-found.error'
 import { GetUserProfileUseCase } from './get-user-profile'
-import { InMemoryUsersRepository } from '../../../infra/repositories/in-memory/in-memory-users-repository'
+
+import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/in-memory-users-repository'
 
 let usersRepository: InMemoryUsersRepository
 let sut: GetUserProfileUseCase

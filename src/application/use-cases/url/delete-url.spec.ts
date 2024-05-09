@@ -2,10 +2,11 @@ import { beforeEach, describe, expect, it } from 'vitest'
 
 import { DeleteUrlUseCase } from './delete-url'
 import { UrlNotFoundError } from './errors/url-not-found.error'
-import { InMemoryUrlsRepository } from '../../../infra/repositories/in-memory/in-memory-urls-repository'
-import { InMemoryUsersRepository } from '../../../infra/repositories/in-memory/in-memory-users-repository'
 import { UnauthorizedUserError } from '../user/errors/unauthorized-user.error'
 import { UserNotFoundError } from '../user/errors/user-not-found.error'
+
+import { InMemoryUrlsRepository } from '@/infra/database/in-memory/repositories/in-memory-urls-repository'
+import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/in-memory-users-repository'
 
 let urlsRepository: InMemoryUrlsRepository
 let usersRepository: InMemoryUsersRepository

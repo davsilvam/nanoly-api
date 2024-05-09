@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 
-import type { Encrypter } from '../../application/use-cases/user/cryptography/encrypter'
+import type { Encrypter } from '@/application/use-cases/user/cryptography/encrypter'
 
 export class BcryptEncrypter implements Encrypter {
   private SALT_ROUNDS = 6

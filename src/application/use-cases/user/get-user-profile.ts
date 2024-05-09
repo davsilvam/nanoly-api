@@ -1,8 +1,9 @@
 import { UserNotFoundError } from './errors/user-not-found.error'
-import type { Either } from '../../../core/either'
-import { left, right } from '../../../core/either'
-import type { UserProps } from '../../../domain/entities/user.entity'
 import type { UsersRepository } from '../../repositories/users-repository'
+
+import type { Either } from '@/core/logic/either'
+import { left, right } from '@/core/logic/either'
+import type { UserProps } from '@/domain/entities/user.entity'
 
 interface GetUserProfileUseCaseRequest {
   id: string

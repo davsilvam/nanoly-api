@@ -1,6 +1,7 @@
-import type { CreateUrlRequest, UpdateUrlRequest, UrlsRepository } from '../../../application/repositories/urls-repository'
-import type { UrlProps } from '../../../domain/entities/url.entity'
-import { prisma } from '../../database/prisma/prisma-client'
+import { prisma } from '../prisma-client'
+
+import type { CreateUrlRequest, UpdateUrlRequest, UrlsRepository } from '@/application/repositories/urls-repository'
+import type { UrlProps } from '@/domain/entities/url.entity'
 
 export class PrismaUrlsRepository implements UrlsRepository {
   async create({ longUrl, shortUrl, userId }: CreateUrlRequest): Promise<string> {

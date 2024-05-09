@@ -1,6 +1,6 @@
-import type { CreateUrlRequest, UpdateUrlRequest, UrlsRepository } from '../../../application/repositories/urls-repository'
-import type { UrlProps } from '../../../domain/entities/url.entity'
-import { Url } from '../../../domain/entities/url.entity'
+import type { CreateUrlRequest, UpdateUrlRequest, UrlsRepository } from '@/application/repositories/urls-repository'
+import type { UrlProps } from '@/domain/entities/url.entity'
+import { Url } from '@/domain/entities/url.entity'
 
 export class InMemoryUrlsRepository implements UrlsRepository {
   private urls: Url[] = []

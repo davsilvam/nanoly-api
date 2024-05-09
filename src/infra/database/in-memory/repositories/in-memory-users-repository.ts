@@ -1,6 +1,6 @@
-import type { CreateUserRequest, UsersRepository } from '../../../application/repositories/users-repository'
-import type { UserProps } from '../../../domain/entities/user.entity'
-import { User } from '../../../domain/entities/user.entity'
+import type { CreateUserRequest, UsersRepository } from '@/application/repositories/users-repository'
+import type { UserProps } from '@/domain/entities/user.entity'
+import { User } from '@/domain/entities/user.entity'
 
 export class InMemoryUsersRepository implements UsersRepository {
   private users: User[] = []

@@ -3,8 +3,9 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { InvalidShortUrlError } from './errors/invalid-short-url.error'
 import { ShortUrlAlreadyExistsError } from './errors/short-url-already-exists.error'
 import { ShortenUrlUseCase } from './shorten-url'
-import { InMemoryUrlsRepository } from '../../../infra/repositories/in-memory/in-memory-urls-repository'
-import { InMemoryUsersRepository } from '../../../infra/repositories/in-memory/in-memory-users-repository'
+
+import { InMemoryUrlsRepository } from '@/infra/database/in-memory/repositories/in-memory-urls-repository'
+import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/in-memory-users-repository'
 
 let urlsRepository: InMemoryUrlsRepository
 let usersRepository: InMemoryUsersRepository

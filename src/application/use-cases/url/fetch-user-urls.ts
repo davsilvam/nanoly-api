@@ -1,9 +1,10 @@
-import type { Either } from '../../../core/either'
-import { left, right } from '../../../core/either'
-import type { UrlProps } from '../../../domain/entities/url.entity'
 import type { UrlsRepository } from '../../repositories/urls-repository'
 import type { UsersRepository } from '../../repositories/users-repository'
 import { UserNotFoundError } from '../user/errors/user-not-found.error'
+
+import { left, right } from '@/core/logic/either'
+import type { Either } from '@/core/logic/either'
+import type { UrlProps } from '@/domain/entities/url.entity'
 
 interface FetchUserUrlsUseCaseRequest {
   userId: string

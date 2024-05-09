@@ -1,9 +1,10 @@
 import type { Encrypter } from './cryptography/encrypter'
 import { InvalidCredentialsError } from './errors/invalid-credentials.error'
 import { UserAlreadyExistsError } from './errors/user-already-exists.error'
-import type { Either } from '../../../core/either'
-import { left, right } from '../../../core/either'
 import type { UsersRepository } from '../../repositories/users-repository'
+
+import type { Either } from '@/core/logic/either'
+import { left, right } from '@/core/logic/either'
 
 interface RegisterUseCaseRequest {
   name: string

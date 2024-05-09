@@ -1,7 +1,8 @@
 import { UrlNotFoundError } from './errors/url-not-found.error'
-import type { Either } from '../../../core/either'
-import { left, right } from '../../../core/either'
 import type { UrlsRepository } from '../../repositories/urls-repository'
+
+import type { Either } from '@/core/logic/either'
+import { left, right } from '@/core/logic/either'
 
 interface GetRedirectUrlUseCaseRequest {
   shortUrl: string

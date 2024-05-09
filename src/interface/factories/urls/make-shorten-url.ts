@@ -1,6 +1,6 @@
-import { ShortenUrlUseCase } from '../../../application/use-cases/url/shorten-url'
-import { PrismaUrlsRepository } from '../../../infra/repositories/prisma/prisma-urls-repository'
-import { PrismaUsersRepository } from '../../../infra/repositories/prisma/prisma-users-repository'
+import { ShortenUrlUseCase } from '@/application/use-cases/url/shorten-url'
+import { PrismaUrlsRepository } from '@/infra/database/prisma/repositories/prisma-urls-repository'
+import { PrismaUsersRepository } from '@/infra/database/prisma/repositories/prisma-users-repository'
 
 export function makeShortenUrlUseCase() {
   const urlsRepository = new PrismaUrlsRepository()

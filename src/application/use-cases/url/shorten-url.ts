@@ -1,10 +1,11 @@
 import { InvalidShortUrlError } from './errors/invalid-short-url.error'
 import { ShortUrlAlreadyExistsError } from './errors/short-url-already-exists.error'
-import type { Either } from '../../../core/either'
-import { left, right } from '../../../core/either'
 import type { UrlsRepository } from '../../repositories/urls-repository'
 import type { UsersRepository } from '../../repositories/users-repository'
 import { UserNotFoundError } from '../user/errors/user-not-found.error'
+
+import { left, right } from '@/core/logic/either'
+import type { Either } from '@/core/logic/either'
 
 interface ShortenUrlUseCaseRequest {
   shortUrl: string

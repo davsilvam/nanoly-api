@@ -2,7 +2,8 @@ import { beforeEach, describe, expect, it } from 'vitest'
 
 import { UrlNotFoundError } from './errors/url-not-found.error'
 import { GetRedirectUrlUseCase } from './get-redirect-url'
-import { InMemoryUrlsRepository } from '../../../infra/repositories/in-memory/in-memory-urls-repository'
+
+import { InMemoryUrlsRepository } from '@/infra/database/in-memory/repositories/in-memory-urls-repository'
 
 let urlsRepository: InMemoryUrlsRepository
 let sut: GetRedirectUrlUseCase

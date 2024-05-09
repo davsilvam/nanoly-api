@@ -1,6 +1,6 @@
-import { FetchUserUrlsUseCase } from '../../../application/use-cases/url/fetch-user-urls'
-import { PrismaUrlsRepository } from '../../../infra/repositories/prisma/prisma-urls-repository'
-import { PrismaUsersRepository } from '../../../infra/repositories/prisma/prisma-users-repository'
+import { FetchUserUrlsUseCase } from '@/application/use-cases/url/fetch-user-urls'
+import { PrismaUrlsRepository } from '@/infra/database/prisma/repositories/prisma-urls-repository'
+import { PrismaUsersRepository } from '@/infra/database/prisma/repositories/prisma-users-repository'
 
 export function makeFetchUserUrlsUseCase() {
   const urlsRepository = new PrismaUrlsRepository()
