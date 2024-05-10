@@ -5,6 +5,7 @@ import { ShortUrlAlreadyExistsError } from './errors/short-url-already-exists.er
 import { UrlNotFoundError } from './errors/url-not-found.error'
 import { UpdateUrlUseCase } from './update-url'
 
+import { Url } from '@/domain/entities/url.entity'
 import { InMemoryUrlsRepository } from '@/infra/database/in-memory/repositories/in-memory-urls-repository'
 
 let urlsRepository: InMemoryUrlsRepository
@@ -17,16 +18,13 @@ describe('update url use case', () => {
   })
 
   it('should be able to update a url by id', async () => {
-    const urlId = await urlsRepository.create({
+    const url = Url.create({
       longUrl: 'https://www.google.com',
       shortUrl: 'google',
-      userId: 'user-id',
+      userId: 'another-user-id',
     })
 
-    const url = await urlsRepository.findById(urlId)
-
-    if (!url)
-      throw new Error('Url not found.')
+    await urlsRepository.create(url)
 
     const result = await sut.execute({
       id: url.id,
@@ -36,25 +34,19 @@ describe('update url use case', () => {
     expect(result.isRight()).toBe(true)
     expect(result.isRight() && result.value).toBeUndefined()
 
-    const updatedUrl = await urlsRepository.findById(urlId)
+    const updatedUrl = await urlsRepository.findById(url.id)
 
-    expect(updatedUrl).toStrictEqual({
-      ...url,
-      longUrl: 'https://www.google.com.br',
-    })
+    expect(updatedUrl?.longUrl).toEqual('https://www.google.com.br')
   })
 
   it('should not be able to update a url with an invalid short url', async () => {
-    const urlId = await urlsRepository.create({
+    const url = Url.create({
       longUrl: 'https://www.google.com',
       shortUrl: 'google',
-      userId: 'user-id',
+      userId: 'another-user-id',
     })
 
-    const url = await urlsRepository.findById(urlId)
-
-    if (!url)
-      throw new Error('Url not found.')
+    await urlsRepository.create(url)
 
     const result = await sut.execute({
       id: url.id,
@@ -66,22 +58,13 @@ describe('update url use case', () => {
   })
 
   it('should not be able to update a url with an existing short url', async () => {
-    await urlsRepository.create({
+    const url = Url.create({
       longUrl: 'https://www.google.com',
       shortUrl: 'google',
       userId: 'user-id',
     })
 
-    const urlId = await urlsRepository.create({
-      longUrl: 'https://www.google.com',
-      shortUrl: 'google2',
-      userId: 'user-id',
-    })
-
-    const url = await urlsRepository.findById(urlId)
-
-    if (!url)
-      throw new Error('Url not found.')
+    await urlsRepository.create(url)
 
     const result = await sut.execute({
       id: url.id,

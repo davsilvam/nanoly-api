@@ -7,6 +7,7 @@ import { FindUrlByIdUseCase } from './find-url-by-id'
 import { UnauthorizedUserError } from '../user/errors/unauthorized-user.error'
 import { UserNotFoundError } from '../user/errors/user-not-found.error'
 
+import { Url } from '@/domain/entities/url.entity'
 import { User } from '@/domain/entities/user.entity'
 import { InMemoryUrlsRepository } from '@/infra/database/in-memory/repositories/in-memory-urls-repository'
 import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/in-memory-users-repository'
@@ -35,16 +36,13 @@ describe('find url by id use case', () => {
   })
 
   it('should be able to get a url by id', async () => {
-    const urlId = await urlsRepository.create({
+    const url = Url.create({
       longUrl: 'https://www.google.com',
       shortUrl: 'google',
       userId,
     })
 
-    const url = await urlsRepository.findById(urlId)
-
-    if (!url)
-      throw new Error('Url not found.')
+    await urlsRepository.create(url)
 
     const result = await sut.execute({ id: url.id, userId })
 
@@ -60,26 +58,30 @@ describe('find url by id use case', () => {
   })
 
   it('should not be able to get a url by a non-existent user id', async () => {
-    const urlId = await urlsRepository.create({
+    const url = Url.create({
       longUrl: 'https://www.google.com',
       shortUrl: 'google',
       userId,
     })
 
-    const result = await sut.execute({ id: urlId, userId: 'non-existent-user-id' })
+    await urlsRepository.create(url)
+
+    const result = await sut.execute({ id: url.id, userId: 'non-existent-user-id' })
 
     expect(result.isLeft()).toBe(true)
     expect(result.isLeft() && result.value).toBeInstanceOf(UserNotFoundError)
   })
 
   it('should not be able to get a url by an unauthorized user', async () => {
-    const urlId = await urlsRepository.create({
+    const url = Url.create({
       longUrl: 'https://www.google.com',
       shortUrl: 'google',
       userId: 'another-user-id',
     })
 
-    const result = await sut.execute({ id: urlId, userId })
+    await urlsRepository.create(url)
+
+    const result = await sut.execute({ id: url.id, userId })
 
     expect(result.isLeft()).toBe(true)
     expect(result.isLeft() && result.value).toBeInstanceOf(UnauthorizedUserError)

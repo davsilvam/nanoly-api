@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { UrlNotFoundError } from './errors/url-not-found.error'
 import { GetRedirectUrlUseCase } from './get-redirect-url'
 
+import { Url } from '@/domain/entities/url.entity'
 import { InMemoryUrlsRepository } from '@/infra/database/in-memory/repositories/in-memory-urls-repository'
 
 let urlsRepository: InMemoryUrlsRepository
@@ -15,11 +16,13 @@ describe('get redirect url url case', () => {
   })
 
   it('should be able to get a url by short url', async () => {
-    await urlsRepository.create({
+    const url = Url.create({
       longUrl: 'https://www.google.com',
       shortUrl: 'google',
-      userId: 'user-id',
+      userId: 'another-user-id',
     })
+
+    await urlsRepository.create(url)
 
     const result = await sut.execute({ shortUrl: 'google' })
 
@@ -35,20 +38,20 @@ describe('get redirect url url case', () => {
   })
 
   it('should increment the clicks count when getting a url by short url', async () => {
-    const urlId = await urlsRepository.create({
+    const url = Url.create({
       longUrl: 'https://www.google.com',
       shortUrl: 'google',
-      userId: 'user-id',
+      userId: 'another-user-id',
     })
 
-    const url = await urlsRepository.findById(urlId)
+    await urlsRepository.create(url)
 
     expect(url).not.toBeNull()
-    expect(url?.clicksCount).toBe(0)
+    expect(url.clicksCount).toBe(0)
 
     await sut.execute({ shortUrl: 'google' })
 
-    const incrementedUrl = await urlsRepository.findById(urlId)
+    const incrementedUrl = await urlsRepository.findById(url.id)
 
     expect(incrementedUrl?.clicksCount).toBe(1)
   })

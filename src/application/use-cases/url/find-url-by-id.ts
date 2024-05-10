@@ -6,14 +6,14 @@ import { UserNotFoundError } from '../user/errors/user-not-found.error'
 
 import { left, right } from '@/core/logic/either'
 import type { Either } from '@/core/logic/either'
-import type { UrlProps } from '@/domain/entities/url.entity'
+import type { Url } from '@/domain/entities/url.entity'
 
 interface FindUrlByIdUseCaseRequest {
   id: string
   userId: string
 }
 
-type FindUrlByIdUseCaseResponse = Either<UrlNotFoundError | UserNotFoundError | UnauthorizedUserError, UrlProps>
+type FindUrlByIdUseCaseResponse = Either<UrlNotFoundError | UserNotFoundError | UnauthorizedUserError, Url>
 
 export class FindUrlByIdUseCase {
   constructor(private urlsRepository: UrlsRepository, private usersRepository: UsersRepository) { }

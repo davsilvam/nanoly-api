@@ -21,7 +21,7 @@ export class GetRedirectUrlUseCase {
     if (!url)
       return left(new UrlNotFoundError())
 
-    this.urlsRepository.updateClicksCount(url.id, url.clicksCount + 1)
+    this.urlsRepository.updateClicksCount(url.id)
 
     return right(url.longUrl)
   }

@@ -1,39 +1,35 @@
-import type { CreateUrlRequest, UpdateUrlRequest, UrlsRepository } from '@/application/repositories/urls-repository'
-import type { UrlProps } from '@/domain/entities/url.entity'
-import { Url } from '@/domain/entities/url.entity'
+import type { UpdateUrlRequest, UrlsRepository } from '@/application/repositories/urls-repository'
+import type { Url } from '@/domain/entities/url.entity'
 
 export class InMemoryUrlsRepository implements UrlsRepository {
   private urls: Url[] = []
 
-  create({ longUrl, shortUrl, userId }: CreateUrlRequest): Promise<string> {
-    const url = new Url({
-      longUrl,
-      shortUrl,
-      userId,
-    })
-
+  create(url: Url): Promise<Url> {
     this.urls.push(url)
 
-    return Promise.resolve(url.id)
+    return Promise.resolve(url)
   }
 
-  findById(id: string): Promise<UrlProps | null> {
+  findById(id: string): Promise<Url | null> {
     const url = this.urls.find(item => item.id === id)
 
-    return Promise.resolve(url?.toObject() || null)
+    if (!url)
+      return Promise.resolve(null)
+
+    return Promise.resolve(url)
   }
 
-  findByShortUrl(shortUrl: string): Promise<UrlProps | null> {
+  findByShortUrl(shortUrl: string): Promise<Url | null> {
     const url = this.urls.find(item => item.shortUrl === shortUrl)
 
     if (!url)
       return Promise.resolve(null)
 
-    return Promise.resolve(url.toObject())
+    return Promise.resolve(url)
   }
 
-  fetchByUser(userId: string, page: number): Promise<UrlProps[]> {
-    const urls = this.urls.filter(url => url.userId === userId).map(url => url.toObject())
+  fetchByUser(userId: string, page: number): Promise<Url[]> {
+    const urls = this.urls.filter(url => url.userId === userId)
 
     const startIndex = (page - 1) * 10
     const endIndex = page * 10
@@ -45,7 +41,6 @@ export class InMemoryUrlsRepository implements UrlsRepository {
     id,
     shortUrl,
     longUrl,
-    clicksCount,
   }: UpdateUrlRequest): Promise<void> {
     const urlIndex = this.urls.findIndex(url => url.id === id)
 
@@ -58,19 +53,16 @@ export class InMemoryUrlsRepository implements UrlsRepository {
     if (longUrl)
       this.urls[urlIndex].longUrl = longUrl
 
-    if (clicksCount)
-      this.urls[urlIndex].clicksCount = clicksCount
-
     return Promise.resolve()
   }
 
-  updateClicksCount(id: string, clicksCount: number): Promise<void> {
+  updateClicksCount(id: string): Promise<void> {
     const urlIndex = this.urls.findIndex(url => url.id === id)
 
     if (urlIndex === -1)
       throw new Error('Url not found.')
 
-    this.urls[urlIndex].clicksCount = clicksCount
+    this.urls[urlIndex].incrementClicksCount()
 
     return Promise.resolve()
   }

@@ -1,7 +1,9 @@
 import { randomUUID } from 'node:crypto'
 
+import { Entity } from '@/core/domain/entity'
+import type { Replace } from '@/core/logic/replace'
+
 export interface UrlProps {
-  id: string
   longUrl: string
   shortUrl: string
   clicksCount: number
@@ -10,18 +12,7 @@ export interface UrlProps {
   userId: string
 }
 
-type UrlConstructorProps = Omit<
-  UrlProps,
-  'id' | 'clicksCount' | 'createdAt' | 'updatedAt'
->
-
-export class Url {
-  private props: UrlProps
-
-  get id() {
-    return this.props.id
-  }
-
+export class Url extends Entity<UrlProps> {
   get shortUrl() {
     return this.props.shortUrl
   }
@@ -42,10 +33,6 @@ export class Url {
     return this.props.clicksCount
   }
 
-  set clicksCount(clicksCount: number) {
-    this.props.clicksCount = clicksCount
-  }
-
   get createdAt() {
     return this.props.createdAt
   }
@@ -62,28 +49,31 @@ export class Url {
     return this.props.userId
   }
 
-  constructor({ shortUrl, longUrl, userId }: UrlConstructorProps) {
-    if (!shortUrl)
-      throw new Error('Short Url is required.')
+  static create(
+    props: Replace<
+      UrlProps,
+      {
+        clicksCount?: number
+        createdAt?: Date
+        updatedAt?: Date
+      }
+    >,
+    id?: string,
+  ) {
+    const url = new Url(
+      {
+        ...props,
+        clicksCount: props.clicksCount ?? 0,
+        createdAt: props.createdAt ?? new Date(),
+        updatedAt: props.updatedAt ?? new Date(),
+      },
+      id,
+    )
 
-    if (!longUrl)
-      throw new Error('Long Url is required.')
-
-    if (!userId)
-      throw new Error('User Id is required.')
-
-    this.props = {
-      id: randomUUID(),
-      shortUrl,
-      longUrl,
-      clicksCount: 0,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      userId,
-    }
+    return url
   }
 
-  public toObject(): UrlProps {
-    return this.props
+  public incrementClicksCount() {
+    this.props.clicksCount += 1
   }
 }

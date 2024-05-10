@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import { FetchUserUrlsUseCase } from './fetch-user-urls'
-import type { UrlProps } from '../../../domain/entities/url.entity'
+import { Url, type UrlProps } from '../../../domain/entities/url.entity'
 import { UserNotFoundError } from '../user/errors/user-not-found.error'
 
 import { User } from '@/domain/entities/user.entity'
@@ -32,16 +32,13 @@ describe('fetch user urls use case', () => {
   })
 
   it('should be able to fetch user urls', async () => {
-    const urlId = await urlsRepository.create({
+    const url = Url.create({
       longUrl: 'https://www.google.com',
       shortUrl: 'google',
       userId,
     })
 
-    const url = await urlsRepository.findById(urlId)
-
-    if (!url)
-      throw new Error('Url not found.')
+    await urlsRepository.create(url)
 
     const result = await sut.execute({ userId: url.userId, page: 1 })
 

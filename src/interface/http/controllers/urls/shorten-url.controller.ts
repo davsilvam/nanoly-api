@@ -21,5 +21,5 @@ export async function shortenUrl(request: FastifyRequest, reply: FastifyReply) {
     })
   }
 
-  reply.status(201).send({ url_id: result.value })
+  reply.status(201).send({ url_id: result.value.id })
 }

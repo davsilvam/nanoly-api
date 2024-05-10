@@ -6,6 +6,7 @@ import { UserNotFoundError } from '../user/errors/user-not-found.error'
 
 import { left, right } from '@/core/logic/either'
 import type { Either } from '@/core/logic/either'
+import { Url } from '@/domain/entities/url.entity'
 
 interface ShortenUrlUseCaseRequest {
   shortUrl: string
@@ -15,7 +16,7 @@ interface ShortenUrlUseCaseRequest {
 
 type ShortenUrlUseCaseResponse = Either<
   InvalidShortUrlError | ShortUrlAlreadyExistsError | UserNotFoundError,
-  string
+  Url
 >
 
 export class ShortenUrlUseCase {
@@ -43,12 +44,14 @@ export class ShortenUrlUseCase {
     if (!user)
       return left(new UserNotFoundError())
 
-    const urlId = await this.urlsRepository.create({
+    const url = Url.create({
       longUrl,
       shortUrl,
-      userId: user.id,
+      userId,
     })
 
-    return right(urlId)
+    await this.urlsRepository.create(url)
+
+    return right(url)
   }
 }

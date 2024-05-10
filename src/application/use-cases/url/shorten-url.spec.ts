@@ -4,6 +4,7 @@ import { InvalidShortUrlError } from './errors/invalid-short-url.error'
 import { ShortUrlAlreadyExistsError } from './errors/short-url-already-exists.error'
 import { ShortenUrlUseCase } from './shorten-url'
 
+import { Url } from '@/domain/entities/url.entity'
 import { User } from '@/domain/entities/user.entity'
 import { InMemoryUrlsRepository } from '@/infra/database/in-memory/repositories/in-memory-urls-repository'
 import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/in-memory-users-repository'
@@ -38,13 +39,8 @@ describe('shorten url use case', () => {
       userId,
     })
 
-    const url = await urlsRepository.findByShortUrl('google')
-
-    if (!url)
-      throw new Error('Url not found.')
-
     expect(result.isRight()).toBe(true)
-    expect(result.isRight() && result.value).toEqual(url.id)
+    expect(result.isRight() && result.value).toBeInstanceOf(Url)
   })
 
   it('should not be able to shorten an url with less than 4 characters', async () => {

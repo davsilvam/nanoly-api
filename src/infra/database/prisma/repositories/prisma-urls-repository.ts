@@ -1,87 +1,54 @@
+import { UrlMapper } from '../mappers/url-mapper'
 import { prisma } from '../prisma-client'
 
-import type { CreateUrlRequest, UpdateUrlRequest, UrlsRepository } from '@/application/repositories/urls-repository'
-import type { UrlProps } from '@/domain/entities/url.entity'
+import type { UpdateUrlRequest, UrlsRepository } from '@/application/repositories/urls-repository'
+import type { Url } from '@/domain/entities/url.entity'
 
 export class PrismaUrlsRepository implements UrlsRepository {
-  async create({ longUrl, shortUrl, userId }: CreateUrlRequest): Promise<string> {
-    const url = await prisma.url.create({
-      data: {
-        longUrl,
-        shortUrl,
-        userId,
-      },
-      select: {
-        id: true,
-      },
+  async create(url: Url): Promise<Url> {
+    const createdUrl = await prisma.url.create({
+      data: UrlMapper.toPersistence(url),
     })
 
-    return url.id
+    return UrlMapper.toDomain(createdUrl)
   }
 
-  async findById(id: string): Promise<UrlProps | null> {
+  async findById(id: string): Promise<Url | null> {
     const url = await prisma.url.findUnique({
       where: {
         id,
       },
-      select: {
-        id: true,
-        longUrl: true,
-        shortUrl: true,
-        userId: true,
-        clicksCount: true,
-        createdAt: true,
-        updatedAt: true,
-      },
     })
 
     if (!url)
       return null
 
-    return url
+    return UrlMapper.toDomain(url)
   }
 
-  async findByShortUrl(shortUrl: string): Promise<UrlProps | null> {
+  async findByShortUrl(shortUrl: string): Promise<Url | null> {
     const url = await prisma.url.findUnique({
       where: {
         shortUrl,
       },
-      select: {
-        id: true,
-        longUrl: true,
-        shortUrl: true,
-        userId: true,
-        clicksCount: true,
-        createdAt: true,
-        updatedAt: true,
-      },
     })
 
     if (!url)
       return null
 
-    return url
+    return UrlMapper.toDomain(url)
   }
 
-  async fetchByUser(userId: string, page: number): Promise<UrlProps[]> {
+  async fetchByUser(userId: string, page: number): Promise<Url[]> {
     const urls = await prisma.url.findMany({
       where: {
         userId,
-      },
-      select: {
-        id: true,
-        longUrl: true,
-        shortUrl: true,
-        userId: true,
-        clicksCount: true,
-        createdAt: true,
-        updatedAt: true,
       },
       take: 10,
       skip: (page - 1) * 10,
     })
 
-    return urls
+    return urls.map(UrlMapper.toDomain)
   }
 
   async update(request: UpdateUrlRequest): Promise<void> {
@@ -96,13 +63,15 @@ export class PrismaUrlsRepository implements UrlsRepository {
     })
   }
 
-  async updateClicksCount(id: string, clicksCount: number): Promise<void> {
+  async updateClicksCount(id: string): Promise<void> {
     await prisma.url.update({
       where: {
         id,
       },
       data: {
-        clicksCount,
+        clicksCount: {
+          increment: 1,
+        },
       },
     })
   }
