@@ -9,6 +9,7 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "tsx watch src/server.ts",
+    "prestart": "pnpm run build",
     "start": "node build/server.cjs",
     "build": "tsup src --out-dir build",
     "test": "vitest run",
