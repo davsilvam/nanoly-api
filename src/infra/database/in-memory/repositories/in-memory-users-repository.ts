@@ -1,4 +1,4 @@
-import type { CreateUserRequest, UsersRepository } from '@/application/repositories/users-repository'
+import type { UsersRepository } from '@/application/repositories/users-repository'
 import type { User } from '@/domain/entities/user.entity'
 
 export class InMemoryUsersRepository implements UsersRepository {

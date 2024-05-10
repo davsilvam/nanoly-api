@@ -16,9 +16,9 @@ export class Email {
   }
 
   static create(email: string): Either<EmailBadFormattedError, Email> {
-    const isValidEmail = this.validate(email)
+    const isEmailBadFormatted = !this.validate(email)
 
-    if (!isValidEmail)
+    if (isEmailBadFormatted)
       return left(new EmailBadFormattedError(email))
 
     return right(new Email(email))

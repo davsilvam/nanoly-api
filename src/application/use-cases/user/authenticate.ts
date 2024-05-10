@@ -5,7 +5,7 @@ import { InvalidCredentialsError } from './errors/invalid-credentials.error'
 import type { UsersRepository } from '../../repositories/users-repository'
 
 import type { Either } from '@/core/logic/either'
-import { left, right } from '@/core/logic/either'
+import { left } from '@/core/logic/either'
 import { Email } from '@/domain/value-objects/email'
 import { EmailBadFormattedError } from '@/domain/value-objects/errors/email-bad-formatted.error'
 
@@ -29,9 +29,9 @@ export class AuthenticateUseCase {
     email,
     password,
   }: AuthenticateUseCaseRequest): Promise<AuthenticateUseCaseResponse> {
-    const isInvalidEmail = !Email.validate(email)
+    const isEmailBadFormatted = Email.create(email).isLeft()
 
-    if (isInvalidEmail)
+    if (isEmailBadFormatted)
       return left(new EmailBadFormattedError())
 
     const user = await this.usersRepository.findByEmail(email)
@@ -39,11 +39,6 @@ export class AuthenticateUseCase {
     if (!user)
       return left(new InvalidCredentialsError())
 
-    const passwordMatch = await this.encrypter.compare(password, user.passwordHash)
-
-    if (!passwordMatch)
-      return left(new InvalidCredentialsError())
-
-    return right(user)
+    return user.authenticate(password, this.encrypter)
   }
 }

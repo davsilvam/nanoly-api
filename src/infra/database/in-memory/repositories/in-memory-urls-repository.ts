@@ -1,4 +1,5 @@
 import type { UpdateUrlRequest, UrlsRepository } from '@/application/repositories/urls-repository'
+import { UrlNotFoundError } from '@/application/use-cases/url/errors/url-not-found.error'
 import type { Url } from '@/domain/entities/url.entity'
 
 export class InMemoryUrlsRepository implements UrlsRepository {
@@ -45,13 +46,15 @@ export class InMemoryUrlsRepository implements UrlsRepository {
     const urlIndex = this.urls.findIndex(url => url.id === id)
 
     if (urlIndex === -1)
-      throw new Error('Url not found.')
+      throw new UrlNotFoundError()
+
+    const url = this.urls[urlIndex]
 
     if (shortUrl)
-      this.urls[urlIndex].shortUrl = shortUrl
+      url.updateShortUrl(shortUrl)
 
     if (longUrl)
-      this.urls[urlIndex].longUrl = longUrl
+      url.updateLongUrl(longUrl)
 
     return Promise.resolve()
   }
@@ -60,9 +63,11 @@ export class InMemoryUrlsRepository implements UrlsRepository {
     const urlIndex = this.urls.findIndex(url => url.id === id)
 
     if (urlIndex === -1)
-      throw new Error('Url not found.')
+      throw new UrlNotFoundError()
 
-    this.urls[urlIndex].incrementClicksCount()
+    const url = this.urls[urlIndex]
+
+    url.incrementClicksCount()
 
     return Promise.resolve()
   }
@@ -71,7 +76,7 @@ export class InMemoryUrlsRepository implements UrlsRepository {
     const urlIndex = this.urls.findIndex(url => url.id === id)
 
     if (urlIndex === -1)
-      throw new Error('Url not found.')
+      throw new UrlNotFoundError()
 
     this.urls.splice(urlIndex, 1)
 

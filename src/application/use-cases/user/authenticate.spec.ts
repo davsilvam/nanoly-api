@@ -5,19 +5,20 @@ import { InvalidCredentialsError } from './errors/invalid-credentials.error'
 
 import { User } from '@/domain/entities/user.entity'
 import { EmailBadFormattedError } from '@/domain/value-objects/errors/email-bad-formatted.error'
-import { BcryptEncrypter } from '@/infra/cryptography/bcrypt-encrypter'
+import { Base64Encrypter } from '@/infra/cryptography/base64-encrypter'
 import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/in-memory-users-repository'
 
 let usersRepository: InMemoryUsersRepository
 let sut: AuthenticateUseCase
-const PASSWORD_HASH
-  = '$2b$06$FuP7kzrmq7DyRTGqvhXGsutYdy1U0t.6hceAkvREgImL5UMUnEZju'
+let PASSWORD_HASH: string
 
 describe('authenticate use case', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     usersRepository = new InMemoryUsersRepository()
-    const bcryptEncrypter = new BcryptEncrypter()
-    sut = new AuthenticateUseCase(usersRepository, bcryptEncrypter)
+    const base64Encrypter = new Base64Encrypter()
+    sut = new AuthenticateUseCase(usersRepository, base64Encrypter)
+
+    PASSWORD_HASH = await base64Encrypter.hash('password')
   })
 
   it('should be able to authenticate a user', async () => {

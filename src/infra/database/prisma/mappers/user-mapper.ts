@@ -23,6 +23,15 @@ export class UserMapper {
       passwordHash: user.passwordHash,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
+      urls: {
+        create: user.urls.map(url => ({
+          longUrl: url.longUrl,
+          shortUrl: url.shortUrl,
+          clicksCount: url.clicksCount,
+          createdAt: url.createdAt,
+          updatedAt: url.updatedAt,
+        })),
+      },
     }
 
     return raw

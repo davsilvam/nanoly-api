@@ -10,7 +10,6 @@ interface UpdateUrlUseCaseRequest {
   id: string
   shortUrl?: string
   longUrl?: string
-  clicksCount?: number
 }
 
 type UpdateUrlUseCaseResponse = Either<InvalidShortUrlError | ShortUrlAlreadyExistsError | UrlNotFoundError, void>
@@ -22,7 +21,6 @@ export class UpdateUrlUseCase {
     id,
     shortUrl,
     longUrl,
-    clicksCount,
   }: UpdateUrlUseCaseRequest): Promise<UpdateUrlUseCaseResponse> {
     if (shortUrl) {
       if (shortUrl.length < 4 || shortUrl.length > 16)
@@ -44,7 +42,6 @@ export class UpdateUrlUseCase {
         id,
         shortUrl,
         longUrl,
-        clicksCount,
       }),
     )
   }

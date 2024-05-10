@@ -31,12 +31,14 @@ export class RegisterUseCase {
     email,
     password,
   }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
-    if (!name || !email || !password)
+    const hasEmptyFields = !name || !email || !password
+
+    if (hasEmptyFields)
       return left(new InvalidCredentialsError())
 
-    const isInvalidEmail = !Email.validate(email)
+    const isEmailBadFormatted = Email.create(email).isLeft()
 
-    if (isInvalidEmail)
+    if (isEmailBadFormatted)
       return left(new EmailBadFormattedError())
 
     const userAlreadyExists = await this.usersRepository.findByEmail(email)
@@ -44,7 +46,7 @@ export class RegisterUseCase {
     if (userAlreadyExists)
       return left(new UserAlreadyExistsError())
 
-    const passwordHash = await this.encrypter.hash(password)
+    const passwordHash = await User.hashPassword(password, this.encrypter)
 
     const user = User.create({
       name,

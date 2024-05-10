@@ -17,16 +17,8 @@ export class Url extends Entity<UrlProps> {
     return this.props.shortUrl
   }
 
-  set shortUrl(shortUrl: string) {
-    this.props.shortUrl = shortUrl
-  }
-
   get longUrl() {
     return this.props.longUrl
-  }
-
-  set longUrl(longUrl: string) {
-    this.props.longUrl = longUrl
   }
 
   get clicksCount() {
@@ -73,7 +65,18 @@ export class Url extends Entity<UrlProps> {
     return url
   }
 
+  public updateShortUrl(shortUrl: string) {
+    this.props.shortUrl = shortUrl
+    this.props.updatedAt = new Date()
+  }
+
+  public updateLongUrl(longUrl: string) {
+    this.props.longUrl = longUrl
+    this.props.updatedAt = new Date()
+  }
+
   public incrementClicksCount() {
     this.props.clicksCount += 1
+    this.props.updatedAt = new Date()
   }
 }

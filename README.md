@@ -1,14 +1,15 @@
 # Nanoly API
 
 ## :bookmark: **Sumário**
+
 - [Sobre o Projeto](#link-sobre-o-projeto)
 - [Rotas do Projeto](#file_folder-rotas-do-projeto)
 - [Tecnologias](#wrench-tecnologias)
-   - [Construção da API](#construção-da-api)
-   - [Testes](#testes)
-   - [IDE, Versionamento e Deploy](#ide-versionamento-e-deploy)
+  - [Construção da API](#construção-da-api)
+  - [Testes](#testes)
+  - [IDE, Versionamento e Deploy](#ide-versionamento-e-deploy)
 - [Configurações e Instalação](#rocket-configurações-e-instalação)
-     - [Requisitos](#requisitos)
+  - [Requisitos](#requisitos)
 - [Licença](#balance_scale-licença)
 
 ## :link: **Sobre o Projeto**
@@ -17,8 +18,16 @@ O Nanoly é um projeto de um sistema de encurtar url's, onde o usuário pode enc
 
 ## :file_folder: Rotas do Projeto
 
-> - **`GET` /{:restaurant}** _Obtém o cardápio do dia do restaurante pesquisado._
-> - **`GET` /{:restaurant}/{:date}** _Obtém o cardápio da data especificada do restaurante pesquisado._
+> - **`POST` /users** _Cria um novo usuário._
+> - **`POST` /sessions** _Autentica um novo usuário._
+> - **`GET` /users/profile** _Obtém o perfil de um usuário._
+> - **`POST` /urls** _Cria uma nova url._
+> - **`GET` /urls/{:shortUrl}/redirect** _Obtém o link de redirecionamento de uma url encurtada._
+> - **`GET` /urls/{:id}** _Obtém uma url pelo seu id._
+> - **`DELETE` /urls/{:id}** _Deleta uma url._
+> - **`GET` /urls/profile/urls** _Obtém as url's de um usuário._
+
+Encontre a documentação completa [aqui](/docs).
 
 ## :wrench: **Tecnologias**
 
@@ -112,4 +121,4 @@ Feito com 🤍 e ☕ por <a href="https://www.linkedin.com/in/davsilvam/">David 
 
 > [Portfólio](https://davidsilvam.vercel.app) &nbsp;&middot;&nbsp;
 > GitHub [@davsilvam](https://github.com/davsilvam) &nbsp;&middot;&nbsp;
-> Instagram [@davsilvam_](https://www.instagram.com/davsilvam_/)
+> Instagram [@davsilvam\_](https://www.instagram.com/davsilvam_/)

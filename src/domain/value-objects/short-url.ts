@@ -16,9 +16,9 @@ export class ShortUrl {
   }
 
   static create(shortUrl: string): Either<ShortUrlBadFormattedError, ShortUrl> {
-    const isValidShortUrl = this.validate(shortUrl)
+    const isShortUrlBadFormatted = !this.validate(shortUrl)
 
-    if (!isValidShortUrl)
+    if (isShortUrlBadFormatted)
       return left(new ShortUrlBadFormattedError(shortUrl))
 
     return right(new ShortUrl(shortUrl))
