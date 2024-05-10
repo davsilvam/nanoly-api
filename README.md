@@ -27,7 +27,7 @@ O Nanoly é um projeto de um sistema de encurtar url's, onde o usuário pode enc
 > - **`DELETE` /urls/{:id}** _Deleta uma url._
 > - **`GET` /urls/profile/urls** _Obtém as url's de um usuário._
 
-Encontre a documentação completa [aqui](/docs).
+Encontre a documentação completa [aqui](https://nanoly-api.onrender.com/docs).
 
 ## :wrench: **Tecnologias**
 
