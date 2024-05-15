@@ -5,6 +5,7 @@ import fastifySwagger from '@fastify/swagger'
 import fastifyScalar from '@scalar/fastify-api-reference'
 import fastify from 'fastify'
 import {
+  register,
   withRefResolver,
 } from 'fastify-zod'
 
@@ -53,6 +54,10 @@ function buildServer() {
           url: 'https://opensource.org/licenses/MIT',
         },
       },
+      tags: [
+        { name: 'users', description: 'Operações relacionadas aos usuários.' },
+        { name: 'urls', description: 'Operações relacionadas às urls.' },
+      ],
     },
   }))
 

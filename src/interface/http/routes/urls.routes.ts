@@ -14,7 +14,7 @@ export async function urlsRoutes(app: FastifyInstance) {
   app.post('/urls', {
     schema: {
       summary: 'Shorten a url',
-      tags: ['url'],
+      tags: ['urls'],
       body: $ref('shortenUrlRequestSchema'),
       response: {
         201: $ref('shortenUrlResponseSchema'),
@@ -28,7 +28,7 @@ export async function urlsRoutes(app: FastifyInstance) {
   app.get('/urls/:shortUrl/redirect', {
     schema: {
       summary: 'Redirect to a url by short url',
-      tags: ['url'],
+      tags: ['urls'],
       params: $ref('getRedirectUrlRequestSchema'),
       response: {
         302: $ref('getRedirectUrlResponseSchema'),
@@ -41,7 +41,8 @@ export async function urlsRoutes(app: FastifyInstance) {
   app.get('/urls/:id', {
     schema: {
       summary: 'Find a url by id',
-      tags: ['url'],
+
+      tags: ['urls'],
       params: $ref('findUrlByIdRequestSchema'),
       response: {
         200: $ref('findUrlByIdResponseSchema'),
@@ -55,7 +56,8 @@ export async function urlsRoutes(app: FastifyInstance) {
   app.get('/users/profile/urls', {
     schema: {
       summary: 'Fetch user url\'s',
-      tags: ['url', 'user'],
+
+      tags: ['urls', 'users'],
       querystring: $ref('fetchUserUrlsQueryParamsSchema'),
       response: {
         200: $ref('fetchUserUrlsResponseSchema'),
@@ -69,7 +71,8 @@ export async function urlsRoutes(app: FastifyInstance) {
   app.delete('/urls/:id', {
     schema: {
       summary: 'Delete a url',
-      tags: ['url'],
+
+      tags: ['urls'],
       params: $ref('deleteUrlRequestSchema'),
       response: {
         204: z.void(),

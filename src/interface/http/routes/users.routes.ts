@@ -11,7 +11,7 @@ export async function usersRoutes(app: FastifyInstance) {
   app.post('/users', {
     schema: {
       summary: 'Register a new user',
-      tags: ['user'],
+      tags: ['users'],
       body: $ref('registerRequestSchema'),
       response: {
         201: $ref('registerResponseSchema'),
@@ -24,7 +24,7 @@ export async function usersRoutes(app: FastifyInstance) {
   app.post('/sessions', {
     schema: {
       summary: 'Authenticate a user',
-      tags: ['user'],
+      tags: ['users'],
       body: $ref('authenticateRequestSchema'),
       response: {
         200: $ref('authenticateResponseSchema'),
@@ -38,7 +38,7 @@ export async function usersRoutes(app: FastifyInstance) {
     preHandler: [verifyJWT],
     schema: {
       summary: 'Get user profile',
-      tags: ['user'],
+      tags: ['users'],
       response: {
         200: $ref('getProfileResponseSchema'),
         404: $errorsRef('errorResponseSchema'),

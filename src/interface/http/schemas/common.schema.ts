@@ -1,11 +1,11 @@
 import { buildJsonSchemas } from 'fastify-zod'
 import { z } from 'zod'
 
-export const errorResponseSchema = z.object({
+const errorResponseSchema = z.object({
   message: z.string(),
 })
 
-export const zodErrorResponseSchema = z.object({
+const zodErrorResponseSchema = z.object({
   ...errorResponseSchema.shape,
   errors: z.record(z.array(z.string())).optional(),
 })
