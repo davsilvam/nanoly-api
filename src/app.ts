@@ -2,7 +2,7 @@ import fastifyCookie from '@fastify/cookie'
 import fastifyCors from '@fastify/cors'
 import fastifyJWT from '@fastify/jwt'
 import fastifySwagger from '@fastify/swagger'
-import fastifySwaggerUI from '@fastify/swagger-ui'
+import fastifyScalar from '@scalar/fastify-api-reference'
 import fastify from 'fastify'
 import {
   withRefResolver,
@@ -48,12 +48,21 @@ function buildServer() {
         description:
           'Especificações da API para o back-end da aplicação nanoly, um encurtador de url\'s.',
         version: '1.0.0',
+        license: {
+          name: 'MIT',
+          url: 'https://opensource.org/licenses/MIT',
+        },
       },
     },
   }))
 
-  app.register(fastifySwaggerUI, {
+  app.register(fastifyScalar, {
     routePrefix: '/docs',
+    configuration: {
+      spec: {
+        content: () => app.swagger(),
+      },
+    },
   })
 
   app.setErrorHandler(errorHandler)
