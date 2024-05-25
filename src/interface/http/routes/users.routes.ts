@@ -34,15 +34,15 @@ export async function usersRoutes(app: FastifyInstance) {
     },
   }, authenticate)
 
-  app.get('/users/profile', {
-    preHandler: [verifyJWT],
-    schema: {
-      summary: 'Get user profile',
-      tags: ['users'],
-      response: {
-        200: $ref('getProfileResponseSchema'),
-        404: $errorsRef('errorResponseSchema'),
+  app
+    .get('/users/profile', {
+      schema: {
+        summary: 'Get user profile',
+        tags: ['users'],
+        response: {
+          200: $ref('getProfileResponseSchema'),
+          404: $errorsRef('errorResponseSchema'),
+        },
       },
-    },
-  }, getProfile)
+    }, getProfile)
 }

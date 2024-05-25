@@ -3,8 +3,10 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { makeDeleteUrlUseCase } from '../../../factories/urls'
 import type { DeleteUrlRequestSchema } from '../../schemas/urls.schema'
 
-export async function deleteUrl(request: FastifyRequest, reply: FastifyReply) {
-  const { id } = request.params as DeleteUrlRequestSchema
+export async function deleteUrl(request: FastifyRequest<{
+  Params: DeleteUrlRequestSchema
+}>, reply: FastifyReply) {
+  const { id } = request.params
 
   const deleteUrlUseCase = makeDeleteUrlUseCase()
 

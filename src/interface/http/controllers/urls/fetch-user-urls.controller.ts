@@ -3,8 +3,10 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { makeFetchUserUrlsUseCase } from '../../../factories/urls'
 import type { FetchUsersUrlsQueryParamsSchema } from '../../schemas/urls.schema'
 
-export async function fetchUserUrls(request: FastifyRequest, reply: FastifyReply) {
-  const { page } = request.query as FetchUsersUrlsQueryParamsSchema
+export async function fetchUserUrls(request: FastifyRequest<{
+  Querystring: FetchUsersUrlsQueryParamsSchema
+}>, reply: FastifyReply) {
+  const { page } = request.query
 
   if (page < 1) {
     return reply.status(400).send({

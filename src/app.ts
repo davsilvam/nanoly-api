@@ -5,11 +5,10 @@ import fastifySwagger from '@fastify/swagger'
 import fastifyScalar from '@scalar/fastify-api-reference'
 import fastify from 'fastify'
 import {
-  register,
   withRefResolver,
 } from 'fastify-zod'
 
-import { env } from './config/env'
+import { env } from './core/config/env'
 import { errorHandler } from './interface/error-handler'
 import { urlsRoutes } from './interface/http/routes/urls.routes'
 import { usersRoutes } from './interface/http/routes/users.routes'

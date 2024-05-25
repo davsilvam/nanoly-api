@@ -3,8 +3,10 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { makeShortenUrlUseCase } from '../../../factories/urls'
 import type { ShortenUrlRequestSchema } from '../../schemas/urls.schema'
 
-export async function shortenUrl(request: FastifyRequest, reply: FastifyReply) {
-  const { long_url: longUrl, short_url: shortUrl, user_id: userId } = request.body as ShortenUrlRequestSchema
+export async function shortenUrl(request: FastifyRequest<{
+  Body: ShortenUrlRequestSchema
+}>, reply: FastifyReply) {
+  const { long_url: longUrl, short_url: shortUrl, user_id: userId } = request.body
 
   const shortenUrlUseCase = makeShortenUrlUseCase()
 

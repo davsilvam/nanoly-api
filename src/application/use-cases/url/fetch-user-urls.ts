@@ -4,14 +4,14 @@ import { UserNotFoundError } from '../user/errors/user-not-found.error'
 
 import { left, right } from '@/core/logic/either'
 import type { Either } from '@/core/logic/either'
-import type { UrlProps } from '@/domain/entities/url.entity'
+import type { Url } from '@/domain/entities/url.entity'
 
 interface FetchUserUrlsUseCaseRequest {
   userId: string
   page: number
 }
 
-type FetchUserUrlsUseCaseResponse = Either<UserNotFoundError, UrlProps[]>
+type FetchUserUrlsUseCaseResponse = Either<UserNotFoundError, Url[]>
 
 export class FetchUserUrlsUseCase {
   constructor(

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import { FetchUserUrlsUseCase } from './fetch-user-urls'
-import { Url, type UrlProps } from '../../../domain/entities/url.entity'
+import { Url } from '../../../domain/entities/url.entity'
 import { UserNotFoundError } from '../user/errors/user-not-found.error'
 
 import { User } from '@/domain/entities/user.entity'
@@ -43,7 +43,7 @@ describe('fetch user urls use case', () => {
     const result = await sut.execute({ userId: url.userId, page: 1 })
 
     expect(result.isRight()).toBe(true)
-    expect(result.isRight() && result.value).toBeInstanceOf(Array<UrlProps>)
+    expect(result.isRight() && result.value).toBeInstanceOf(Array<Url>)
     expect(result.isRight() && result.value[0]).toStrictEqual(url)
   })
 

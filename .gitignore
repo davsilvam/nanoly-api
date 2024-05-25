@@ -1,4 +1,12 @@
+# Environments
+.env
+
+# Build files
 build
+
+# Test coverage
 coverage
+
+# Dependencies
 node_modules
 pnpm-lock.yaml

@@ -3,8 +3,10 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { makeFindUrlByIdUseCase } from '../../../factories/urls'
 import type { FindUrlByIdRequestSchema } from '../../schemas/urls.schema'
 
-export async function findUrlById(request: FastifyRequest, reply: FastifyReply) {
-  const { id } = request.params as FindUrlByIdRequestSchema
+export async function findUrlById(request: FastifyRequest<{
+  Params: FindUrlByIdRequestSchema
+}>, reply: FastifyReply) {
+  const { id } = request.params
 
   const findUrlByIdUseCase = makeFindUrlByIdUseCase()
 

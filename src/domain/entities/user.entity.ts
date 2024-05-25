@@ -1,6 +1,4 @@
 import type { Url } from './url.entity'
-import { Email } from '../value-objects/email'
-import type { EmailBadFormattedError } from '../value-objects/errors/email-bad-formatted.error'
 
 import type { Encrypter } from '@/application/use-cases/user/cryptography/encrypter'
 import { InvalidCredentialsError } from '@/application/use-cases/user/errors/invalid-credentials.error'

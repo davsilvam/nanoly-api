@@ -3,8 +3,10 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { makeGetRedirectUrlUseCase } from '../../../factories/urls'
 import type { GetRedirectUrlRequestSchema } from '../../schemas/urls.schema'
 
-export async function getRedirectUrl(request: FastifyRequest, reply: FastifyReply) {
-  const { shortUrl } = request.params as GetRedirectUrlRequestSchema
+export async function getRedirectUrl(request: FastifyRequest<{
+  Params: GetRedirectUrlRequestSchema
+}>, reply: FastifyReply) {
+  const { shortUrl } = request.params
 
   const getRedirectUrlUseCase = makeGetRedirectUrlUseCase()
 

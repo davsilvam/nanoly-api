@@ -9,8 +9,10 @@ export async function getProfile(request: FastifyRequest, reply: FastifyReply) {
     id: request.user.sign.sub,
   })
 
-  if (result.isLeft())
-    return reply.status(404).send({ message: result.value.message })
+  if (result.isLeft()) {
+    const error = result.value
+    return reply.status(error.statusCode).send({ message: error.message })
+  }
 
   return reply.status(200).send({
     id: result.value.id,

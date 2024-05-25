@@ -11,19 +11,20 @@ import { $errorsRef } from '../schemas/common.schema'
 import { $ref } from '../schemas/urls.schema'
 
 export async function urlsRoutes(app: FastifyInstance) {
-  app.post('/urls', {
-    schema: {
-      summary: 'Shorten a url',
-      tags: ['urls'],
-      body: $ref('shortenUrlRequestSchema'),
-      response: {
-        201: $ref('shortenUrlResponseSchema'),
-        400: $errorsRef('errorResponseSchema'),
-        404: $errorsRef('errorResponseSchema'),
+  app
+    .post('/urls', {
+      schema: {
+        summary: 'Shorten a url',
+        tags: ['urls'],
+        body: $ref('shortenUrlRequestSchema'),
+        response: {
+          201: $ref('shortenUrlResponseSchema'),
+          400: $errorsRef('errorResponseSchema'),
+          404: $errorsRef('errorResponseSchema'),
+        },
       },
-    },
-    onRequest: [verifyJWT],
-  }, shortenUrl)
+    }, shortenUrl)
+    .addHook('onRequest', verifyJWT)
 
   app.get('/urls/:shortUrl/redirect', {
     schema: {
@@ -38,49 +39,52 @@ export async function urlsRoutes(app: FastifyInstance) {
     },
   }, getRedirectUrl)
 
-  app.get('/urls/:id', {
-    schema: {
-      summary: 'Find a url by id',
+  app
+    .get('/urls/:id', {
+      schema: {
+        summary: 'Find a url by id',
 
-      tags: ['urls'],
-      params: $ref('findUrlByIdRequestSchema'),
-      response: {
-        200: $ref('findUrlByIdResponseSchema'),
-        400: $errorsRef('errorResponseSchema'),
-        404: $errorsRef('errorResponseSchema'),
+        tags: ['urls'],
+        params: $ref('findUrlByIdRequestSchema'),
+        response: {
+          200: $ref('findUrlByIdResponseSchema'),
+          400: $errorsRef('errorResponseSchema'),
+          404: $errorsRef('errorResponseSchema'),
+        },
       },
-    },
-    onRequest: [verifyJWT],
-  }, findUrlById)
+    }, findUrlById)
+    .addHook('onRequest', verifyJWT)
 
-  app.get('/users/profile/urls', {
-    schema: {
-      summary: 'Fetch user url\'s',
+  app
+    .get('/users/profile/urls', {
+      schema: {
+        summary: 'Fetch user url\'s',
 
-      tags: ['urls', 'users'],
-      querystring: $ref('fetchUserUrlsQueryParamsSchema'),
-      response: {
-        200: $ref('fetchUserUrlsResponseSchema'),
-        400: $errorsRef('errorResponseSchema'),
-        404: $errorsRef('errorResponseSchema'),
+        tags: ['urls', 'users'],
+        querystring: $ref('fetchUserUrlsQueryParamsSchema'),
+        response: {
+          200: $ref('fetchUserUrlsResponseSchema'),
+          400: $errorsRef('errorResponseSchema'),
+          404: $errorsRef('errorResponseSchema'),
+        },
       },
-    },
-    onRequest: [verifyJWT],
-  }, fetchUserUrls)
+    }, fetchUserUrls)
+    .addHook('onRequest', verifyJWT)
 
-  app.delete('/urls/:id', {
-    schema: {
-      summary: 'Delete a url',
+  app
+    .delete('/urls/:id', {
+      schema: {
+        summary: 'Delete a url',
 
-      tags: ['urls'],
-      params: $ref('deleteUrlRequestSchema'),
-      response: {
-        204: z.void(),
-        400: $errorsRef('errorResponseSchema'),
-        401: $errorsRef('errorResponseSchema'),
-        404: $errorsRef('errorResponseSchema'),
+        tags: ['urls'],
+        params: $ref('deleteUrlRequestSchema'),
+        response: {
+          204: z.void(),
+          400: $errorsRef('errorResponseSchema'),
+          401: $errorsRef('errorResponseSchema'),
+          404: $errorsRef('errorResponseSchema'),
+        },
       },
-    },
-    onRequest: [verifyJWT],
-  }, deleteUrl)
+    }, deleteUrl)
+    .addHook('onRequest', verifyJWT)
 }

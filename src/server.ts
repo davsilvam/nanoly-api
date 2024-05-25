@@ -1,5 +1,5 @@
 import { app } from './app'
-import { env } from './config/env'
+import { env } from './core/config/env'
 
 app.listen({
   host: '0.0.0.0',
